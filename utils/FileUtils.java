@@ -773,7 +773,6 @@ public class FileUtils extends org.apache.commons.io.FileUtils{
 	public static void main(String[] args) throws ParseException {
 		//复制文件
 		//FileUtils.copyFile("F:/file.txt", "F:/dist/file.txt");
-		//FileUtils.copyFileCover("F:/file.txt", "F:/dist/file.txt",false);
 		
 		//复制目录及其目录下文件
 		//FileUtils.copyDirectory("F:/src", "F:/dists/");//目录下
