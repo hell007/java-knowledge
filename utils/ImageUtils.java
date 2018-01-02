@@ -18,9 +18,6 @@ import javax.imageio.ImageIO;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-
 /**
  * @ClassName: ImageUtils
  * @Description: 缩略图、图片水印图、文字水印图 类. <br/>
@@ -160,10 +157,14 @@ public class ImageUtils {
             g.dispose();
 
             // 保存处理后的文件
-            FileOutputStream out = new FileOutputStream(imgPath);
+            /*FileOutputStream out = new FileOutputStream(imgPath);
             JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
             encoder.encode(image);
-            out.close();
+            out.close();*/
+            //注释代码更改
+            String formatName = imgPath.substring(imgPath.lastIndexOf(".") + 1);
+            ImageIO.write(image,formatName, new File(imgPath));
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -196,10 +197,13 @@ public class ImageUtils {
             g.drawString(text, x, y);
             g.dispose();
             
-            FileOutputStream out = new FileOutputStream(imgPath);
+            /*FileOutputStream out = new FileOutputStream(imgPath);
             JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
             encoder.encode(image);
-            out.close();
+            out.close();*/
+            //注释代码更改
+            String formatName = imgPath.substring(imgPath.lastIndexOf(".") + 1);
+            ImageIO.write(image,formatName, new File(imgPath));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -626,7 +630,6 @@ public class ImageUtils {
      * @throws IOException
      * 出现错误的原因大多是图片的路径、名称错误
      */
-	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws IOException {
 		//图片水印
 		//new ImageUtils().waterMark("F:/test.jpg", "F:/icon.png", 100, 300, 0.5f);
