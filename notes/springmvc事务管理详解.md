@@ -219,6 +219,21 @@ TransactionDefinition.PROPAGATION_NESTED：如果当前存在事务，则创建�
 
 MyBatis自动参与到spring事务管理中，无需额外配置，只要org.mybatis.spring.SqlSessionFactoryBean引用的数据源与DataSourceTransactionManager引用的数据源一致即可，否则事务管理会不起作用
 
+```
+属性	类型	描述
+value	String	可选的限定描述符，指定使用的事务管理器
+propagation	enum: Propagation	可选的事务传播行为设置
+isolation	enum: Isolation	可选的事务隔离级别设置
+readOnly	boolean	读写或只读事务，默认读写
+timeout	int (in seconds granularity)	事务超时时间设置
+rollbackFor	Class对象数组，必须继承自Throwable	导致事务回滚的异常类数组
+rollbackForClassName	类名数组，必须继承自Throwable	导致事务回滚的异常类名字数组
+noRollbackFor	Class对象数组，必须继承自Throwable	不会导致事务回滚的异常类数组
+noRollbackForClassName	类名数组，必须继承自Throwable	不会导致事务回滚的异常类名字数组
+
+````
+
+
 **用法**
 
 @Transactional 可以作用于接口、接口方法、类以及类方法上。当作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。
@@ -228,6 +243,61 @@ MyBatis自动参与到spring事务管理中，无需额外配置，只要org.myb
 另外， @Transactional 注解应该只被应用到 public 方法上，这是由 Spring AOP 的本质决定的。如果你在 protected、private 或者默认可见性的方法上使用 @Transactional 注解，这将被忽略，也不会抛出任何异常。
 
 默认情况下，只有来自外部的方法调用才会被AOP代理捕获，也就是，类内部方法调用本类内部的其他方法并不会引起事务行为，即使被调用方法使用@Transactional注解进行修饰。
+
+```
+@Autowired  
+private MyBatisDao dao;  
+  
+@Transactional  
+@Override  
+public void insert(Test test) {  
+    dao.insert(test);  
+    throw new RuntimeException("test");//抛出unchecked异常，触发事物，回滚  
+}
+```
+
+noRollbackFor
+
+```
+    @Transactional(noRollbackFor=RuntimeException.class)  
+    @Override  
+    public void insert(Test test) {  
+        dao.insert(test);  
+        //抛出unchecked异常，触发事物，noRollbackFor=RuntimeException.class,不回滚  
+        throw new RuntimeException("test");  
+    }
+```
+
+类，当作用于类上时，该类的所有 public 方法将都具有该类型的事务属性
+
+```
+@Transactional  
+public class MyBatisServiceImpl implements MyBatisService {  
+  
+    @Autowired  
+    private MyBatisDao dao;  
+      
+      
+    @Override  
+    public void insert(Test test) {  
+        dao.insert(test);  
+        //抛出unchecked异常，触发事物，回滚  
+        throw new RuntimeException("test");  
+    }  
+ ```
+ 
+ propagation=Propagation.NOT_SUPPORTED
+ 
+ ```
+@Transactional(propagation=Propagation.NOT_SUPPORTED)  
+@Override  
+public void insert(Test test) {  
+    //事物传播行为是PROPAGATION_NOT_SUPPORTED，以非事务方式运行，不会存入数据库  
+    dao.insert(test);  
+} 
+
+```
+	
 	
 
 2.myBatis为例，基于注解的声明式事务管理配置,xml配置
