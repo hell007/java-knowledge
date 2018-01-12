@@ -167,15 +167,68 @@ TransactionDefinition.PROPAGATION_NESTED：如果当前存在事务，则创建�
 1.myBatis为例，基于注解的声明式事务管理配置@Transactional
 
 ```   
-    <!-- 配置spring的PlatformTransactionManager，名字为默认值 -->  
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
-        <property name="dataSource" ref="dataSource" />  
-    </bean>  
-      
-    <!-- 开启事务控制的注解支持 -->  
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+<!-- 让spring管理sqlsessionfactory 使用mybatis和spring整合包中的 -->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource"/>
+		<property name="typeAliasesPackage" value="com.self.model"/>
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath:com/self/dao/mapping/*.xml"/>
+		<property name="plugins">
+	    <array>
+	        <bean class="com.github.pagehelper.PageHelper">
+	            <property name="properties">
+	                <value>
+	                    dialect=mysql
+	                    reasonable=true
+	                </value>
+	            </property>
+	        </bean>
+	    </array>
+	</property>
+</bean>
+
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+    	<constructor-arg index="0" ref="sqlSessionFactory"/>
+</bean>
+
+<!-- mybatis直接写sql查 -->
+<bean id="sqlMapper" class=" com.self.dao.SqlMapper" scope="prototype">
+	<constructor-arg ref="sqlSession"/>
+</bean>
+  
+<!-- spring与mybatis整合配置，扫描所有dao -->
+<!-- mapper3插件支持 -->
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.self.dao"/>
+        <property name="properties">
+	        <value>
+	            mappers=tk.mybatis.mapper.common.Mapper
+	        </value>
+	    </property>
+ 	</bean>
+ 
+<!-- 配置spring的PlatformTransactionManager，名字为默认值 -->  
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+    <property name="dataSource" ref="dataSource" />  
+</bean>  
+  
+<!-- 开启事务控制的注解支持 -->  
+<tx:annotation-driven transaction-manager="transactionManager"/>
     
 ```
+
+MyBatis自动参与到spring事务管理中，无需额外配置，只要org.mybatis.spring.SqlSessionFactoryBean引用的数据源与DataSourceTransactionManager引用的数据源一致即可，否则事务管理会不起作用
+
+**用法**
+
+@Transactional 可以作用于接口、接口方法、类以及类方法上。当作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。
+
+虽然 @Transactional 注解可以作用于接口、接口方法、类以及类方法上，但是 Spring 建议不要在接口或者接口方法上使用该注解，因为这只有在使用基于接口的代理时它才会生效。
+
+另外， @Transactional 注解应该只被应用到 public 方法上，这是由 Spring AOP 的本质决定的。如果你在 protected、private 或者默认可见性的方法上使用 @Transactional 注解，这将被忽略，也不会抛出任何异常。
+
+默认情况下，只有来自外部的方法调用才会被AOP代理捕获，也就是，类内部方法调用本类内部的其他方法并不会引起事务行为，即使被调用方法使用@Transactional注解进行修饰。
+	
 
 2.myBatis为例，基于注解的声明式事务管理配置,xml配置
 
@@ -213,5 +266,7 @@ TransactionDefinition.PROPAGATION_NESTED：如果当前存在事务，则创建�
 
 
 
+##### 参考文章
 
+[spring事物配置，声明式事务管理和基于@Transactional注解的使用](http://blog.csdn.net/bao19901210/article/details/41724355)
 
