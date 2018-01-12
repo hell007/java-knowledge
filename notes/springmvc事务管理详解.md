@@ -340,3 +340,5 @@ public void insert(Test test) {
 
 [spring事物配置，声明式事务管理和基于@Transactional注解的使用](http://blog.csdn.net/bao19901210/article/details/41724355)
 
+[spring支持编程式事务管理和声明式事务管理两种方式源码](https://github.com/zccodere/study-imooc/tree/master/02-teach-springtransactions)
+
