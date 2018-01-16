@@ -1,0 +1,193 @@
+/**
+ * 依赖包的定义。
+ *
+ * 这种定义方式的优点是在顶级项目目录下引入，在子项目中也可以直接用了。
+ *
+ */
+
+//是否远程调用策略 Local是本地调用 Remote是远程调用
+ext.isRemoteProfile = false
+
+// 一些会重复出现的jar包的版本号
+ext.versions = [
+		springBoot    : '1.5.1.RELEASE',
+        spring        : '4.2.2.RELEASE',
+        jackson       : '1.9.13',
+        gson          : '2.3.1',
+        logback       : '1.0.13',
+        slf4j         : '1.7.5',
+        httpclient    : '4.5',
+        xstream       : '1.4.7',
+        bonecp        : '0.8.0.RELEASE',
+        sitemesh      : '2.4.2',
+        jacksonVersion: '2.4.1',
+        jsonlibVersion: '2.4',
+        mybatisSpring : '1.2.3',
+        mybatisGenerator: '1.3.2',
+        redisSpring   : '1.6.0.RELEASE',
+        jredis        : '2.8.2',
+        mybatis       : '3.3.0',
+        mybatisMapper : '3.3.2',
+        dubbo         : '2.5.3',
+        zookeeper     : '3.4.6',
+        druid         : '1.0.13',
+        mysql         : '5.1.35',
+        groovy        : '2.4.0-beta-2',
+        jaxen         : '1.1.6',
+        urlrewrite    : '4.0.3'
+]
+
+// 各种可能会用到的jar包
+ext.libraries = [
+        "servlet-api"           : "javax.servlet:servlet-api:2.5",
+        "jsp-api"               : "javax.servlet:jsp-api:2.0",
+        "servlet-jstl"          : "javax.servlet:jstl:1.2",
+        "sitemesh"              : "opensymphony:sitemesh:${versions.sitemesh}",
+        "aspectjweaver"         : "org.aspectj:aspectjweaver:1.8.1",
+
+       	//sql
+        //"ojdbc6"                : "com.oracle:ojdbc6:11.2.0.3",
+        "mysql"                 : "mysql:mysql-connector-java:${versions.mysql}",
+        
+        //druid
+        "druid"                 : "com.alibaba:druid:${versions.druid}",
+        
+		//shiro
+        "shiro"                 : "org.apache.shiro:shiro-all:1.2.3",
+
+        //mybatis
+        "persistence"           : "javax.persistence:persistence-api:1.0",
+        "mybatis"               : "org.mybatis:mybatis:${versions.mybatis}",
+        "mybatis-spring"        : "org.mybatis:mybatis-spring:${versions.mybatisSpring}",
+		"tk-mapper"				: "tk.mybatis:mapper:${versions.mybatisMapper}",
+		"mybatis-generator"     : "org.mybatis.generator:mybatis-generator-core:${versions.mybatisGenerator}",
+		"pagehelper"            : "com.github.pagehelper:pagehelper:4.1.3",
+		
+		//spring-boot
+        "spring-boot-parent" 	: "org.springframework.boot:spring-boot-starter-parent:${versions.springBoot}",
+        "spring-boot-starter"   : "org.springframework.boot:spring-boot-starter:${versions.springBoot}",
+        "spring-boot-web"       : "org.springframework.boot:spring-boot-starter-web:${versions.springBoot}",
+        "spring-boot-test"      : "org.springframework.boot:spring-boot-starter-test:${versions.springBoot}",
+        "spring-boot-gradle"    : "org.springframework.boot:spring-boot-gradle-plugin:${versions.springBoot}",
+        "spring-boot-jpa"       : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}",
+		"spring-boot-thymeleaf" : "org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springBoot}",
+		"spring-boot-devtools"  : "org.springframework.boot:spring-boot-devtools:${versions.springBoot}",
+        "spring-boot-mybatis"   : "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0",
+        "io.dubbo.springboot"   : "io.dubbo.springboot:spring-boot-starter-dubbo:1.0.0",
+		
+        // spring
+        "spring-core"           : "org.springframework:spring-core:${versions.spring}",
+        "spring-beans"          : "org.springframework:spring-beans:${versions.spring}",
+        "spring-jdbc"           : "org.springframework:spring-jdbc:${versions.spring}",
+        "spring-tx"             : "org.springframework:spring-tx:${versions.spring}",
+        "spring-context"        : "org.springframework:spring-context:${versions.spring}",
+        "spring-context-support":"org.springframework:spring-context-support:${versions.spring}",
+        "spring-web"            : "org.springframework:spring-web:${versions.spring}",
+        "spring-orm"            : "org.springframework:spring-orm:${versions.spring}",
+        "spring-oxm"            : "org.springframework:spring-oxm:${versions.spring}",
+        "spring-webmvc"         : "org.springframework:spring-webmvc:${versions.spring}",
+        "spring-jms"            : "org.springframework:spring-jms:${versions.spring}",
+        "spring-aspects"        : "org.springframework:spring-aspects:${versions.spring}",
+        "spring-test"           : "org.springframework:spring-test:${versions.spring}",
+        "spring-data-redis"     : "org.springframework.data:spring-data-redis:${versions.redisSpring}",
+
+        // 忽略common log，使用slf4j代替
+        "logback-classic"       : "ch.qos.logback:logback-classic:${versions.logback}",
+        "logback-core"          : "ch.qos.logback:logback-core:${versions.logback}",
+        "jcl-over-slf4j"        : "org.slf4j:jcl-over-slf4j:${versions.slf4j}",
+        "log4j-over-slf4j"      : "org.slf4j:log4j-over-slf4j:${versions.slf4j}",
+        "slf4j-api"             : "org.slf4j:slf4j-api:${versions.slf4j}",
+        "jul-to-slf4j"          : "org.slf4j:jul-to-slf4j:${versions.slf4j}",
+        "slf4j-log4j12"         : "org.slf4j:slf4j-log4j12:${versions.slf4j}",
+        "log4jdbc-log4j2-jdbc4" : "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.15",
+        "log4j"                 : "log4j:log4j:1.2.17",
+
+        // JSON
+        "fastjson"              : "com.alibaba:fastjson:1.2.29",
+        "jackson-core-asl"      : "org.codehaus.jackson:jackson-core-asl:${versions.jackson}",
+        "jackson-mapper-asl"    : "org.codehaus.jackson:jackson-mapper-asl:${versions.jackson}",
+        "jackson-annotations"   : "com.fasterxml.jackson.core:jackson-annotations:${versions.jacksonVersion}",
+        "jackson-core"          : "com.fasterxml.jackson.core:jackson-core:${versions.jacksonVersion}",
+        "jackson-databind"      : "com.fasterxml.jackson.core:jackson-databind:${versions.jacksonVersion}",
+       
+        //google
+        "gson"                  : "com.google.code.gson:gson:${versions.gson}",
+        "jaxen"                 : "jaxen:jaxen:${versions.jaxen}",
+        //"core"					: "com.google.zxing:core:2.3.0",
+        //"javase"				: "com.google.zxing:javase:3.2.1",
+
+        //apache
+        "commons-dbcp"          : "commons-dbcp:commons-dbcp:1.4",
+        "commons-beanutils"     : "commons-beanutils:commons-beanutils:1.9.1",
+        "commons-configuration" : "commons-configuration:commons-configuration:1.10",
+        "commons-lang3"         : "org.apache.commons:commons-lang3:3.4",
+        "commons-lang"          : "commons-lang:commons-lang:2.6",
+        "commons-digester3"     : "org.apache.commons:commons-digester3:3.2",
+        "commons-fileupload"    : "commons-fileupload:commons-fileupload:1.3.1",
+        "commons-logging"       : "commons-logging:commons-logging:1.2",
+        "commons-io"            : "commons-io:commons-io:2.4",
+        "commons-net"           : "commons-net:commons-net:3.3",
+        "commons-codec"         : "commons-codec:commons-codec:1.6",
+        "commons-pool2"         : "org.apache.commons:commons-pool2:2.4.2",
+        "axis"					: "org.apache.axis:axis:1.4",
+        "commons-discovery" 	: "commons-discovery:commons-discovery:0.5",
+        "commons-collections4" 	: "org.apache.commons:commons-collections4:4.1",
+		"commons-httpclient"    : "commons-httpclient:commons-httpclient:3.1",
+		
+		//http
+        "httpclient"            : "org.apache.httpcomponents:httpclient:${versions.httpclient}",
+        "httpmime"              : "org.apache.httpcomponents:httpmime:${versions.httpclient}",
+        
+        //Other
+        "guava"                 : "com.google.guava:guava:17.0",
+        "htmlparser"            : "org.htmlparser:htmlparser:2.1",
+        "pinyin4j"              : "com.belerweb:pinyin4j:2.5.0",
+        "imagescaling"          : "com.mortennobel:java-image-scaling:0.8.5",
+        "pushlet"               : "nl.justobjects:pushlet:2.0.4",
+
+        "joda-time"             : "joda-time:joda-time:2.3",
+        //"xstream"               : "com.thoughtworks.xstream:xstream:${versions.xstream}",
+
+        "junit"                 : "junit:junit:4.12",
+		
+		"jredis"				: "redis.clients:jedis:${versions.jredis}",
+		
+        //cache
+        //"java_memcached"        : "com.danga:java_memcached:2.0.1",
+        "spymemcached"          : "net.spy:spymemcached:2.9.1",
+        "jedis"                 : "redis.clients:jedis:2.7.3",
+        "xmemcached"            : "com.googlecode.xmemcached:xmemcached:2.0.0",
+        "oscache"               : "opensymphony:oscache:2.4.1",
+
+        //poi
+        "poi"                   : "org.apache.poi:poi:3.9",
+        "poi-ooxml"             : "org.apache.poi:poi-ooxml:3.8",
+        "dom4j"                 : "dom4j:dom4j:1.6.1",
+		"jdom"                  : "org.jdom:jdom:2.0.2",
+		//JXL
+		"jxl"                  : "net.sourceforge.jexcelapi:jxl:2.6.12",
+		
+        //dubbo
+        //"dubbo"                 : "com.alibaba:dubbo:${versions.dubbo}",
+        "zookeeper"             : "org.apache.zookeeper:zookeeper:${versions.zookeeper}",
+        "javassist"             : "org.javassist:javassist:3.18.1-GA",
+        "zkclient"              : "com.101tec:zkclient:0.4",
+		"netty"                 : "org.jboss.netty:netty:3.2.10.Final",
+		"curator-framework"     : "com.netflix.curator:curator-framework:1.1.10",
+		"curator-client"        : "com.netflix.curator:curator-client:1.1.10",
+		
+		//bonecp
+        "bonecp"                : "com.jolbox:bonecp:${versions.bonecp}",
+		
+        //urlrewrite
+        "urlrewritefilter"		: "org.tuckey:urlrewritefilter:${versions.urlrewrite}",
+        "groovy"				: "org.codehaus.groovy:groovy-all:${versions.groovy}",
+        "quartz" 				: "org.quartz-scheduler:quartz:2.2.1",
+        
+		//validation
+		"validation-api"        : "javax.validation:validation-api:1.0.0.GA",
+		"hibernate-validator"   : "org.hibernate:hibernate-validator:4.2.0.Final",
+		"javax.xml.rpc-api"		: "javax.xml.rpc:javax.xml.rpc-api:1.1.1",
+		"wsdl4j"				: "wsdl4j:wsdl4j:1.6.3",
+		"jaxen" 				: "jaxen:jaxen:1.1.6",        
+]
