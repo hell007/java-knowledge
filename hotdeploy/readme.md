@@ -25,6 +25,10 @@ NONE：容器不负责主键的生成，由程序来完成。
 
 ```
 
-2.
+2. #ORM 框架 Hibernate  #接口 JpaRepository
 
+
+3.thymeleaf
+
+[thymeleaf使用](http://blog.csdn.net/u012706811/article/details/52185345)
 
