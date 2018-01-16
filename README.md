@@ -4,6 +4,8 @@
 
 [spring入门](https://segmentfault.com/a/1190000008396882)
 
+[springboot 热部署](./hotdeploy)
+
 
 ## 收藏
 
