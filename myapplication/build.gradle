@@ -1,0 +1,132 @@
+apply plugin: 'java'
+//
+// 这个文件中定义的jar包可以直接在子项目中使用，不需要再次使用 apply from 这个语句
+apply from: 'dependencyDefinitions.gradle'
+
+/**
+ * 获取属性，如果没有则采用默认值
+ */
+def defaultProperty(propertyName, defaultValue) {
+    return hasProperty(propertyName) ? project[propertyName] : defaultValue
+}
+
+// profile(或者env——为了向后兼容)参数默认为prod, 即生产环境. 可通过以下几种方式改变
+// 1. gradle.properties 放置于 <USER_HOME>/.gradle 或者 项目根目录
+// 2. gradle项目属性    -Pprofile=<dev|test|prod>
+// 3. java系统变量      –Dprofile=<dev|test|prod>
+// 4. 环境变量          ORG_GRADLE_PROJECT_profile=<dev|test|prod>
+ext {
+    profile = defaultProperty('profile', defaultProperty('env', 'dev'))
+    isDev = profile == 'dev'
+    isTest = profile == 'test'
+    isProd = profile == 'prod'
+}
+
+// 所有子项目的通用配置
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+    // Jdk 版本号要求
+    sourceCompatibility = '1.7'
+
+    // java编译的时候缺省状态下会因为中文字符而失败
+    // 所以这儿需要改为utf8
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    repositories {
+        maven { url "http://192.168.9.234:8081/nexus/content/groups/public" }
+        //阿里云镜像
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/"}
+        mavenCentral()
+    }
+
+    jar {
+        manifest {
+            attributes("Manifest-Version": "1.0")
+            attributes("Created-By": "xwtech")
+            attributes("Implementation-Title": "xwtech")
+            attributes("Implementation-Version": "1.0")
+        }
+    }
+
+    eclipse {
+        project {
+            name = "${archivesBaseName}"
+        }
+    }
+
+
+    dependencies {
+
+        // 通用依赖
+        compile(
+                libraries.'logback-classic',
+                libraries.'logback-core',
+                libraries.'jcl-over-slf4j',
+                libraries.'slf4j-api',
+                libraries.'jul-to-slf4j',
+                libraries.'log4jdbc-log4j2-jdbc4',
+                libraries.'log4j',
+                //group: 'tk.mybatis', name: 'mapper', version: '3.3.2'
+        )
+
+        ext.jarTree = fileTree(dir: 'lib', include: '**/*.jar',exclude:'**/spring-2.5.6.SEC03.jar')
+        ext.rootProjectLibs = new File(rootProject.rootDir, 'lib').getAbsolutePath()
+        ext.jarTree += fileTree(dir: rootProjectLibs, include: '**/*.jar')
+
+        compile jarTree
+
+        // 测试依赖
+        testCompile(
+                libraries.'junit',
+                libraries.'spring-test',
+        )
+    }
+
+    // 显示当前项目下所有用于 compile 的 jar.
+    task listJars(description: 'Display all compile jars.') << {
+        configurations.compile.each { File file -> println file.name }
+    }
+}
+
+//压缩静态资源
+task zipStaticRes(description: 'Zip the static resource') << {
+    ant.zip(destfile: 'deploy/resources.zip') {
+        fileset(dir: 'deploy') {
+            exclude(name: '**.*')
+        }
+    }
+    delete "deploy/resources"
+}
+
+task debug << {
+    println "$env"
+    println "$isProd"
+    configurations.compile.each {println it}
+}
+
+// 打包web项目
+// 用法1: 打包所有web项目
+// gradle releaseWebApp
+// 用法2: 打包指定的web项目
+// gradle releaseWebApp -Pprjs=myself,groupapp
+task releaseWebApp
+
+if (rootProject.hasProperty('prjs')) {
+    def prjs = defaultProperty('prjs', "").split(',').toList()
+    gradle.afterProject { project, projectState ->
+        if (project.name in prjs && project.plugins.findPlugin("war")) {
+            println project.name
+            releaseWebApp.dependsOn(project.release)
+        }
+    }
+} else {
+    gradle.afterProject { project, projectState ->
+        if (project.plugins.findPlugin("war")) {
+            releaseWebApp.dependsOn(project.release)
+        }
+    }
+}
+
