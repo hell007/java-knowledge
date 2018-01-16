@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Index</title>
+<style>
+*{margin:0;padding:0;border:0;list-style:none;}
+</style>
+</head>
+<body>
+<table>
+	<tr>
+		<th>序号</th>
+		<th>姓名</th>
+		<th>性别</th>
+		<th>号码</th>
+		<th>邮箱</th>
+		<th>日期</th>
+	</tr>
+	<tr th:each="item : ${list}">
+		<td th:text="${item.id}"></td>
+		<td th:text="${item.name}"></td>
+		<td th:text="${item.sex}"></td>
+		<td th:text="${item.phone}"></td>
+		<td th:text="${item.email}"></td>
+		<td th:text="${item.addTime}"></td>
+	</tr>
+</table>
+</body>
+</html>
