@@ -1,0 +1,6 @@
+
+rootProject.name = 'myapplication'
+
+include 'apps:mybase'
+include 'apps:myself'
+
