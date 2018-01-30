@@ -1,4 +1,4 @@
-package com.self.utils;
+package com.jie.utils;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -101,7 +101,7 @@ public class ImageUtils {
 		srcBufferImage = ImageIO.read(file.getInputStream());
 		BufferedImage scaledImage = ImageUtils.getInstance().imageZoomOut(srcBufferImage, w, h); 
 		FileOutputStream out = new FileOutputStream(new File(saveFilePath+fileThumName));
-		ImageIO.write(scaledImage, "jpeg", out);
+		ImageIO.write(scaledImage, "png", out);
 		out.close();
 		return fileThumName;
 	}
@@ -125,7 +125,7 @@ public class ImageUtils {
 		srcBufferImage = ImageIO.read(file.getInputStream());
 		BufferedImage scaledImage = ImageUtils.getInstance().imageZoomOut(srcBufferImage, srcBufferImage.getWidth(), srcBufferImage.getHeight()); 
 		FileOutputStream out = new FileOutputStream(new File(saveFilePath+fileCompressedName));
-		ImageIO.write(scaledImage, "jpeg", out);
+		ImageIO.write(scaledImage, "png", out);
 		out.close();
 		return fileCompressedName;
 	}
@@ -211,8 +211,6 @@ public class ImageUtils {
 	
 	
 	
-	
-	
 	/**
 	 * imageZoomOut
 	 * @param srcBufferImage
@@ -249,8 +247,8 @@ public class ImageUtils {
 			return 1;
 		}
 		return 0;
-
 	}
+	
 	
 	/**
 	 * 
@@ -538,12 +536,11 @@ public class ImageUtils {
 	 * @return 返回文件存放路径
 	 * @throws IOException
 	 */
-    public static Map<String,String> saveFile(String filePath,MultipartFile file,boolean isThumb) throws IOException {
-    	  
+    public static Map<String,String> saveFile(String filePath,MultipartFile file,boolean isThumb) throws IOException {	  
 		// 根据配置文件获取服务器图片存放路径
 		//String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/brand/" + file.getOriginalFilename();
-        String saveFilePath = PropertiesUtils.getFileIO("savePicUrl", "config.properties");
-        
+        String saveFilePath = PropertiesUtils.getFileIO("savePicUrl", "properties/config.properties");
+
         // 构建文件目录 
         File fileDir = new File(new File(saveFilePath), filePath);
         if (!fileDir.exists()) {
@@ -613,7 +610,7 @@ public class ImageUtils {
      */
     public static void deleteFile(String oldPicName) {
         // 根据配置文件获取服务器图片存放路径
-    	String saveFilePath = PropertiesUtils.getFileIO("savePicUrl", "config.properties");
+    	String saveFilePath = PropertiesUtils.getFileIO("savePicUrl", "properties/config.properties");
         // 构建文件目录 
         File fileDir = new File(saveFilePath+"/"+oldPicName);
         if (fileDir.exists()) {
