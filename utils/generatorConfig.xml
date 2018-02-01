@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+	<context id="MysqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        
+		<plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+	      <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+	    </plugin>
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+        
+         <!-- 数据库链接URL、用户名、密码 -->
+	    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/jie?useUnicode=true&amp;characterEncoding=UTF-8" userId="root" password="admin" />
+
+		<!-- 生成模型的包名和位置 -->
+	    <javaModelGenerator targetPackage="com.jie.model" targetProject="D:/Eclipse/admin/jie/jie-common/src/main/java">
+	    	<!-- 对get进行trim操作 -->
+	    	<property name="trimStrings" value="true" />
+	    	<property name="constructorBased" value="true" />
+	    </javaModelGenerator>
+	    
+	    <!-- 生成的映射文件包名和位置 -->
+	    <sqlMapGenerator targetPackage="com.jie.mapping" targetProject="D:/Eclipse/admin/jie/jie-common/src/main/java" >
+	    </sqlMapGenerator>
+	    
+	    <!-- 生成DAO的包名和位置 --> 
+	    <javaClientGenerator targetPackage="com.jie.dao" targetProject="D:/Eclipse/admin/jie/jie-common/src/main/java" type="XMLMAPPER" >
+	    </javaClientGenerator>
+		<!-- 用户 -->
+        <table tableName="jie_user" domainObjectName="User">
+            <generatedKey column="uid" sqlStatement="Mysql" identity="false"/>
+        </table>
+        <table tableName="jie_user_address" domainObjectName="UserAddress">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <!-- 文章 -->
+        <table tableName="jie_article" domainObjectName="Article">
+            <generatedKey column="id" sqlStatement="Mysql" identity="false"/>
+        </table>
+        <table tableName="jie_articlechannel" domainObjectName="Articlechannel">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <!-- 广告 -->
+        <table tableName="jie_advertisement" domainObjectName="Advertisement">
+            <generatedKey column="id" sqlStatement="Mysql" identity="false"/>
+        </table>
+        <table tableName="jie_ads_channel" domainObjectName="Adschannel">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <!-- 地区 -->
+        <table tableName="jie_zone" domainObjectName="Zone">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <!-- 管理人员 -->
+        <table tableName="jie_admin" domainObjectName="Admin">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="jie_role" domainObjectName="Role">
+            <generatedKey column="roleId" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="ea_access" domainObjectName="Access">
+            <generatedKey column="" sqlStatement="Mysql" identity="false"/>
+        </table>
+        <table tableName="jie_permission" domainObjectName="Permission">
+            <generatedKey column="permissionId" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <!-- 品牌 -->
+		<table tableName="jie_brand" domainObjectName="Brand">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>
