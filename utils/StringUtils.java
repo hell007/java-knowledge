@@ -1,4 +1,4 @@
-package com.self.utils;
+package com.jie.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
@@ -154,6 +154,24 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 	public static Integer toInteger(Object val) {
 		return toLong(val).intValue();
 	}
+	
+	
+	/**
+	 * 转换为Integer类型
+	 */
+	public static Integer strToInteger(String val) {
+		return Integer.valueOf(val);
+	}
+	
+	/**
+	 * Integer类型是否为空
+	 * @param id
+	 * @return
+	 */
+	public static boolean isIntegerBlank(Integer id) {
+		if(id==null || StringUtils.isBlank(Integer.toString(id))) return true;
+		return false;
+	}
 
 	/**
 	 * 获得i18n字符串
@@ -195,10 +213,21 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
        }
        return temp;
 	}
-
+	
+	
+	/**
+	 * main
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// 测试
-		System.out.println(underlineNextCharUpperCase("user_name"));
+		//System.out.println(underlineNextCharUpperCase("user_name"));
+		System.out.println(StringUtils.strToInteger("2"));
+		System.out.println(StringUtils.join(  
+			       new String[] { "AB", "CD", "EF" }, "$#$"));  
+ 
 	}
+
+	
 
 }
