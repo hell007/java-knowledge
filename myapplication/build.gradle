@@ -1,7 +1,10 @@
 apply plugin: 'java'
-//
-// 这个文件中定义的jar包可以直接在子项目中使用，不需要再次使用 apply from 这个语句
-apply from: 'dependencyDefinitions.gradle'
+
+/**
+*引入jar包定义
+*这个文件中定义的jar包可以直接在子项目中使用，不需要再次使用 apply from 这个语句
+*/
+apply from: 'dependency.gradle'
 
 /**
  * 获取属性，如果没有则采用默认值
@@ -22,11 +25,15 @@ ext {
     isProd = profile == 'prod'
 }
 
+
 // 所有子项目的通用配置
 subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
+    
+    // 用于发布 jar 包到相应服务器
+    //apply plugin: 'maven'
 
     // Jdk 版本号要求
     sourceCompatibility = '1.7'
@@ -36,7 +43,7 @@ subprojects {
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
     repositories {
-        maven { url "http://192.168.9.234:8081/nexus/content/groups/public" }
+        //maven { url "http://192.168.9.234:8081/nexus/content/groups/public" }
         //阿里云镜像
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/"}
         mavenCentral()
@@ -45,8 +52,8 @@ subprojects {
     jar {
         manifest {
             attributes("Manifest-Version": "1.0")
-            attributes("Created-By": "xwtech")
-            attributes("Implementation-Title": "xwtech")
+            attributes("Created-By": "jie")
+            attributes("Implementation-Title": "jie")
             attributes("Implementation-Version": "1.0")
         }
     }
@@ -111,7 +118,7 @@ task debug << {
 // 用法1: 打包所有web项目
 // gradle releaseWebApp
 // 用法2: 打包指定的web项目
-// gradle releaseWebApp -Pprjs=myself,groupapp
+// gradle releaseWebApp -Pprjs=jie-admin,jie-web,groupapp
 task releaseWebApp
 
 if (rootProject.hasProperty('prjs')) {
@@ -129,4 +136,7 @@ if (rootProject.hasProperty('prjs')) {
         }
     }
 }
+
+
+
 
