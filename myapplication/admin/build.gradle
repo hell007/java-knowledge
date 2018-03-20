@@ -1,0 +1,127 @@
+// 只在 web 项目下定义这两个插件
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+archivesBaseName = 'admin'
+
+eclipse {
+    project {
+        name = 'jie-admin'
+    }
+
+    wtp {
+        component {
+            //you can configure the context path:
+            contextPath = 'myapplication'
+
+            deployName = 'admin'
+        }
+    }
+}
+
+war {
+
+    //打包时排除静态资源目录
+    exclude 'resources'
+    if (!isTest) {
+        extension = "zip"
+    }
+    manifest {
+        attributes("Implementation-Title": "Gradle")
+    }
+}
+
+dependencies {
+
+    // providedCompile 是在 war 插件下定义的
+    providedCompile (
+            libraries.'servlet-api',
+            libraries.'jsp-api'
+    )
+
+    compile (
+
+            // 依赖的项目
+            project(':jie-common'),
+            project(':jie-business'),
+    )
+
+}
+
+// processResources {
+//     if (isProd) {
+//         exclude('**/mallwebapp.xml', '**/mallwebapp-test.xml')
+//         rename('mallwebapp-line.xml', 'mallwebapp.xml')
+//     } else if (isTest) {
+//         exclude('**/mallwebapp.xml', '**/mallwebapp-line.xml')
+//         rename('mallwebapp-test.xml', 'mallwebapp.xml')
+//     }
+// }
+
+task release(dependsOn: ['clean', 'war', 'zipNonstaticsIncludeTopDir', 'explodedWar'], description: 'Build production war.') << {
+    //复制打好包的文件到根目录的deploy目录
+//    copy{
+//        from("${buildDir}/libs") {
+//            include "**/*.zip"
+//        }
+//        into "${rootDir}/deploy/"
+//    }
+    copy{
+        from ('src/main/webapp/resources'){
+        	exclude '**/mallwebapp.js' //除了这个
+        }
+        into "${rootDir}/deploy/resources"
+    }
+}
+
+
+release.doLast {
+    zipStaticsIncludeTopDir.execute()
+}
+
+gradle.taskGraph.whenReady {taskGraph ->
+    // 执行release 的时候将其 profile 置为生产状态
+    // 执行war 的时候则是开发状态，且版本后面加上snapshot标记
+    if (taskGraph.hasTask(release)) {
+        ext.profile = 'line'
+    } else {
+        ext.profile = 'dev'
+        version += '-SNAPSHOT'
+    }
+}
+
+// 复制未打包的文件到根目录的deploy目录
+task explodedWar(type: Copy) {
+    into "${rootDir}/deploy/${archivesBaseName}"
+    with war
+}
+
+// 打包非静态资源, 包含顶级目录
+task zipNonstaticsIncludeTopDir(type: Zip) {
+    destinationDir = file("${rootDir}/deploy/zips")
+    into("${archivesBaseName}") {
+        with war
+    }
+}
+
+// 打包静态资源, 包含顶级目录
+task zipStaticsIncludeTopDir(type: Zip) {
+    destinationDir = file("${rootDir}/deploy/zips")
+    archiveName = 'resources.zip'
+    into("resources") {
+        from "${rootDir}/deploy/resources"
+    }
+}
+
+// 清理
+clean.doFirst {
+    delete "${rootDir}/deploy/${archivesBaseName}"
+    delete "${rootDir}/deploy/${archivesBaseName}.zip"
+    delete "${rootDir}/deploy/zips/${archivesBaseName}.zip"
+}
+
+//war.dependsOn clean, zipNonstaticsIncludeTopDir, explodedWar
+
+
+
+
