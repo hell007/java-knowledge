@@ -36,41 +36,7 @@
         <table tableName="jie_user_address" domainObjectName="UserAddress">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <!-- 文章 -->
-        <table tableName="jie_article" domainObjectName="Article">
-            <generatedKey column="id" sqlStatement="Mysql" identity="false"/>
-        </table>
-        <table tableName="jie_articlechannel" domainObjectName="Articlechannel">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-        </table>
-        <!-- 广告 -->
-        <table tableName="jie_advertisement" domainObjectName="Advertisement">
-            <generatedKey column="id" sqlStatement="Mysql" identity="false"/>
-        </table>
-        <table tableName="jie_ads_channel" domainObjectName="Adschannel">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-        </table>
-        <!-- 地区 -->
-        <table tableName="jie_zone" domainObjectName="Zone">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-        </table>
-        <!-- 管理人员 -->
-        <table tableName="jie_admin" domainObjectName="Admin">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-        </table>
-        <table tableName="jie_role" domainObjectName="Role">
-            <generatedKey column="roleId" sqlStatement="Mysql" identity="true"/>
-        </table>
-        <table tableName="ea_access" domainObjectName="Access">
-            <generatedKey column="" sqlStatement="Mysql" identity="false"/>
-        </table>
-        <table tableName="jie_permission" domainObjectName="Permission">
-            <generatedKey column="permissionId" sqlStatement="Mysql" identity="true"/>
-        </table>
-        <!-- 品牌 -->
-		<table tableName="jie_brand" domainObjectName="Brand">
-            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-        </table>
+        
 
     </context>
 </generatorConfiguration>
