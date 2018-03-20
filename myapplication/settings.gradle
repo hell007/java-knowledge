@@ -1,6 +1,12 @@
 
 rootProject.name = 'myapplication'
 
-include 'apps:mybase'
-include 'apps:myself'
-
+// 四个子项目
+// 其中 business 依赖 common
+// web 依赖前两者
+//
+include 'common'
+include 'business'
+//include 'sso'
+//include 'admin'
+//include 'web'
