@@ -1,0 +1,11 @@
+archivesBaseName = 'business'
+
+dependencies {
+
+    compile (
+    	
+    	// 依赖项目
+        project(':common'),
+    )
+
+}
