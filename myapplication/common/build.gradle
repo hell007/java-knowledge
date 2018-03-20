@@ -1,0 +1,60 @@
+archivesBaseName = 'common'
+
+dependencies {
+
+    compile (
+    	// 依赖
+    	
+    	//spring
+    	libraries.'spring-tx',
+        libraries.'spring-webmvc',
+        libraries.'spring-aspects',
+        libraries.'spring-core',
+        libraries.'spring-beans',
+        libraries.'spring-orm',
+        libraries.'spring-jdbc',
+        libraries.'spring-context',
+        libraries.'spring-web',
+        
+        //mysql
+        libraries.'persistence',
+        libraries.'tk-mybatis',
+        libraries.'pagehelper',
+        libraries.'druid',
+        libraries.'mybatis',
+        libraries.'mybatis-spring',
+        libraries.'mysql',
+        libraries.'fastjson',
+        libraries.'httpclient',
+        
+        //shiro      
+        libraries.'shiro',
+        
+        //validation
+        libraries.'hibernate-validator',
+        libraries.'validation-api',
+        
+        //redis
+        libraries.'spring-data-redis',
+        libraries.'jedis',
+		
+		//json
+        libraries.'fastjson',            
+        libraries.'jackson-annotations',
+        libraries.'jackson-core',
+        libraries.'jackson-databind',
+        
+        //poi
+        libraries.'poi',
+        libraries.'poi-ooxml',
+        
+        //common
+        libraries.'commons-lang3',
+        libraries.'commons-logging',
+        libraries.'commons-fileupload',
+        libraries.'commons-beanutils',
+
+        libraries.'servlet-api',
+        libraries.'servlet-jstl',
+    )
+}
