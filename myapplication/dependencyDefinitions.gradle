@@ -25,13 +25,13 @@ ext.versions = [
         mybatisSpring : '1.2.3',
         mybatisGenerator: '1.3.2',
         redisSpring   : '1.6.0.RELEASE',
-        jredis        : '2.8.2',
+        sessionSpring : '1.2.1.RELEASE',
         mybatis       : '3.3.0',
-        mybatisMapper : '3.3.2',
+        mybatisMapper : '3.3.8',
         dubbo         : '2.5.3',
         zookeeper     : '3.4.6',
         druid         : '1.0.13',
-        mysql         : '5.1.35',
+        mysql         : '5.1.39',
         groovy        : '2.4.0-beta-2',
         jaxen         : '1.1.6',
         urlrewrite    : '4.0.3'
@@ -44,9 +44,8 @@ ext.libraries = [
         "servlet-jstl"          : "javax.servlet:jstl:1.2",
         "sitemesh"              : "opensymphony:sitemesh:${versions.sitemesh}",
         "aspectjweaver"         : "org.aspectj:aspectjweaver:1.8.1",
-
-       	//sql
-        //"ojdbc6"                : "com.oracle:ojdbc6:11.2.0.3",
+       
+        //"ojdbc6"              : "com.oracle:ojdbc6:11.2.0.3",
         "mysql"                 : "mysql:mysql-connector-java:${versions.mysql}",
         
         //druid
@@ -59,11 +58,11 @@ ext.libraries = [
         "persistence"           : "javax.persistence:persistence-api:1.0",
         "mybatis"               : "org.mybatis:mybatis:${versions.mybatis}",
         "mybatis-spring"        : "org.mybatis:mybatis-spring:${versions.mybatisSpring}",
-		"tk-mapper"				: "tk.mybatis:mapper:${versions.mybatisMapper}",
-		"mybatis-generator"     : "org.mybatis.generator:mybatis-generator-core:${versions.mybatisGenerator}",
-		"pagehelper"            : "com.github.pagehelper:pagehelper:4.1.3",
-		
-		//spring-boot
+        "tk-mybatis"		    : "tk.mybatis:mapper:${versions.mybatisMapper}",
+        "mybatis-generator"     : "org.mybatis.generator:mybatis-generator-core:${versions.mybatisGenerator}",
+        "pagehelper"            : "com.github.pagehelper:pagehelper:4.1.3",
+        
+        //spring-boot
         "spring-boot-parent" 	: "org.springframework.boot:spring-boot-starter-parent:${versions.springBoot}",
         "spring-boot-starter"   : "org.springframework.boot:spring-boot-starter:${versions.springBoot}",
         "spring-boot-web"       : "org.springframework.boot:spring-boot-starter-web:${versions.springBoot}",
@@ -74,7 +73,7 @@ ext.libraries = [
 		"spring-boot-devtools"  : "org.springframework.boot:spring-boot-devtools:${versions.springBoot}",
         "spring-boot-mybatis"   : "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0",
         "io.dubbo.springboot"   : "io.dubbo.springboot:spring-boot-starter-dubbo:1.0.0",
-		
+                
         // spring
         "spring-core"           : "org.springframework:spring-core:${versions.spring}",
         "spring-beans"          : "org.springframework:spring-beans:${versions.spring}",
@@ -90,6 +89,7 @@ ext.libraries = [
         "spring-aspects"        : "org.springframework:spring-aspects:${versions.spring}",
         "spring-test"           : "org.springframework:spring-test:${versions.spring}",
         "spring-data-redis"     : "org.springframework.data:spring-data-redis:${versions.redisSpring}",
+        "spring-session-redis"	: "org.springframework.session:spring-session-data-redis:${versions.sessionSpring}",   
 
         // 忽略common log，使用slf4j代替
         "logback-classic"       : "ch.qos.logback:logback-classic:${versions.logback}",
@@ -102,7 +102,7 @@ ext.libraries = [
         "log4jdbc-log4j2-jdbc4" : "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.15",
         "log4j"                 : "log4j:log4j:1.2.17",
 
-        // JSON
+        //JSON
         "fastjson"              : "com.alibaba:fastjson:1.2.29",
         "jackson-core-asl"      : "org.codehaus.jackson:jackson-core-asl:${versions.jackson}",
         "jackson-mapper-asl"    : "org.codehaus.jackson:jackson-mapper-asl:${versions.jackson}",
@@ -113,8 +113,9 @@ ext.libraries = [
         //google
         "gson"                  : "com.google.code.gson:gson:${versions.gson}",
         "jaxen"                 : "jaxen:jaxen:${versions.jaxen}",
-        //"core"					: "com.google.zxing:core:2.3.0",
-        //"javase"				: "com.google.zxing:javase:3.2.1",
+        "json-simple"           : "com.googlecode.json-simple:json-simple:1.1",
+        //"core"                : "com.google.zxing:core:2.3.0",
+        //"javase"              : "com.google.zxing:javase:3.2.1",
 
         //apache
         "commons-dbcp"          : "commons-dbcp:commons-dbcp:1.4",
@@ -129,8 +130,8 @@ ext.libraries = [
         "commons-net"           : "commons-net:commons-net:3.3",
         "commons-codec"         : "commons-codec:commons-codec:1.6",
         "commons-pool2"         : "org.apache.commons:commons-pool2:2.4.2",
-        "axis"					: "org.apache.axis:axis:1.4",
-        "commons-discovery" 	: "commons-discovery:commons-discovery:0.5",
+        "axis"                  : "org.apache.axis:axis:1.4",
+        "commons-discovery"     : "commons-discovery:commons-discovery:0.5",
         "commons-collections4" 	: "org.apache.commons:commons-collections4:4.1",
 		"commons-httpclient"    : "commons-httpclient:commons-httpclient:3.1",
 		
@@ -149,9 +150,7 @@ ext.libraries = [
         //"xstream"               : "com.thoughtworks.xstream:xstream:${versions.xstream}",
 
         "junit"                 : "junit:junit:4.12",
-		
-		"jredis"				: "redis.clients:jedis:${versions.jredis}",
-		
+
         //cache
         //"java_memcached"        : "com.danga:java_memcached:2.0.1",
         "spymemcached"          : "net.spy:spymemcached:2.9.1",
@@ -161,33 +160,36 @@ ext.libraries = [
 
         //poi
         "poi"                   : "org.apache.poi:poi:3.9",
-        "poi-ooxml"             : "org.apache.poi:poi-ooxml:3.8",
+        "poi-ooxml"             : "org.apache.poi:poi-ooxml:3.9",
         "dom4j"                 : "dom4j:dom4j:1.6.1",
-		"jdom"                  : "org.jdom:jdom:2.0.2",
-		//JXL
+        "jdom"                  : "org.jdom:jdom:2.0.2",
+        
+        //JXL
 		"jxl"                  : "net.sourceforge.jexcelapi:jxl:2.6.12",
-		
+                
         //dubbo
-        //"dubbo"                 : "com.alibaba:dubbo:${versions.dubbo}",
+        //"dubbo"               : "com.alibaba:dubbo:${versions.dubbo}",
         "zookeeper"             : "org.apache.zookeeper:zookeeper:${versions.zookeeper}",
         "javassist"             : "org.javassist:javassist:3.18.1-GA",
         "zkclient"              : "com.101tec:zkclient:0.4",
-		"netty"                 : "org.jboss.netty:netty:3.2.10.Final",
-		"curator-framework"     : "com.netflix.curator:curator-framework:1.1.10",
-		"curator-client"        : "com.netflix.curator:curator-client:1.1.10",
-		
-		//bonecp
+        "netty"                 : "org.jboss.netty:netty:3.2.10.Final",
+        "curator-framework"     : "com.netflix.curator:curator-framework:1.1.10",
+        "curator-client"        : "com.netflix.curator:curator-client:1.1.10",
+                
+        //bonecp
         "bonecp"                : "com.jolbox:bonecp:${versions.bonecp}",
-		
+                     
         //urlrewrite
-        "urlrewritefilter"		: "org.tuckey:urlrewritefilter:${versions.urlrewrite}",
-        "groovy"				: "org.codehaus.groovy:groovy-all:${versions.groovy}",
-        "quartz" 				: "org.quartz-scheduler:quartz:2.2.1",
+        "urlrewritefilter"      : "org.tuckey:urlrewritefilter:${versions.urlrewrite}",
+        "groovy"                : "org.codehaus.groovy:groovy-all:${versions.groovy}",
+        "quartz"                : "org.quartz-scheduler:quartz:2.2.1",
         
-		//validation
-		"validation-api"        : "javax.validation:validation-api:1.0.0.GA",
-		"hibernate-validator"   : "org.hibernate:hibernate-validator:4.2.0.Final",
-		"javax.xml.rpc-api"		: "javax.xml.rpc:javax.xml.rpc-api:1.1.1",
-		"wsdl4j"				: "wsdl4j:wsdl4j:1.6.3",
-		"jaxen" 				: "jaxen:jaxen:1.1.6",        
+        //validation
+        "validation-api"        : "javax.validation:validation-api:1.0.0.GA",
+        "hibernate-validator"   : "org.hibernate:hibernate-validator:4.2.0.Final",
+        "javax.xml.rpc-api"     : "javax.xml.rpc:javax.xml.rpc-api:1.1.1",
+        "wsdl4j"                : "wsdl4j:wsdl4j:1.6.3",
+        "jaxen"                 : "jaxen:jaxen:1.1.6",
+        
+        "mockito-core"          : "org.mockito:mockito-core:1.10.19",
 ]
