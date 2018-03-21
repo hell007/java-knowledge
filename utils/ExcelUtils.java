@@ -18,6 +18,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -77,7 +78,7 @@ public class ExcelUtils {
 
         XSSFRow row = sheet.createRow(0);
 
-        // 创建表头
+        // 创建表头,并设置样式、填充内容
         for (short i = 0; i < headers.length; i++) {
             XSSFCell cell = row.createCell(i);
             cell.setCellStyle(style);
@@ -107,7 +108,8 @@ public class ExcelUtils {
                     Method getMethod = cls.getMethod(getMethodName,new Class[] {});
 
                     try {
-                        Object target = getMethod.invoke(o, new Object[] {}); // 利用Java反射机制调用get方法获取字段对应的值
+                    	// 利用Java反射机制调用get方法获取字段对应的值
+                        Object target = getMethod.invoke(o,new Object[] {}); 
                         XSSFCell c = r.createCell(i);
                         c.setCellStyle(style2);
 
@@ -116,25 +118,31 @@ public class ExcelUtils {
                         } else if (target instanceof String) {
                             c.setCellValue(target.toString());
                         } else if (target instanceof Date) {
-                            // 如果target为Date类型，则按该规则格式化
-                        	c.setCellValue(DateUtils.formatDate((Date) target, "yyyy-MM-dd  HH:mm:ss"));
-                        } else if (target instanceof Double) {
-                            // 如果target为Double类型的数据，则默认保留两位小数
-                            c.setCellValue(decimal((Double) target));
+                        	// 如果target为Date类型，则按该规则格式化
+                            c.setCellValue(DateUtils.formatDate((Date) target, "yyyy-MM-dd  HH:mm:ss")); 
+                        } else if (target instanceof Byte) {
+                            c.setCellValue((Byte) target);
+                        } else if(target instanceof Short) {
+                            c.setCellValue((Short) target);
+                        } else if(target instanceof Double) {
+                        	// 如果target为Double类型的数据，则默认保留两位小数
+                            c.setCellValue(decimal((Double) target)); 
                         } else if (target instanceof Long) {
                             c.setCellValue((Long) target);
+                        } else if (target instanceof BigDecimal) {
+                            c.setCellValue(decimal(((BigDecimal) target).doubleValue()));
                         }
-                    } catch (IllegalAccessException e) {
-                        logger.info(e.getMessage());
-                    } catch (IllegalArgumentException e) {
-                        logger.info(e.getMessage());
-                    } catch (InvocationTargetException e) {
-                        logger.info(e.getMessage());
+                    } catch (IllegalAccessException e1) {
+                        logger.error("download e1",e1);
+                    } catch (IllegalArgumentException e2) {
+                    	logger.error("download e2",e2);
+                    } catch (InvocationTargetException e3) {
+                    	logger.error("download e3",e3);
                     }
-                } catch (NoSuchMethodException e) {
-                    logger.info(e.getMessage());
-                } catch (SecurityException e) {
-                    logger.info(e.getMessage());
+                } catch (NoSuchMethodException e4) {
+                	logger.error("download e4",e4);
+                } catch (SecurityException e5) {
+                	logger.error("download e5",e5);
                 }
             }
         }
@@ -147,7 +155,7 @@ public class ExcelUtils {
             ouputStream.flush();
             ouputStream.close();
         } catch (IOException e) {
-            logger.info(e.getMessage());
+        	logger.error("download e",e);
         }
     }
 
@@ -174,7 +182,7 @@ public class ExcelUtils {
         // 生成一个表格
         XSSFSheet sheet = workbook.createSheet(sheetName);
         sheet.setDefaultColumnWidth(40);
-
+        
         // 表格字体样式
         XSSFCellStyle[] styles = createStyle(workbook);
         XSSFCellStyle style = styles[0];
@@ -182,7 +190,7 @@ public class ExcelUtils {
 
         XSSFRow row = sheet.createRow(0);
 
-        // 创建表头
+        // 创建表头,并设置样式、填充内容
         for (short i = 0; i < headers.length; i++) {
             XSSFCell cell = row.createCell(i);
             cell.setCellStyle(style);
@@ -191,7 +199,7 @@ public class ExcelUtils {
             cell.setCellValue(text);
         }
 
-        if (properties != null) {
+        if (ArrayUtils.isNotEmpty(properties)) {
             List<Object> list = (List<Object>) obj[0]; // 获取目标参数（即需要导出的数据）
 
             for (int j = 0; j < list.size(); j++) {
@@ -211,10 +219,14 @@ public class ExcelUtils {
                         Method getMethod = cls.getMethod(getMethodName,new Class[] {});
 
                         try {
-                            Object target = getMethod.invoke(o,new Object[] {  }); // 利用Java反射机制调用get方法获取字段对应的值
+                        	// 利用Java反射机制调用get方法获取字段对应的值
+                            Object target = getMethod.invoke(o,new Object[] {}); 
                             XSSFCell c = r.createCell(i);
                             c.setCellStyle(style2);
-
+                            
+                            c.setCellValue(target.toString());
+                            
+                            //其实这里只要处理时间即可
                             if (target instanceof Integer) {
                                 c.setCellValue((Integer) target);
                             } else if (target instanceof String) {
@@ -222,7 +234,11 @@ public class ExcelUtils {
                             } else if (target instanceof Date) {
                             	// 如果target为Date类型，则按该规则格式化
                                 c.setCellValue(DateUtils.formatDate((Date) target, "yyyy-MM-dd  HH:mm:ss")); 
-                            } else if (target instanceof Double) {
+                            } else if (target instanceof Byte) {
+                                c.setCellValue((Byte) target);
+                            } else if(target instanceof Short) {
+                                c.setCellValue((Short) target);
+                            } else if(target instanceof Double) {
                             	// 如果target为Double类型的数据，则默认保留两位小数
                                 c.setCellValue(decimal((Double) target)); 
                             } else if (target instanceof Long) {
@@ -230,17 +246,17 @@ public class ExcelUtils {
                             } else if (target instanceof BigDecimal) {
                                 c.setCellValue(decimal(((BigDecimal) target).doubleValue()));
                             }
-                        } catch (IllegalAccessException e) {
-                            logger.info(e.getMessage());
-                        } catch (IllegalArgumentException e) {
-                            logger.info(e.getMessage());
-                        } catch (InvocationTargetException e) {
-                            logger.info(e.getMessage());
+                        } catch (IllegalAccessException e1) {
+                            logger.error("download e1",e1);
+                        } catch (IllegalArgumentException e2) {
+                        	logger.error("download e2",e2);
+                        } catch (InvocationTargetException e3) {
+                        	logger.error("download e3",e3);
                         }
-                    } catch (NoSuchMethodException e) {
-                        logger.info(e.getMessage());
-                    } catch (SecurityException e) {
-                        logger.info(e.getMessage());
+                    } catch (NoSuchMethodException e4) {
+                    	logger.error("download e4",e4);
+                    } catch (SecurityException e5) {
+                    	logger.error("download e5",e5);
                     }
                 }
             }
@@ -254,13 +270,14 @@ public class ExcelUtils {
             ouputStream.flush();
             ouputStream.close();
         } catch (IOException e) {
-            logger.info(e.getMessage());
+        	logger.error("download e",e);
         }
     }
 
 
     /**
      * 导入excel
+     * 注意导入的excel的字段顺序与javabean的字段要一一对应，否则反射拿到的类型不匹配报错
      * @param clazz 传入类对象 （字段顺序与导入的excel列顺序一致）
      * @param is 文件流
      * @param excelFileName 文件名称
@@ -311,12 +328,12 @@ public class ExcelUtils {
                         field.set(t, null);
                     } else if (type.endsWith("String")) {
                         field.set(t, value);
-                    } else if (type.endsWith("byte")) {
-                        field.set(t, Byte.parseByte(value));
-                    } else if (type.endsWith("short")) {
-                        field.set(t, Short.parseShort(value));
+                    } else if (type.endsWith("Byte")) {
+                        field.set(t, toByte(Double.parseDouble(value)));
+                    } else if (type.endsWith("Short")) {
+                        field.set(t, toShort(Double.parseDouble(value)));
                     } else if (type.endsWith("int") || type.endsWith("Integer")) {
-                    	field.set(t,toInteger(Double.parseDouble(value)));
+                        field.set(t,toInteger(Double.parseDouble(value)));
                     } else if (type.endsWith("double") || type.endsWith("Double")) {
                         field.set(t, Double.parseDouble(value));
                     } else if (type.endsWith("BigDecimal")) {
@@ -325,7 +342,7 @@ public class ExcelUtils {
                         field.set(t, value.equals("1") ? true : false);
                     } else if (type.endsWith("long") || type.endsWith("Long")) {
                         field.set(t, Long.parseLong(value));
-                    } else if("java.util.Date".equals(type)){
+                    } else if(type.endsWith("date") || type.endsWith("Date")){
                         field.set(t, DateUtils.parseDate(value,"yyyy-MM-dd HH:mm:ss"));
                     }
 
@@ -351,6 +368,7 @@ public class ExcelUtils {
 
     /**
      * 导入excel
+     * 注意导入的excel的字段顺序与javabean的字段要一一对应，否则反射拿到的类型不匹配报错
      * @param request
      * @param filePath 文件路径
      * @param clazz 传入类对象 （字段顺序与导入的excel列顺序一致）
@@ -409,10 +427,10 @@ public class ExcelUtils {
                         field.set(t, null);
                     } else if (type.endsWith("String")) {
                         field.set(t, value);
-                    } else if (type.endsWith("byte")) {
-                        field.set(t, Byte.parseByte(value));
-                    } else if (type.endsWith("short")) {
-                        field.set(t, Short.parseShort(value));
+                    } else if (type.endsWith("Byte")) {
+                        field.set(t, toByte(Double.parseDouble(value)));
+                    } else if (type.endsWith("Short")) {
+                        field.set(t, toShort(Double.parseDouble(value)));
                     } else if (type.endsWith("int") || type.endsWith("Integer")) {
                         field.set(t,toInteger(Double.parseDouble(value)));
                     } else if (type.endsWith("double") || type.endsWith("Double")) {
@@ -423,7 +441,7 @@ public class ExcelUtils {
                         field.set(t, value.equals("1") ? true : false);
                     } else if (type.endsWith("long") || type.endsWith("Long")) {
                         field.set(t, Long.parseLong(value));
-                    } else if("java.util.Date".equals(type)){
+                    } else if(type.endsWith("date") || type.endsWith("Date")){
                         field.set(t, DateUtils.parseDate(value,"yyyy-MM-dd HH:mm:ss"));
                     }
 
@@ -465,14 +483,15 @@ public class ExcelUtils {
                     response.setHeader("content-disposition","attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
                 }
             } catch (Exception e) {
+            	logger.error("setResponseHeader e",e);
                 e.printStackTrace();
             }
-
             response.setContentType("application/msexcel;charset=UTF-8");
             response.setHeader("Pragma", "No-cache");
             response.setHeader("Cache-Control", "no-cache");
             response.setDateHeader("Expires", 0);
         } catch (Exception ex) {
+        	logger.error("setResponseHeader ex",ex);
             ex.printStackTrace();
         }
     }
@@ -488,7 +507,7 @@ public class ExcelUtils {
         XSSFCellStyle[] styles = new XSSFCellStyle[2];
 
         // 设置表格默认列宽度为15个字节
-        // 生成一个样式
+        // 设置单元格样式
         XSSFCellStyle style = workbook.createCellStyle();
         // 设置这些样式
         style.setBorderBottom(XSSFCellStyle.BORDER_THIN);
@@ -497,14 +516,14 @@ public class ExcelUtils {
         style.setBorderTop(XSSFCellStyle.BORDER_THIN);
         style.setAlignment(XSSFCellStyle.ALIGN_CENTER);
 
-        // 生成一个字体
+        // 设置单元格字体
         XSSFFont font = workbook.createFont();
         font.setFontHeightInPoints((short) 12);
         font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
         // 把字体应用到当前的样式
         style.setFont(font);
 
-        // 生成并设置另一个样式
+        // 设置另一个样式
         XSSFCellStyle style2 = workbook.createCellStyle();
         style2.setBorderBottom(XSSFCellStyle.BORDER_THIN);
         style2.setBorderLeft(XSSFCellStyle.BORDER_THIN);
@@ -537,7 +556,6 @@ public class ExcelUtils {
         } else if (excelFileName.endsWith(".xlsx")) {
             return new XSSFWorkbook(is);
         }
-
         return null;
     }
     
@@ -574,6 +592,16 @@ public class ExcelUtils {
     	DecimalFormat df = new DecimalFormat("######0"); //四色五入转换成整数  
         return Integer.parseInt(df.format(value)); 
     }
+    
+    public static Byte toByte(double value) {  
+    	DecimalFormat df = new DecimalFormat("######0");
+        return Byte.parseByte(df.format(value)); 
+    }
+    
+    public static Short toShort(double value) {  
+    	DecimalFormat df = new DecimalFormat("######0");  
+        return Short.parseShort(df.format(value)); 
+    }
 
     
     /**
@@ -587,6 +615,7 @@ public class ExcelUtils {
         try {
             t = clazz.newInstance();
         } catch (Exception e) {
+        	logger.error("create e",e);
             e.printStackTrace();
         }
         return (T) t;
@@ -594,14 +623,15 @@ public class ExcelUtils {
     
     
     public static void main(String[] args) {
-    
-      /*
-      *导出
-      List<Admin> list = adminService.select(null);
-      String headers[] = new String[]{"编号","名称","密码","邮箱","手机号","状态","创建时间","登录时间"};
-      String properties[] = new String[]{"id","name","password","email","mobile","status","createTime","loginTime"};
-      ExcelUtils.download(request, response, "管理员列表", "sheet", headers, properties, list);
-      */
+    	
+    	/*
+         *导出
+         List<Admin> list = adminService.select(null);
+         String headers[] = new String[]{"编号","名称","密码","邮箱","手机号","状态","创建时间","登录时间"};
+         String properties[] = new String[]{"id","name","password","email","mobile","status","createTime","loginTime"};
+         ExcelUtils.download(request, response, "管理员列表", "sheet", headers, properties, list);
+         */
+    	
         
     	/**
     	 * 注意导入的excel的字段顺序与javabean的字段要一一对应，否则反射拿到的类型不匹配报错
@@ -614,6 +644,7 @@ public class ExcelUtils {
         	System.out.println("mobile="+s.getMobile());
         	System.out.println("email="+s.getEmail());
         	System.out.println("ip="+s.getIp());
+        	System.out.println("status="+s.getStatus());
         	System.out.println("CreateTime="+ DateUtils.formatDate(s.getCreateTime(),"yyyy-MM-dd HH:mm:s"));
         }
         
