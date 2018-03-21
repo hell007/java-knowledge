@@ -21,6 +21,12 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @ClassName: HttpClientUtils
+ * @Description: HttpClient请求类. <br/>
+ * @author jie
+ * @date 2017年11月28日
+ */
 public class HttpClientUtils {
 	
 	private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
