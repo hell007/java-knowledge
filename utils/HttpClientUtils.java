@@ -18,10 +18,13 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HttpClientUtils {
 	
- 
+	private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
+	
 	/**
 	 * 无参数get请求
 	 * @param url
@@ -62,6 +65,7 @@ public class HttpClientUtils {
 				resultMsg = EntityUtils.toString(response.getEntity(), "UTF-8");
 			}
 		} catch (Exception e) {
+			logger.error("doGet e",e);
 			e.printStackTrace();
 		} finally {	
 			// 不要忘记关闭
@@ -70,8 +74,9 @@ public class HttpClientUtils {
 					response.close();
 				}
 				httpClient.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException ex) {
+				logger.error("doGet ex",ex);
+				ex.printStackTrace();
 			}
 		}
 		return resultMsg;
@@ -116,6 +121,7 @@ public class HttpClientUtils {
 				resultMsg = EntityUtils.toString(response.getEntity(), "utf-8");
 			}
 		} catch (Exception e) {
+			logger.error("doPost e",e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -123,8 +129,9 @@ public class HttpClientUtils {
 					response.close();
 				}
 				httpClient.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException ex) {
+				logger.error("doPost ex",ex);
+				ex.printStackTrace();
 			}
 		}
 		return resultMsg;
@@ -149,6 +156,7 @@ public class HttpClientUtils {
 				resultString = EntityUtils.toString(response.getEntity(), "utf-8");
 			}
 		} catch (Exception e) {
+			logger.error("doPostJson e",e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -156,8 +164,9 @@ public class HttpClientUtils {
 					response.close();
 				}
 				httpClient.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException ex) {
+				logger.error("doPostJson ex",ex);
+				ex.printStackTrace();
 			}
 		}
 		return resultString;
