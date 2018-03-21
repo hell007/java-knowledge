@@ -17,6 +17,13 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.jie.model.extend.RespMessage;
 
+/**
+ * @ClassName: HttpUtils
+ * @Description: htpp请求类. <br/>
+ * @author jie
+ * @date 2017年11月28日
+ */
+
 public class HttpUtils {
 	
 	private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
