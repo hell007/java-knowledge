@@ -224,8 +224,6 @@ public class ExcelUtils {
                             XSSFCell c = r.createCell(i);
                             c.setCellStyle(style2);
                             
-                            c.setCellValue(target.toString());
-                            
                             //其实这里只要处理日期时间即可
                             if (target instanceof Date) {
                             	c.setCellValue(DateUtils.formatDate((Date) target, "yyyy-MM-dd  HH:mm:ss"));
