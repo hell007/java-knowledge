@@ -226,25 +226,11 @@ public class ExcelUtils {
                             
                             c.setCellValue(target.toString());
                             
-                            //其实这里只要处理时间即可
-                            if (target instanceof Integer) {
-                                c.setCellValue((Integer) target);
-                            } else if (target instanceof String) {
-                                c.setCellValue(target.toString());
-                            } else if (target instanceof Date) {
-                            	// 如果target为Date类型，则按该规则格式化
-                                c.setCellValue(DateUtils.formatDate((Date) target, "yyyy-MM-dd  HH:mm:ss")); 
-                            } else if (target instanceof Byte) {
-                                c.setCellValue((Byte) target);
-                            } else if(target instanceof Short) {
-                                c.setCellValue((Short) target);
-                            } else if(target instanceof Double) {
-                            	// 如果target为Double类型的数据，则默认保留两位小数
-                                c.setCellValue(decimal((Double) target)); 
-                            } else if (target instanceof Long) {
-                                c.setCellValue((Long) target);
-                            } else if (target instanceof BigDecimal) {
-                                c.setCellValue(decimal(((BigDecimal) target).doubleValue()));
+                            //其实这里只要处理日期时间即可
+                            if (target instanceof Date) {
+                            	c.setCellValue(DateUtils.formatDate((Date) target, "yyyy-MM-dd  HH:mm:ss"));
+                            } else {
+                            	c.setCellValue(target.toString());
                             }
                         } catch (IllegalAccessException e1) {
                             logger.error("download e1",e1);
