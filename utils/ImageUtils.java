@@ -16,6 +16,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -26,35 +28,27 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class ImageUtils {
 	
-	private int width;
+	private static Logger logger = LoggerFactory.getLogger(ImageUtils.class);
+	
+	private static int width;
 
-	private int height;
+	private static int height;
 
-	private int scaleWidth;
+	private static int scaleWidth;
 
-	private double support = (double) 3.0;
+	private static double support = (double) 3.0;
 
-	private double PI = (double) 3.14159265358978;
+	private static double PI = (double) 3.14159265358978;
 
-	private double[] contrib;
+	private static double[] contrib;
 
-	private double[] normContrib;
+	private static double[] normContrib;
 
-	private double[] tmpContrib;
+	private static double[] tmpContrib;
 
-	private int nDots;
+	private static int nDots;
 
-	private int nHalfDots;
-
-	/**
-	 * Start: Use Lanczos filter to replace the original algorithm for image
-	 * scaling. Lanczos improves quality of the scaled image modify by :blade
-	 */
-	private static ImageUtils instance = new ImageUtils();
-	private ImageUtils(){};
-	public static ImageUtils getInstance(){
-		return instance;
-	}
+	private static int nHalfDots;
 	
 	
 	/**
@@ -67,7 +61,7 @@ public class ImageUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	public String getThumImage(String filePath, MultipartFile file, String saveFilePath,int size) throws IOException{
+	public static String getThumImage(String filePath, MultipartFile file, String saveFilePath,int size) throws IOException{
 		//尺寸处理
 		int w=0;
 		int h=0;
@@ -99,7 +93,7 @@ public class ImageUtils {
         //生成缩略图
 		BufferedImage srcBufferImage = null;
 		srcBufferImage = ImageIO.read(file.getInputStream());
-		BufferedImage scaledImage = ImageUtils.getInstance().imageZoomOut(srcBufferImage, w, h); 
+		BufferedImage scaledImage = ImageUtils.imageZoomOut(srcBufferImage, w, h); 
 		FileOutputStream out = new FileOutputStream(new File(saveFilePath+fileThumName));
 		ImageIO.write(scaledImage, "png", out);
 		out.close();
@@ -115,7 +109,7 @@ public class ImageUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	public String getCompressedImage(String filePath, MultipartFile file, String saveFilePath) throws IOException{	
+	public static String getCompressedImage(String filePath, MultipartFile file, String saveFilePath) throws IOException{	
 		//压缩图名称
         String fileCompressedName = filePath + DateUtils.formatDate(new Date(), "yyyyMMddhhmmss")
     			+ ((int)(Math.random()*(99999-10000)+10000)) + "." 
@@ -123,7 +117,7 @@ public class ImageUtils {
         //生成压缩图
 		BufferedImage srcBufferImage = null;
 		srcBufferImage = ImageIO.read(file.getInputStream());
-		BufferedImage scaledImage = ImageUtils.getInstance().imageZoomOut(srcBufferImage, srcBufferImage.getWidth(), srcBufferImage.getHeight()); 
+		BufferedImage scaledImage = ImageUtils.imageZoomOut(srcBufferImage, srcBufferImage.getWidth(), srcBufferImage.getHeight()); 
 		FileOutputStream out = new FileOutputStream(new File(saveFilePath+fileCompressedName));
 		ImageIO.write(scaledImage, "png", out);
 		out.close();
@@ -142,7 +136,7 @@ public class ImageUtils {
      * @param alpha 水印透明度 0.1f ~ 1.0f
      * 
      */
-	public void waterMark(String imgPath, String markPath, int x, int y, float alpha) {
+	public static void waterMark(String imgPath, String markPath, int x, int y, float alpha) {
         try {
             // 加载待处理图片文件
             Image img = ImageIO.read(new File(imgPath));
@@ -166,6 +160,7 @@ public class ImageUtils {
             ImageIO.write(image,formatName, new File(imgPath));
             
         } catch (Exception e) {
+        	logger.error("waterMark e",e);
             e.printStackTrace();
         }
     }
@@ -205,7 +200,8 @@ public class ImageUtils {
             String formatName = imgPath.substring(imgPath.lastIndexOf(".") + 1);
             ImageIO.write(image,formatName, new File(imgPath));
         } catch (Exception e) {
-            System.out.println(e);
+        	logger.error("textMark e",e);
+        	e.printStackTrace();
         }
     }
 	
@@ -218,7 +214,7 @@ public class ImageUtils {
 	 * @param h
 	 * @return
 	 */
-	private BufferedImage imageZoomOut(BufferedImage srcBufferImage, int w, int h) {
+	private static BufferedImage imageZoomOut(BufferedImage srcBufferImage, int w, int h) {
 		width = srcBufferImage.getWidth();
 		height = srcBufferImage.getHeight();
 		scaleWidth = w;
@@ -239,7 +235,7 @@ public class ImageUtils {
 	 * @param h
 	 * @return
 	 */
-	private int DetermineResultSize(int w, int h) {
+	private static int DetermineResultSize(int w, int h) {
 		double scaleH, scaleV;
 		scaleH = (double) w / (double) width;
 		scaleV = (double) h / (double) height;
@@ -258,7 +254,7 @@ public class ImageUtils {
 	 * @param Support
 	 * @return
 	 */
-	private double Lanczos(int i, int inWidth, int outWidth, double Support) {
+	private static double Lanczos(int i, int inWidth, int outWidth, double Support) {
 		double x;
 		x = (double) i * (double) outWidth / (double) inWidth;
 		return Math.sin(x * PI) / (x * PI) * Math.sin(x * PI / Support)
@@ -267,7 +263,7 @@ public class ImageUtils {
   
 	
 	// Assumption: same horizontal and vertical scaling factor
-	private void CalContrib() {
+	private static void CalContrib() {
 		nHalfDots = (int) ((double) width * support / (double) scaleWidth);
 		nDots = nHalfDots * 2 + 1;
 		try {
@@ -275,7 +271,8 @@ public class ImageUtils {
 			normContrib = new double[nDots];
 			tmpContrib = new double[nDots];
 		} catch (Exception e) {
-			System.out.println("init   contrib,normContrib,tmpContrib" + e);
+			logger.error("init   contrib,normContrib,tmpContrib",e);
+			e.printStackTrace();
 		}
 
 		int center = nHalfDots;
@@ -304,7 +301,7 @@ public class ImageUtils {
 	} 
 
 	// 处理边缘
-	private void CalTempContrib(int start, int stop) {
+	private static void CalTempContrib(int start, int stop) {
 		double weight = 0;
 
 		int i = 0;
@@ -318,27 +315,27 @@ public class ImageUtils {
 
 	} 
 
-	private int GetRedValue(int rgbValue) {
+	private static int GetRedValue(int rgbValue) {
 		int temp = rgbValue & 0x00ff0000;
 		return temp >> 16;
 	}
 
-	private int GetGreenValue(int rgbValue) {
+	private static int GetGreenValue(int rgbValue) {
 		int temp = rgbValue & 0x0000ff00;
 		return temp >> 8;
 	}
 
-	private int GetBlueValue(int rgbValue) {
+	private static int GetBlueValue(int rgbValue) {
 		return rgbValue & 0x000000ff;
 	}
 
-	private int ComRGB(int redValue, int greenValue, int blueValue) {
+	private static int ComRGB(int redValue, int greenValue, int blueValue) {
 
 		return (redValue << 16) + (greenValue << 8) + blueValue;
 	}
 
 	// 行水平滤
-	private int HorizontalFilter(BufferedImage bufImg, int startX, int stopX,
+	private static int HorizontalFilter(BufferedImage bufImg, int startX, int stopX,
 			int start, int stop, int y, double[] pContrib) {
 		double valueRed = 0.0;
 		double valueGreen = 0.0;
@@ -361,12 +358,11 @@ public class ImageUtils {
 	} 
 
 	// 图片水平滤波
-	private BufferedImage HorizontalFiltering(BufferedImage bufImage, int iOutW) {
+	private static BufferedImage HorizontalFiltering(BufferedImage bufImage, int iOutW) {
 		int dwInW = bufImage.getWidth();
 		int dwInH = bufImage.getHeight();
 		int value = 0;
-		BufferedImage pbOut = new BufferedImage(iOutW, dwInH,
-				BufferedImage.TYPE_INT_RGB);
+		BufferedImage pbOut = new BufferedImage(iOutW, dwInH, BufferedImage.TYPE_INT_RGB);
 
 		for (int x = 0; x < iOutW; x++) {
 
@@ -412,7 +408,7 @@ public class ImageUtils {
 
 	}
 
-	private int VerticalFilter(BufferedImage pbInImage, int startY, int stopY,
+	private static int VerticalFilter(BufferedImage pbInImage, int startY, int stopY,
 			int start, int stop, int x, double[] pContrib) {
 		double valueRed = 0.0;
 		double valueGreen = 0.0;
@@ -432,19 +428,17 @@ public class ImageUtils {
 			// System.out.println(valueBlue+"->"+Clip((int)valueBlue)+"<-"+"-->");
 		}
 
-		valueRGB = ComRGB(Clip((int) valueRed), Clip((int) valueGreen),
-				Clip((int) valueBlue));
+		valueRGB = ComRGB(Clip((int) valueRed), Clip((int) valueGreen), Clip((int) valueBlue));
 		// System.out.println(valueRGB);
 		return valueRGB;
 
 	} 
 
-	private BufferedImage VerticalFiltering(BufferedImage pbImage, int iOutH) {
+	private static BufferedImage VerticalFiltering(BufferedImage pbImage, int iOutH) {
 		int iW = pbImage.getWidth();
 		int iH = pbImage.getHeight();
 		int value = 0;
-		BufferedImage pbOut = new BufferedImage(iW, iOutH,
-				BufferedImage.TYPE_INT_RGB);
+		BufferedImage pbOut = new BufferedImage(iW, iOutH, BufferedImage.TYPE_INT_RGB);
 
 		for (int y = 0; y < iOutH; y++) {
 
@@ -490,7 +484,7 @@ public class ImageUtils {
 
 	}
 
-	private int Clip(int x) {
+	private static int Clip(int x) {
 		if (x < 0)
 			return 0;
 		if (x > 255)
@@ -536,7 +530,8 @@ public class ImageUtils {
 	 * @return 返回文件存放路径
 	 * @throws IOException
 	 */
-    public static Map<String,String> saveFile(String filePath,MultipartFile file,boolean isThumb) throws IOException {	  
+    @SuppressWarnings("unused")
+	public static Map<String,String> saveFile(String filePath,MultipartFile file,boolean isThumb) throws IOException {	  
 		// 根据配置文件获取服务器图片存放路径
 		//String filePath = request.getSession().getServletContext().getRealPath("/") + "upload/brand/" + file.getOriginalFilename();
         String saveFilePath = PropertiesUtils.getFileIO("savePicUrl", "properties/config.properties");
@@ -562,23 +557,23 @@ public class ImageUtils {
         //生成缩略图并进行图片压缩
         // S:100 M:400 B:800
         if(isThumb){
-        	String thumb4 = ImageUtils.getInstance().getThumImage(filePath,file,saveFilePath,4);
+        	String thumb4 = ImageUtils.getThumImage(filePath,file,saveFilePath,4);
         	if(thumb4!=null){
         		fileMap.put("thumbM", thumb4);
         	}
-        	String thumb1 = ImageUtils.getInstance().getThumImage(filePath,file,saveFilePath,1);
+        	String thumb1 = ImageUtils.getThumImage(filePath,file,saveFilePath,1);
         	if(thumb1!=null){
         		fileMap.put("thumbS", thumb1);
         	}
         	//源图压缩
-        	String thumb8 = ImageUtils.getInstance().getThumImage(filePath,file,saveFilePath,8);      	
+        	String thumb8 = ImageUtils.getThumImage(filePath,file,saveFilePath,8);      	
         	if(thumb8!=null){
         		//生成图片水印
             	//ImageUtil.getInstance().waterMark(saveFilePath+thumb8, saveFilePath+GolbalUtil.WATERMARK_IMG_LOGO, 100, 300, 0.5f);
         		fileMap.put("thumbB", thumb8);
         	}
         }else{//图片仅仅只进行压缩
-        	String compressed = ImageUtils.getInstance().getCompressedImage(filePath,file,saveFilePath);
+        	String compressed = ImageUtils.getCompressedImage(filePath,file,saveFilePath);
         	if(compressed!=null){
         		fileMap.put("thumbB", compressed);
         	}
@@ -629,11 +624,11 @@ public class ImageUtils {
      */
 	public static void main(String[] args) throws IOException {
 		//图片水印
-		//new ImageUtils().waterMark("F:/test.jpg", "F:/icon.png", 100, 300, 0.5f);
+		waterMark("F:/test.jpg", "F:/icon.png", 100, 300, 0.5f);
 		
     	//文字水印
-    	//Font titleFont = new Font("宋体", Font.BOLD, 30);
-    	//new ImageUtils().textMark("F:/test.jpg", "春来桃花开", titleFont, Color.red, 100, 300, 1.0f);
+    	Font titleFont = new Font("宋体", Font.BOLD, 30);
+    	textMark("F:/test.jpg", "春来桃花开", titleFont, Color.red, 100, 300, 1.0f);
 	}
 	
 
