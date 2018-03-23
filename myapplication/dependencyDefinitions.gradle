@@ -164,8 +164,11 @@ ext.libraries = [
         "dom4j"                 : "dom4j:dom4j:1.6.1",
         "jdom"                  : "org.jdom:jdom:2.0.2",
         
+        //thumbnailator
+        "thumbnailator"         : "net.coobird:thumbnailator:0.4.8",
+        
         //JXL
-		"jxl"                  : "net.sourceforge.jexcelapi:jxl:2.6.12",
+		"jxl"                   : "net.sourceforge.jexcelapi:jxl:2.6.12",
                 
         //dubbo
         //"dubbo"               : "com.alibaba:dubbo:${versions.dubbo}",
