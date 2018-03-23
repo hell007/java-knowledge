@@ -38,7 +38,7 @@ dependencies {
         libraries.'spring-data-redis',
         libraries.'jedis',
 		
-		//json
+	//json
         libraries.'fastjson',            
         libraries.'jackson-annotations',
         libraries.'jackson-core',
@@ -47,6 +47,9 @@ dependencies {
         //poi
         libraries.'poi',
         libraries.'poi-ooxml',
+	
+	//thumbnailator
+        libraries.'thumbnailator',
         
         //common
         libraries.'commons-lang3',
