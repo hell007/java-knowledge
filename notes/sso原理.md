@@ -1,5 +1,7 @@
 ## 单点登录原理
 
+![](https://images2015.cnblogs.com/blog/640632/201702/640632-20170214003010285-574881970.png)
+
 /**
  user <=>  sso  全局会话
  system <=> user 局部会话
@@ -39,4 +41,6 @@ sso认证中心校验令牌，返回有效，注册系统2
  */
 
 
-http://blog.csdn.net/xqhys/article/details/79008531
+[](https://www.cnblogs.com/hujunzheng/p/6395966.html?from=singlemessage)
+
+[](http://blog.csdn.net/xqhys/article/details/79008531)
