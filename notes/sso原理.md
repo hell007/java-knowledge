@@ -41,6 +41,6 @@ sso认证中心校验令牌，返回有效，注册系统2
  */
 
 
-[](https://www.cnblogs.com/hujunzheng/p/6395966.html?from=singlemessage)
+[参考文档1](https://www.cnblogs.com/hujunzheng/p/6395966.html?from=singlemessage)
 
-[](http://blog.csdn.net/xqhys/article/details/79008531)
+[参考文档2](http://blog.csdn.net/xqhys/article/details/79008531)
