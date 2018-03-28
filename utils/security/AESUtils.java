@@ -71,12 +71,23 @@ public class AESUtils {
         }
         return null;
     }
+    
+    
+    /**
+	 * 密码生成策略
+	 * @param pwd
+	 * @param salt
+	 * @return
+	 */
+    public static String generatorPWD(String pwd, String salt){
+		return encrypt(pwd, salt);
+	}
 
     
     /**
      * 生成加密秘钥
      * @param password
-     * @return 
+     * @return
      */
     private static SecretKeySpec getSecretKey(final String password) {
         //返回生成指定算法密钥生成器的 KeyGenerator 对象
@@ -96,8 +107,8 @@ public class AESUtils {
         }
         return null;
     }
-
     
+
     /**
      * main
      * @param args
