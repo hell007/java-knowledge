@@ -18,6 +18,8 @@
 
 [Mysql解压缩版配置安装](./Mysql解压缩版配置安装.md)
 
+[mycat分片](./mycat.md)
+
 [sql学习](./sql.md)
 
 #### 算法与数据结构
