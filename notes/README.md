@@ -5,7 +5,7 @@
 
 [springmvc-token.md](./springmvc-token.md)
 
-[sso](./sso.md)
+[sso理解及实现方式](./sso.md)
 
 [Spring Boot 项目怎么部署](http://blog.csdn.net/javahighness/article/details/52515226)
 
