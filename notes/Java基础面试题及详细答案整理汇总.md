@@ -1277,8 +1277,8 @@ wait()、notify()、notifyAll()
 
 > join() 方法
 
-	join() 方法定义在 Thread 类中，所以调用者必须是一个线程，join() 方法主要是让调用该方法的 Thread 完成 run() 方法里面的东西后，
-	再执行 join() 方法后面的代码，
+	join() 方法定义在 Thread 类中，所以调用者必须是一个线程，
+	join() 方法主要是让调用该方法的 Thread 完成 run() 方法里面的东西后，再执行 join() 方法后面的代码，
 	
 看下下面的"意思"代码：
 
@@ -1329,7 +1329,8 @@ Java运行时系统的线程调度算法是抢占式的。Java运行时系统支
 
 	3｝能够对线程进行简单的管理并提供定时执行、间隔执行等功能。
 
-Java里面线程池的顶级接口是 Executor，不过真正的线程池接口是 ExecutorService， ExecutorService 的默认实现是 ThreadPoolExecutor；
+Java里面线程池的顶级接口是 Executor，不过真正的线程池接口是 ExecutorService， 
+ExecutorService 的默认实现是 ThreadPoolExecutor；
 普通类 Executors 里面调用的就是 ThreadPoolExecutor。
 
 照例看一下各个接口的源码：
@@ -1364,14 +1365,16 @@ Executors 提供四种线程池：
 
 ![](./job/13.jpg)
 
-	1）corePoolSize：线程池的核心线程数，一般情况下不管有没有任务都会一直在线程池中一直存活，只有在 ThreadPoolExecutor 中的方法 allowCoreThreadTimeOut(boolean value) 设置为 true 时，闲置的核心线程会存在超时机制，如果在指定时间没有新任务来时，核
-	心线程也会被终止，而这个时间间隔由第3个属性 keepAliveTime 指定。
+	1）corePoolSize：线程池的核心线程数，一般情况下不管有没有任务都会一直在线程池中一直存活，
+	只有在 ThreadPoolExecutor 中的方法 allowCoreThreadTimeOut(boolean value) 设置为 true 时，闲置的核心线程会存在超时机制，
+	如果在指定时间没有新任务来时，核心线程也会被终止，而这个时间间隔由第3个属性 keepAliveTime 指定。
 
 	2）maximumPoolSize：线程池所能容纳的最大线程数，当活动的线程数达到这个值后，后续的新任务将会被阻塞。
 
 	3）keepAliveTime：控制线程闲置时的超时时长，超过则终止该线程。一般情况下用于非核心线程，只有在 ThreadPoolExecutor 中的方法 allowCoreThreadTimeOut(boolean value) 设置为 true时，也作用于核心线程。
 
-	4）unit：用于指定 keepAliveTime 参数的时间单位，TimeUnit 是个 enum 枚举类型，常用的有：TimeUnit.HOURS(小时)、TimeUnit.MINUTES(分钟)、TimeUnit.SECONDS(秒) 和 TimeUnit.MILLISECONDS(毫秒)等。
+	4）unit：用于指定 keepAliveTime 参数的时间单位，TimeUnit 是个 enum 枚举类型，
+	常用的有：TimeUnit.HOURS(小时)、TimeUnit.MINUTES(分钟)、TimeUnit.SECONDS(秒) 和 TimeUnit.MILLISECONDS(毫秒)等。
 
 	5）workQueue：线程池的任务队列，通过线程池的 execute(Runnable command) 方法会将任务 Runnable 存储在队列中。
 
