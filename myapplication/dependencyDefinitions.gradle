@@ -10,7 +10,7 @@ ext.isRemoteProfile = false
 
 // 一些会重复出现的jar包的版本号
 ext.versions = [
-		springBoot    : '1.5.1.RELEASE',
+	springBoot    : '1.5.1.RELEASE',
         spring        : '4.2.2.RELEASE',
         jackson       : '1.9.13',
         gson          : '2.3.1',
@@ -58,7 +58,7 @@ ext.libraries = [
         "persistence"           : "javax.persistence:persistence-api:1.0",
         "mybatis"               : "org.mybatis:mybatis:${versions.mybatis}",
         "mybatis-spring"        : "org.mybatis:mybatis-spring:${versions.mybatisSpring}",
-        "tk-mybatis"		    : "tk.mybatis:mapper:${versions.mybatisMapper}",
+        "tk-mybatis"		: "tk.mybatis:mapper:${versions.mybatisMapper}",
         "mybatis-generator"     : "org.mybatis.generator:mybatis-generator-core:${versions.mybatisGenerator}",
         "pagehelper"            : "com.github.pagehelper:pagehelper:4.1.3",
         
@@ -72,10 +72,10 @@ ext.libraries = [
         "spring-boot-gradle"    : "org.springframework.boot:spring-boot-gradle-plugin:${versions.springBoot}",
         "spring-boot-cache"     : "org.springframework.boot:spring-boot-starter-cache:${versions.springBoot}",
         "spring-boot-jpa"       : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}",
-		"spring-boot-thymeleaf" : "org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springBoot}",
-		"spring-boot-devtools"  : "org.springframework.boot:spring-boot-devtools:${versions.springBoot}",
-		"spring-boot-validation": "org.springframework.boot:spring-boot-starter-validation:${versions.springBoot}",
-		"spring-boot-data-redis": "org.springframework.boot:spring-boot-starter-data-redis:${versions.springBoot}",
+	"spring-boot-thymeleaf" : "org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springBoot}",
+	"spring-boot-devtools"  : "org.springframework.boot:spring-boot-devtools:${versions.springBoot}",
+	"spring-boot-validation": "org.springframework.boot:spring-boot-starter-validation:${versions.springBoot}",
+	"spring-boot-data-redis": "org.springframework.boot:spring-boot-starter-data-redis:${versions.springBoot}",
         "spring-boot-dependencies" : "org.springframework.boot:spring-boot-dependencies:${versions.springBoot}",
         "spring-boot-mybatis"   : "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0",
         "io.dubbo.springboot"   : "io.dubbo.springboot:spring-boot-starter-dubbo:1.0.0",
@@ -139,7 +139,7 @@ ext.libraries = [
         "axis"                  : "org.apache.axis:axis:1.4",
         "commons-discovery"     : "commons-discovery:commons-discovery:0.5",
         "commons-collections4" 	: "org.apache.commons:commons-collections4:4.1",
-		"commons-httpclient"    : "commons-httpclient:commons-httpclient:3.1",
+	"commons-httpclient"    : "commons-httpclient:commons-httpclient:3.1",
 		
 		//http
         "httpclient"            : "org.apache.httpcomponents:httpclient:${versions.httpclient}",
@@ -174,7 +174,7 @@ ext.libraries = [
         "thumbnailator"         : "net.coobird:thumbnailator:0.4.8",
         
         //JXL
-		"jxl"                   : "net.sourceforge.jexcelapi:jxl:2.6.12",
+	"jxl"                   : "net.sourceforge.jexcelapi:jxl:2.6.12",
                 
         //dubbo
         //"dubbo"               : "com.alibaba:dubbo:${versions.dubbo}",
