@@ -37,7 +37,7 @@ public class UserController {
 		return "user/index";
 	}
 	
-
+    //http://localhost:8080/user/list
     @ResponseBody
     @RequestMapping("/list")
     public Map<String,Object> list(
