@@ -19,6 +19,7 @@ import com.self.service.EmployeeService;
  */
 
 @Controller
+@RequestMapping(value = "/emp")
 public class EmployeeController {
 	
 	@Autowired
