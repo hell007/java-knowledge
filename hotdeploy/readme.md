@@ -52,5 +52,11 @@ NONE：容器不负责主键的生成，由程序来完成。
 
 5.热部署 需要开启 protect > build auto...
 
+6.访问
+
+http://localhost:8080/emp/index
+
+
+
 
 
