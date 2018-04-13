@@ -11,7 +11,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
 
 @Configuration
-public class BeetlConfg {
+public class BeetlConf {
 
 	@Bean(initMethod = "init", name = "beetlConfig")
 	public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {
