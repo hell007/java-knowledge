@@ -1,0 +1,69 @@
+# Server settings
+server:
+  port: 8080
+
+# spring配置
+spring:
+
+  # redis缓存配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    pool:
+      max-active: 10
+      max-wait: 10
+      min-idle: 1
+      max-idle: 1
+       
+  profiles: dev
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/self?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: admin
+    
+    # 使用druid数据源
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    
+  # 模板引擎
+  mvc:
+    static-path-pattern: /static/**
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .html
+
+  http:
+    converters:
+      preferred-json-mapper: fastjson
+    multipart:
+      max-request-size: 100MB #最大请求大小
+      max-file-size: 100MB #最大文件大小
+  aop:
+    proxy-target-class: true #false为启用jdk默认动态代理,true为cglib动态代理
+	
+
+# mybatis配置     
+mybatis:
+  type-aliases-package: com.self.model
+  mapper-locations:classpath:/mapper/**/*.xml
+
+# log配置  
+logging:
+  level.root: info
+  level.com.self: debug
+  path: logs/
+  file: self.log
