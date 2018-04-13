@@ -10,7 +10,7 @@ import com.alibaba.druid.support.http.WebStatFilter;
 
 
 @Configuration
-public class DruidConfig {
+public class DruidConf {
 
     @Bean
     public ServletRegistrationBean servletRegistration() {
