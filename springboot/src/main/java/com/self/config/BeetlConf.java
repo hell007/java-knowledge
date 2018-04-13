@@ -1,5 +1,4 @@
 package com.self.config;
-
 import org.beetl.core.resource.WebAppResourceLoader;
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
@@ -16,11 +15,12 @@ public class BeetlConf {
 	@Bean(initMethod = "init", name = "beetlConfig")
 	public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {
 		BeetlGroupUtilConfiguration beetlGroupUtilConfiguration = new BeetlGroupUtilConfiguration();
-		ResourcePatternResolver patternResolver = ResourcePatternUtils
-				.getResourcePatternResolver(new DefaultResourceLoader());
+		ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
 		try {
+			// WebAppResourceLoader 配置root路径是关键
 			WebAppResourceLoader cploder = new WebAppResourceLoader(patternResolver.getResource("/templates").getFile().getPath());
 			beetlGroupUtilConfiguration.setResourceLoader(cploder);
+			//读取配置文件信息
 			return beetlGroupUtilConfiguration;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -29,8 +29,7 @@ public class BeetlConf {
 	}
 
 	@Bean(name = "beetlViewResolver")
-	public BeetlSpringViewResolver getBeetlSpringViewResolver(
-			@Qualifier("beetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
+	public BeetlSpringViewResolver getBeetlSpringViewResolver(@Qualifier("beetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
 		BeetlSpringViewResolver beetlSpringViewResolver = new BeetlSpringViewResolver();
 		beetlSpringViewResolver.setContentType("text/html;charset=UTF-8");
 		beetlSpringViewResolver.setPrefix("/");
