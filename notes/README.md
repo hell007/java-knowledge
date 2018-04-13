@@ -3,11 +3,11 @@
 
 ## JAVA笔记
 
-> 过滤器
+##### 过滤器
 
 [filter](./filter过滤器.md)
 
-> 事物
+##### 事物
 
 [Java事务](./Java事务的原理与应用.md)
 
@@ -15,21 +15,21 @@
 
 [springmvc-token.md](./springmvc-token.md)
 
-> SpringMVC
+##### SpringMVC
 
 [SpringMVC工作原理](./SpringMVC工作原理.md)
 
 [hibernate-validate](./springmvc中使用hibernate-validate.md)
 
-> sso
+##### sso
 
 [sso理解及实现方式](./sso.md)
 
-> 开发注意点
+##### 开发注意点
 
 [扣减库存实现](./扣减库存实现.md)
 
-> 部署
+##### 部署
 
 [Spring Boot 项目怎么部署](http://blog.csdn.net/javahighness/article/details/52515226)
 
