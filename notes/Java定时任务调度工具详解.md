@@ -319,6 +319,456 @@ Timer有且仅有一个线程去执行定时任务，如果存在多个任务，
 
 
 
+### 案列
+
+
+任务类
+
+```
+package com.self.quartz.one;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
+/**
+ * 编写 自定义任务
+ */
+public class HelloJob implements Job{
+    
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        // 打印当前的执行时间，格式为2017-01-01 00:00:00
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current Exec Time Is : " + sf.format(date));
+        
+        // 编写具体的业务逻辑
+        System.out.println("Hello World!");
+    }
+    
+}
+
+
+/**
+ * 编写 自定义任务
+ */
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
+import org.quartz.TriggerKey;
+
+/**
+ * 改造 自定义任务
+ * @author ZhangCheng on 2017-06-26
+ *
+ */
+public class HelloJob implements Job{
+    
+    // 方式二：getter和setter获取
+    // 成员变量 与 传入参数的key一致
+    private String message;
+    private Float floatJobValue;
+    private Double doubleTriggerValue;
+    
+    public String getMessage() {
+        return message;
+    }
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    public Float getFloatJobValue() {
+        return floatJobValue;
+    }
+    public void setFloatJobValue(Float floatJobValue) {
+        this.floatJobValue = floatJobValue;
+    }
+    public Double getDoubleTriggerValue() {
+        return doubleTriggerValue;
+    }
+    public void setDoubleTriggerValue(Double doubleTriggerValue) {
+        this.doubleTriggerValue = doubleTriggerValue;
+    }
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        // 打印当前的执行时间，格式为2017-01-01 00:00:00
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current Exec Time Is : " + sf.format(date));
+        
+        // 编写具体的业务逻辑
+        //System.out.println("Hello World!");
+        
+        JobKey key = context.getJobDetail().getKey();
+        System.out.println("My name and group are : " + key.getName() + " : " + key.getGroup());
+        
+        TriggerKey trkey = context.getTrigger().getKey();
+        System.out.println("My Trigger name and group are : " + trkey.getName() + " : " + trkey.getGroup());
+        
+        // 方式一：Map中直接  获取自定义参数
+        JobDataMap jdataMap = context.getJobDetail().getJobDataMap();
+        JobDataMap tdataMap = context.getTrigger().getJobDataMap();
+        String jobMsg = jdataMap.getString("message");
+        Float jobFloatValue = jdataMap.getFloat("floatJobValue");
+        
+        String triMsg = tdataMap.getString("message");
+        Double triDoubleValue = tdataMap.getDouble("doubleTriggerValue");
+        
+        System.out.println("jobMsg is : " + jobMsg);
+        System.out.println("jobFloatValue is : " + jobFloatValue);
+        System.out.println("triMsg is : " + triMsg);
+        System.out.println("triDoubleValue is : " + triDoubleValue);
+        
+        // 方式一：Map中直接获取 获取自定义参数
+        JobDataMap jobDataMap = context.getMergedJobDataMap();
+        jobMsg = jobDataMap.getString("message");
+        jobFloatValue = jobDataMap.getFloat("floatJobValue");
+        
+        triMsg = jobDataMap.getString("message");
+        triDoubleValue = jobDataMap.getDouble("doubleTriggerValue");
+        
+        System.out.println("jobMsg is : " + jobMsg);
+        System.out.println("jobFloatValue is : " + jobFloatValue);
+        System.out.println("triMsg is : " + triMsg);
+        System.out.println("triDoubleValue is : " + triDoubleValue);
+        
+        // 方式二：getter和setter获取
+        System.out.println("message is : " + this.message);
+        System.out.println("jobFloatValue is : " + this.floatJobValue);
+        System.out.println("triDoubleValue is : " + this.doubleTriggerValue);
+    }
+    
+}
+
+````
+
+任务调度类
+
+```
+package com.self.quartz.one;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
+
+/**
+ * 编写 任务调度类
+ */
+public class HelloScheduler {
+    
+    public static void main(String[] args) throws SchedulerException {
+        
+        // 创建一个 JobDetail 实例，将该实例与 HelloJob 实例绑定
+        JobDetail jobDeatil = JobBuilder.newJob(HelloJob.class)
+                .withIdentity("myjob", "jobgroup1")// 定义标识符
+                .build();
+        
+        System.out.println("jobDetail's name : " + jobDeatil.getKey().getName());
+        System.out.println("jobDetail's group : " + jobDeatil.getKey().getGroup());
+        System.out.println("jobDetail's jobClass : " + jobDeatil.getJobClass().getName());
+        
+        // 创建一个 Trigger 实例，定义该 job 立即执行，并且每隔两秒重复执行一次，直到永远
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("myTrigger","trigroup1")// 定义标识符
+                .startNow()// 定义立即执行
+                .withSchedule(SimpleScheduleBuilder
+                        .simpleSchedule()
+                        .withIntervalInSeconds(2)
+                        .repeatForever())// 定义执行频度
+                .build();
+        
+        // 创建 Scheduler 实例
+        SchedulerFactory sfact = new StdSchedulerFactory();
+        Scheduler scheduler = sfact.getScheduler();
+        
+        // 绑定 JobDetail 和 trigger
+        scheduler.scheduleJob(jobDeatil, trigger);
+        
+        // 执行任务
+        scheduler.start();
+        
+        // 打印当前的执行时间，格式为2017-01-01 00:00:00
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current Time Is : " + sf.format(date));
+    }
+    
+}
+
+
+/**
+ * 改造 任务调度类
+ */
+ 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
+
+/**
+ * 编写 任务调度类
+ * @author ZhangCheng on 2017-06-26
+ *
+ */
+public class HelloScheduler {
+    
+    public static void main(String[] args) throws SchedulerException {
+        
+        // 创建一个 JobDetail 实例，将该实例与 HelloJob 实例绑定
+        JobDetail jobDeatil = JobBuilder.newJob(HelloJob.class)
+                .withIdentity("myjob", "jobgroup1")// 定义标识符
+                .usingJobData("message", "hello myjob1")// 传入自定义参数
+                .usingJobData("floatJobValue", 3.14F)// 传入自定义参数
+                .build();
+        
+        System.out.println("jobDetail's name : " + jobDeatil.getKey().getName());
+        System.out.println("jobDetail's group : " + jobDeatil.getKey().getGroup());
+        System.out.println("jobDetail's jobClass : " + jobDeatil.getJobClass().getName());
+        
+        // 创建一个 Trigger 实例，定义该 job 立即执行，并且每隔两秒重复执行一次，直到永远
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("myTrigger","trigroup1")// 定义标识符
+                .usingJobData("message", "hello mytrigger1")// 传入自定义参数
+                .usingJobData("doubleTriggerValue", 2.0D)// 传入自定义参数
+                .startNow()// 定义立即执行
+                .withSchedule(SimpleScheduleBuilder
+                        .simpleSchedule()
+                        .withIntervalInSeconds(2)
+                        .repeatForever())// 定义执行频度
+                .build();
+        
+        // 创建 Scheduler 实例
+        SchedulerFactory sfact = new StdSchedulerFactory();
+        Scheduler scheduler = sfact.getScheduler();
+        
+        // 绑定 JobDetail 和 trigger
+        scheduler.scheduleJob(jobDeatil, trigger);
+        
+        // 执行任务
+        scheduler.start();
+        
+        // 打印当前的执行时间，格式为2017-01-01 00:00:00
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current Time Is : " + sf.format(date));
+    }
+    
+}
+```
+
+
+### 分析
+
+Job定义：实现业务逻辑的任务接口
+
+Job：Job接口非常容易实现，只有一个execute方法，类似TimerTask的run方法，在里面编写业务逻辑
+
+Job接口源码
+
+```
+public interface Job {
+    void execute(JobExecutionContext context) throws JobExecutionException;
+}
+```
+
+Job实例在Quartz中的生命周期
+
+每次调度器执行job时，它在调用execute方法前会创建一个新的job实例
+当调用完成后，关联的job对象实例会被释放，释放的实例会被垃圾回收机制回收
+
+JobDetail
+
+JobDetail为Job实例提供了许多设置属性，以及JobDetailMap成员变量属性，它用来存储特定Job实例的状态信息，
+调度器需要借助JobDetail对象来添加Job实例。
+
+JobDetail属性
+
+    name：任务名称
+    group：任务所属组
+    jobClass：任务实现类
+    jobDataMap：传参的作用
+
+JobExecutionContext是什么
+
+    当Scheduler调用一个Job，就会将JobExecutionContext传递给Job的execute()方法；
+    Job能通过JobExecutionContext对象访问到Quartz运行时候的环境以及Job本身的明细数据。
+
+JobDataMap是什么
+
+    在进行任务调度时JobDataMap存储在JobExecutionContext中，非常方便获取
+    JobDataMap可以用来装载任务可序列化的数据对象，当job实例对象被执行时这些参数对象会传递给它
+    JobDataMap实现了JDK的Map接口，并且添加了一些非常方便的方法用来存取基本数据类型
+
+获取JobDataMap的两种方式
+
+    从Map中直接获取
+    
+    Job实现类中添加setter方法对应JobDataMap的键值
+    （Quartz框架默认的JobFactory实现类在初始化job实例对象时会自动地调用这些setter方式）
+
+Trigger是什么
+
+    Quartz中的触发器用来告诉调度程序作业什么时候触发
+    即Trigger对象时用来触发执行Job的
+
+
+触发器通用属性
+
+    JobKey：表示job实例的标识，触发器被触发时，该指定的job实例会执行
+    StartTime：表示触发器的时间表首次被触发的时间，它的值的类型是Java.util.Date
+    EndTime：指定触发器的不再被触发的时间，它的值的类型是Java.util.Date
+
+```
+/**
+ * 自定义任务  触发器通用属性
+ */
+public class HelloJob implements Job{
+    
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        // 打印当前的执行时间，格式为2017-01-01 00:00:00
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current Exec Time Is : " + sf.format(date));
+        
+        Trigger currentTrigger = context.getTrigger();
+        System.out.println("Start Time Is : " + sf.format(currentTrigger.getStartTime()));
+        System.out.println("End Time Is : " + sf.format(currentTrigger.getEndTime()));
+        
+        JobKey jobKey = currentTrigger.getJobKey();
+        System.out.println("JobKey info : " + " jobName : " + jobKey.getName()
+                + " jobGroup : " + jobKey.getGroup());
+    }
+    
+}
+
+```
+
+```
+/**
+ * 任务调度类  触发器通用属性
+ */
+public class HelloScheduler {
+    
+    public static void main(String[] args) throws SchedulerException {
+        // 打印当前的执行时间，格式为2017-01-01 00:00:00
+        Date date = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("Current Time Is : " + sf.format(date));
+        
+        // 创建一个 JobDetail 实例，将该实例与 HelloJob 实例绑定
+        JobDetail jobDeatil = JobBuilder.newJob(HelloJob.class)
+                .withIdentity("myjob", "jobgroup1")// 定义标识符
+                .build();
+        
+        // 获取距离当前时间3秒后的时间
+        date.setTime(date.getTime() + 3000);
+        // 获取距离当前时间6秒后的时间
+        Date endDate = new Date();
+        endDate.setTime(endDate.getTime() + 6000);
+        
+        // 创建一个 Trigger 实例，定义该 job 立即执行，并且每隔两秒重复执行一次，直到永远
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("myTrigger","trigroup1")// 定义标识符
+                .startAt(date)// 定义3秒后执行
+                .endAt(endDate)// 定义6秒后结束
+                .withSchedule(SimpleScheduleBuilder
+                        .simpleSchedule()
+                        .withIntervalInSeconds(2)
+                        .repeatForever())// 定义执行频度
+                .build();
+        
+        // 创建 Scheduler 实例
+        SchedulerFactory sfact = new StdSchedulerFactory();
+        Scheduler scheduler = sfact.getScheduler();
+        
+        // 绑定 JobDetail 和 trigger
+        scheduler.scheduleJob(jobDeatil, trigger);
+        
+        // 执行任务
+        scheduler.start();
+    }
+    
+}
+
+```
+
+
+Scheduler
+
+
+Scheduler工厂模式
+
+    所有的Scheduler实例应该由SchedulerFactory来创建
+
+
+StdSchedulerFactory
+
+    使用一组参数（Java.util.Properties）来创建和初始化Quartz调度器
+    配置参数一般存储在quartz.properties中
+    调用getScheduler方法就能创建和初始化调度器对象
+
+Scheduler的主要函数
+
+    // 绑定 jobDetail 和 trigger，将它注册进 Scheduler 当中
+    Date scheduleJob(JobDetail jobDetail, Trigger trigger)
+    // 启动 Scheduler
+    void start()
+    // 暂停 Scheduler
+    void standby()
+    // 关闭 Scheduler
+    void shutdown()
+
+QuartzProperties文件
+
+quartz.properties组成部分
+
+    调度器属性
+    线程池属性
+    作业存储设置
+    插件配置
+    
+线程池属性
+
+    threadCount：工作线程数量
+    threadPriority：工作线程优先级
+    org.quartz.threadPool.class：配置线程池实现类
+
+作业存储设置
+
+    描述了在调度器实例的生命周期中，Job和Trigger信息是如何被存储的
+
+插件配置
+
+    满足特定需求用到的Quartz插件的配置
+
+
+
 
 
 
