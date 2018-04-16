@@ -265,8 +265,57 @@ Timer有且仅有一个线程去执行定时任务，如果存在多个任务，
 对复杂任务的调度
 
 
-###
+###  Java定时任务调度工具详解之Quartz
 
+
+### Quartz介绍
+
+1.Quartz特点
+
+    强大的调度功能
+    灵活的应用方式
+    分布式和集群能力
+    Quartz的设计模式
+
+2.Builder模式
+
+    Factory模式
+    组件模式
+    链式写法
+
+3.Quartz三个核心概念
+
+    调度器
+    任务
+    触发器
+    
+4.Quartz体系结构
+
+    JobDetail
+    trigger
+        SimpleTrigger
+        CronTrigger
+    scheduler
+        start
+        stop
+        pause
+        resume
+        
+5.Quartz重要组成
+
+    Job
+    JobDetail
+    JobBuilder
+    JobStore
+    Trigger
+    TriggerBuilder
+    ThreadPool
+    Scheduler
+    Calendar：一个Trigger可以和多个Calendar关联，以排除或包含某些时间点
+    监听器
+        JobListener
+        TriggerListener
+        SchedulerListener
 
 
 
