@@ -1,0 +1,7 @@
+package com.self.mapper;
+
+import com.self.model.ScheduleJob;
+import com.self.utils.BaseMapper;
+
+public interface ScheduleJobMapper extends BaseMapper<ScheduleJob> {
+}
