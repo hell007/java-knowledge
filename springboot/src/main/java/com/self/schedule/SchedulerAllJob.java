@@ -26,11 +26,15 @@ import com.self.service.ScheduleJobService;
 
 @Component
 public class SchedulerAllJob {
+	
     private static Logger logger = LoggerFactory.getLogger(SchedulerAllJob.class);
+    
     //当前Trigger使用的 
     private Map<String, String> jobUniqueMap = new HashMap<String, String>(); 
+    
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
+    
     @Autowired
     private ScheduleJobService scheduleJobService;
     
