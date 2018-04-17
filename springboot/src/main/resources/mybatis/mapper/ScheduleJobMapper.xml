@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.self.mapper.ScheduleJobMapper">
+  <resultMap id="BaseResultMap" type="com.self.model.ScheduleJob">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="jobname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="jobgroup" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="jobstatus" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="cronexpression" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="quartzclass" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+</mapper>
