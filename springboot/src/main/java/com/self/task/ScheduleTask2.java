@@ -40,7 +40,7 @@ public class ScheduleTask2 implements Job {
 
         	List<User> userList = userService.select(null);
 			for (User user : userList) {
-				logger.info("do something"+user.getUsername()+"message消息");
+				logger.info("已经向"+user.getUsername()+"用户发送消息成功");
 			}
             
         } catch (Exception e) {
