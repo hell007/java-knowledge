@@ -1050,9 +1050,16 @@ public class QuartzConfig {
 
 ```
 
+### 开发注意点
+
+1.[Spring boot 集成Quartz的使用（解决quartz的job无法注入spring对象的问题）](https://blog.csdn.net/mengruobaobao/article/details/79106343)
+
+2.[案列](https://github.com/hell007/java-knowledge/tree/master/springboot/src/main/java/com/self/schedule)
+
+
+##### 参考地址
 
 [Timer参考地址](https://segmentfault.com/a/1190000009972187#articleHeader3)
-
 
 [Quartz参考地址](https://segmentfault.com/a/1190000009972187#articleHeader4)
 
