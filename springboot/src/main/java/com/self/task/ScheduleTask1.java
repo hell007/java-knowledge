@@ -18,7 +18,7 @@ import com.self.service.UserService;
 
 
 /**
- * 定时任务实现类（清明节活动专场提醒）
+ * 定时任务实现类（取消超时生成的订单）
  */
 @DisallowConcurrentExecution
 public class ScheduleTask1 implements Job {
@@ -28,23 +28,17 @@ public class ScheduleTask1 implements Job {
     @Autowired
     private  UserService userService;
 
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+	public void execute(JobExecutionContext context) throws JobExecutionException {
     	
     	// 定义日期格式
     	Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("当前时间: " + simpleDateFormat.format(calendar.getTime()));
         
-        logger.info("====（清明节活动专场提醒）ScheduleTask1 ====> 开启!" + simpleDateFormat.format(calendar.getTime()));
-        try {
-
-        	List<User> userList = userService.select(null);
-			for (User user : userList) {
-				logger.info("do something"+user.getUsername()+"notice消息");
-			}
-            
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+        logger.info("====（取消超时生成的订单）ScheduleTask1 ====> 开启!" + simpleDateFormat.format(calendar.getTime()));
+        
+        List<User> list = userService.select(null);
+		logger.info("已取消"+ list.get(0).getUsername()+"用户超时的订单");
     }
+	
 }
