@@ -39,7 +39,7 @@ public class SchedulerAllJob {
     private ScheduleJobService scheduleJobService;
     
     /**
-     * 
+     * 创建定时任务或者更新定时任务
      * @throws SchedulerException
      */
     public void scheduleJobs() throws SchedulerException {
@@ -69,8 +69,9 @@ public class SchedulerAllJob {
                 String dbCron = job.getCronexpression();
 
                 if (null == trigger) {
-                    //JobDetail jobDetail = JobBuilder.newJob(QuartzJobFactory.class).withIdentity(job.getJobName(), job.getJobGroup()).build();
+
                     try {
+                    	//构建job信息
                         @SuppressWarnings("unchecked")
                         Class<?extends Job> clazz = (Class<?extends Job>) Class.forName(job.getQuartzclass());
                         JobDetail jobDetail = JobBuilder.newJob(clazz)
@@ -78,33 +79,37 @@ public class SchedulerAllJob {
                         								.build();
                         jobDetail.getJobDataMap().put("scheduleJob", job);
 
-                        // 表达式调度构建器
+                        //表达式调度构建器
                         CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCronexpression());
-                        // 按新的cronExpression表达式构建一个新的trigger
+                        
+                        //按新的cronExpression表达式构建一个新的trigger
                         trigger = TriggerBuilder.newTrigger()
                                                 .withIdentity(job.getJobname(),job.getJobgroup())
                                                 .withSchedule(scheduleBuilder)
                                                 .build();
 
                         jobUniqueMap.put(triggerKey.toString(), trigger.getCronExpression());
-                        //currentCron = trigger.getCronExpression();
+
                         scheduler.scheduleJob(jobDetail, trigger);
+                        
                     } catch (Exception e) {
                         e.printStackTrace();
-                        logger.error(e.getMessage());
+                        logger.error(e.getMessage()+"=创建定时任务失败!");
                     }
                 } else if (!jobUniqueMap.get(triggerKey.toString()).equals(dbCron)) {
-                    // Trigger已存在，那么更新相应的定时设置
-                    // 表达式调度构建器
+                    
+                	//Trigger已存在，那么更新相应的定时设置
+                    //表达式调度构建器
                     CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(dbCron);
-                    // 按新的cronExpression表达式重新构建trigger
+                    
+                    //按新的cronExpression表达式重新构建trigger
                     trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
-
                     trigger = trigger.getTriggerBuilder()
                                      .withIdentity(triggerKey)
                                      .withSchedule(scheduleBuilder)
                                      .build();
-                    // 按新的trigger重新设置job执行
+                    
+                    //按新的trigger重新设置job执行
                     scheduler.rescheduleJob(triggerKey, trigger);
 
                     jobUniqueMap.put(triggerKey.toString(), dbCron);
@@ -112,6 +117,7 @@ public class SchedulerAllJob {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error(e.getMessage()+"=更新定时任务失败!");
         }
     }
     
