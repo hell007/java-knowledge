@@ -8,17 +8,17 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 
 import com.github.pagehelper.PageHelper;
-import com.self.utils.BaseMapper;
 
 @Service
 public abstract class BaseService<T>{
 
     @Autowired
-    protected BaseMapper<T> mapper;
+    protected Mapper<T> mapper;
     
     /**
      * 查询到与入参对象最匹配的数据库中实体
