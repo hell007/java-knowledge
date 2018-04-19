@@ -1,7 +1,8 @@
 package com.self.mapper;
 
-import com.self.model.ScheduleJob;
-import com.self.utils.BaseMapper;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface ScheduleJobMapper extends BaseMapper<ScheduleJob> {
+import com.self.model.ScheduleJob;
+
+public interface ScheduleJobMapper extends Mapper<ScheduleJob> {
 }
