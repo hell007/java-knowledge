@@ -59,9 +59,13 @@
 
 [redis单机版与集群版](./redis.md)
 
+[分布式缓存架构基础](https://blog.csdn.net/lz0426001/article/details/52634772)
+
 [分布式缓存](http://www.xuxueli.com/xxl-cache/#/)
 
 [Memcached 分布式缓存实现原理](https://www.cnblogs.com/weixing/p/5522903.html)
+
+[memcached分布式缓存](https://www.cnblogs.com/phpstudy2015-6/p/6713164.html)
 
 [分布式缓存实践与线上案例](./分布式缓存实践与线上案例.md)
 
