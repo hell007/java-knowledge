@@ -34,6 +34,11 @@
 
 [扣减库存实现](./扣减库存实现.md)
 
+
+##### 其他
+
+[SpringBoot框架与短信解决方案](https://blog.csdn.net/qq_24708791/article/details/78521396)
+
 ##### 部署
 
 [Spring Boot 项目怎么部署](http://blog.csdn.net/javahighness/article/details/52515226)
