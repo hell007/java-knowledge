@@ -1,4 +1,15 @@
 
+
+项目说明
+
+采用SpringBoot、MyBatis、Beetl、swagger
+
+支持简单的crud
+
+支持动态配置定时任务
+
+
+
 https://github.com/ityouknow/spring-boot-examples
 
 
