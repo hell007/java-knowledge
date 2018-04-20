@@ -12,7 +12,9 @@
 
 2.支持动态配置定时任务
 
-3.rabbitmg
+3.swagger：利用swagger构建api文档，简单优雅的restfun风格
+
+4.rabbitmg
   
   安装好rabbitmq后访问http://localhost:15672 用默认的账户:guest和密码:guest即可以登录
 
