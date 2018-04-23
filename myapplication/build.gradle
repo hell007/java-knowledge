@@ -52,8 +52,8 @@ subprojects {
     jar {
         manifest {
             attributes("Manifest-Version": "1.0")
-            attributes("Created-By": "jie")
-            attributes("Implementation-Title": "jie")
+            attributes("Created-By": "myapplication")
+            attributes("Implementation-Title": "myapplication")
             attributes("Implementation-Version": "1.0")
         }
     }
@@ -79,7 +79,7 @@ subprojects {
                 //group: 'tk.mybatis', name: 'mapper', version: '3.3.2'
         )
 
-        ext.jarTree = fileTree(dir: 'lib', include: '**/*.jar',exclude:'**/spring-2.5.6.SEC03.jar')
+        ext.jarTree = fileTree(dir: 'lib', include: '**/*.jar',exclude:'**/spring-3.2.jar')
         ext.rootProjectLibs = new File(rootProject.rootDir, 'lib').getAbsolutePath()
         ext.jarTree += fileTree(dir: rootProjectLibs, include: '**/*.jar')
 
