@@ -11,6 +11,9 @@ import tk.mybatis.mapper.entity.Example.Criteria;
 
 import com.self.model.ScheduleJob;
 import com.self.schedule.ScheduleJobManager;
+/**
+* springboot 事物管理  https://www.jianshu.com/p/c4ac0ae291f9
+*/
 
 @Service
 public class ScheduleJobService  extends BaseService<ScheduleJob> {
