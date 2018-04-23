@@ -1,0 +1,112 @@
+/**
+ * 依赖包的定义。
+ *
+ * 这种定义方式的优点是在顶级项目目录下引入，在子项目中也可以直接用了。
+ *
+ */
+
+//是否远程调用策略 Local是本地调用 Remote是远程调用
+ext.isRemoteProfile = false
+
+// 一些会重复出现的jar包的版本号
+ext.versions = [
+		springBoot    : '1.5.9.RELEASE',
+		druid         : '1.0.25',
+        mysql         : '5.1.39',
+        mybatis       : '1.3.0',
+        mapper        : '1.1.4',
+        pagehelper    : '1.2.1',
+        dubbo         : '1.0.0',
+        zookeeper     : '3.4.6',
+        beetl         : '2.2.5',
+        shiro         : '1.2.3',
+        quartz        : '2.2.1',
+        swagger       : '2.8.0',
+        jackson       : '2.4.1',
+]
+
+// 各种可能会用到的jar包
+ext.libraries = [
+
+		//spring-boot
+        "spring-boot-starter"   : "org.springframework.boot:spring-boot-starter:${versions.springBoot}",
+        "spring-boot-web"       : "org.springframework.boot:spring-boot-starter-web:${versions.springBoot}",
+        "spring-boot-test"      : "org.springframework.boot:spring-boot-starter-test:${versions.springBoot}",
+        "spring-boot-gradle"    : "org.springframework.boot:spring-boot-gradle-plugin:${versions.springBoot}",
+        "spring-boot-jpa"       : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}",
+		"spring-boot-thymeleaf" : "org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springBoot}",
+        "spring-boot-amqp"      : 'org.springframework.boot:spring-boot-starter-amqp:${versions.springBoot}',
+        "spring-boot-devtools"  : "org.springframework.boot:spring-boot-devtools:${versions.springBoot}",
+        
+        //spring
+        //该依赖必加，里面有sping对schedule的支持
+    	"spring-support"        : "org.springframework:spring-context-support",
+        "spring-web"         : "org.springframework:spring-web",
+        
+        //mysql
+        "mysql"                 : "mysql:mysql-connector-java:${versions.mysql}",
+        
+        //druid
+        "druid"                 : "com.alibaba:druid:${versions.druid}",
+        
+		//shiro
+        "shiro"                 : "org.apache.shiro:shiro-all:${versions.shiro}",
+
+        //mybatis
+        "mybatis"               : "org.mybatis.spring.boot:mybatis-spring-boot-starter:${versions.mybatis}",
+        "tk-mybatis"		    : "tk.mybatis:mapper-spring-boot-starter:${versions.mapper}",
+        "pagehelper"            : "com.github.pagehelper:pagehelper-spring-boot-starter:${versions.pagehelper}",
+        
+        //beetl
+    	"beetl"                 : "com.ibeetl:beetl:${versions.beetl}",
+    	
+    	//quartz
+    	"quartz"                : "org.quartz-scheduler:quartz:${versions.quartz}",
+    
+    	//swagger2
+    	"swagger"               : "io.springfox:springfox-swagger2:${versions.swagger}",
+    	"swagger-ui"            : "io.springfox:springfox-swagger-ui:${versions.swagger}",
+    	
+    	//dubbo
+    	"dubbo"                 : "io.dubbo.springboot:spring-boot-starter-dubbo:${versions.dubbo}",
+	
+		
+		//poi
+        "poi"                   : "org.apache.poi:poi:3.9",
+        "poi-ooxml"             : "org.apache.poi:poi-ooxml:3.9",
+        "dom4j"                 : "dom4j:dom4j:1.6.1",
+        "jdom"                  : "org.jdom:jdom:2.0.2",
+        
+        //thumbnailator
+        "thumbnailator"         : "net.coobird:thumbnailator:0.4.8",
+
+        //JSON
+        "fastjson"              : "com.alibaba:fastjson:1.2.29",
+        "jackson-annotations"   : "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson}",
+        "jackson-core"          : "com.fasterxml.jackson.core:jackson-core:${versions.jackson}",
+        "jackson-databind"      : "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}",
+        
+        //apache
+        "commons-dbcp"          : "commons-dbcp:commons-dbcp:1.4",
+        "commons-beanutils"     : "commons-beanutils:commons-beanutils:1.9.1",
+        "commons-configuration" : "commons-configuration:commons-configuration:1.10",
+        "commons-lang3"         : "org.apache.commons:commons-lang3:3.4",
+        "commons-lang"          : "commons-lang:commons-lang:2.6",
+        "commons-digester3"     : "org.apache.commons:commons-digester3:3.2",
+        "commons-fileupload"    : "commons-fileupload:commons-fileupload:1.3.1",
+        "commons-logging"       : "commons-logging:commons-logging:1.2",
+        "commons-io"            : "commons-io:commons-io:2.4",
+        "commons-net"           : "commons-net:commons-net:3.3",
+        "commons-codec"         : "commons-codec:commons-codec:1.6",
+        "commons-pool2"         : "org.apache.commons:commons-pool2:2.4.2",
+        "commons-discovery"     : "commons-discovery:commons-discovery:0.5",
+        "commons-collections4" 	: "org.apache.commons:commons-collections4:4.1",
+		    "commons-httpclient"    : "commons-httpclient:commons-httpclient:3.1",
+
+        "junit"                 : "junit:junit:4.12",
+
+  		"servlet-api"           : "javax.servlet:servlet-api:2.5",
+
+        
+        
+]
