@@ -7,6 +7,8 @@
 
 [filter](./filter过滤器.md)
 
+[能够检测多种设备类型的Spring Mobile](https://blog.csdn.net/hellowordapi/article/details/78395295)
+
 ##### 事物
 
 [Java事务](./Java事务的原理与应用.md)
