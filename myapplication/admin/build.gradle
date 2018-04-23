@@ -6,21 +6,18 @@ archivesBaseName = 'admin'
 
 eclipse {
     project {
-        name = 'jie-admin'
+        name = 'admin'
     }
-
     wtp {
         component {
             //you can configure the context path:
             contextPath = 'myapplication'
-
             deployName = 'admin'
         }
     }
 }
 
 war {
-
     //打包时排除静态资源目录
     exclude 'resources'
     if (!isTest) {
@@ -32,20 +29,16 @@ war {
 }
 
 dependencies {
-
     // providedCompile 是在 war 插件下定义的
     providedCompile (
             libraries.'servlet-api',
             libraries.'jsp-api'
     )
-
     compile (
-
             // 依赖的项目
-            project(':jie-common'),
-            project(':jie-business'),
+            project(':common'),
+            project(':business'),
     )
-
 }
 
 // processResources {
