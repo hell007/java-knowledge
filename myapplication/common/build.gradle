@@ -3,8 +3,7 @@ archivesBaseName = 'common'
 dependencies {
 
     compile (
-    	// 依赖
-    	
+    	// 依赖   	
     	//spring
     	libraries.'spring-tx',
         libraries.'spring-webmvc',
