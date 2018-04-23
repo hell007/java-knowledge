@@ -1,0 +1,63 @@
+archivesBaseName = 'common'
+
+dependencies {
+
+    compile (
+    	// 依赖
+    	
+    	//springboot
+    	libraries.'spring-boot-starter',
+        libraries.'spring-boot-web',
+        libraries.'spring-boot-devtools',
+        
+        //spring
+        libraries.'spring-support',
+        libraries.'spring-web',
+        
+        //amap
+        libraries.'spring-boot-amqp',
+        
+        //mysql
+        libraries.'mysql',
+        libraries.'druid',
+        
+        //mybatis
+        libraries.'mybatis',
+        libraries.'tk-mybatis',
+        libraries.'pagehelper',
+        
+        //shiro      
+        libraries.'shiro',
+        
+        //beetl
+        libraries.'beetl',
+        
+        //quartz
+        libraries.'quartz',
+        
+        //swagger2
+        libraries.'swagger',
+        libraries.'swagger-ui',
+        
+        //json
+        libraries.'fastjson',            
+        libraries.'jackson-annotations',
+        libraries.'jackson-core',
+        libraries.'jackson-databind',
+        
+        //poi
+        libraries.'poi',
+        libraries.'poi-ooxml',
+	
+		//thumbnailator
+        libraries.'thumbnailator',
+        
+        //common
+        libraries.'commons-lang3',
+        libraries.'commons-logging',
+        libraries.'commons-fileupload',
+        libraries.'commons-beanutils',
+        libraries.'commons-io',
+        
+    )
+}
