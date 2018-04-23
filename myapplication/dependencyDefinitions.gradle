@@ -10,30 +10,33 @@ ext.isRemoteProfile = false
 
 // 一些会重复出现的jar包的版本号
 ext.versions = [
-        spring        : '4.2.2.RELEASE',
-        jackson       : '1.9.13',
+        spring        : '4.3.13.RELEASE',
+        mysql         : '5.1.39',
+        druid         : '1.0.25',
+        mybatis       : '3.3.0',
+        mapper        : '3.3.8',
+        pagehelper    : '4.1.3',
+        mybatisSpring : '1.2.3',
+        mybatisGenerator: '1.3.2',
+        beetl         : '2.2.5',
+        shiro         : '1.2.3',
+        quartz        : '2.2.1',
+        swagger       : '2.8.0',
+        jackson-asl   : '1.9.13',
+        jackson       : '2.4.1',
         gson          : '2.3.1',
         logback       : '1.0.13',
-        slf4j         : '1.7.5',
+        slf4j         : '1.7.25',
+        redisSpring   : '1.6.0.RELEASE',
+        sessionSpring : '1.2.1.RELEASE',
+        dubbo         : '2.5.3',
+        zookeeper     : '3.4.6',
         httpclient    : '4.5',
         xstream       : '1.4.7',
         bonecp        : '0.8.0.RELEASE',
         sitemesh      : '2.4.2',
-        jacksonVersion: '2.4.1',
-        jsonlibVersion: '2.4',
-        mybatisSpring : '1.2.3',
-        mybatisGenerator: '1.3.2',
-        redisSpring   : '1.6.0.RELEASE',
-        sessionSpring : '1.2.1.RELEASE',
-        mybatis       : '3.3.0',
-        mybatisMapper : '3.3.8',
-        dubbo         : '2.5.3',
-        zookeeper     : '3.4.6',
-        druid         : '1.0.13',
-        mysql         : '5.1.39',
         groovy        : '2.4.0-beta-2',
-        jaxen         : '1.1.6',
-        urlrewrite    : '4.0.3'
+        jaxen         : '1.1.6'
 ]
 
 // 各种可能会用到的jar包
@@ -43,24 +46,7 @@ ext.libraries = [
         "servlet-jstl"          : "javax.servlet:jstl:1.2",
         "sitemesh"              : "opensymphony:sitemesh:${versions.sitemesh}",
         "aspectjweaver"         : "org.aspectj:aspectjweaver:1.8.1",
-       
-        //"ojdbc6"              : "com.oracle:ojdbc6:11.2.0.3",
-        "mysql"                 : "mysql:mysql-connector-java:${versions.mysql}",
         
-        //druid
-        "druid"                 : "com.alibaba:druid:${versions.druid}",
-        
-	//shiro
-        "shiro"                 : "org.apache.shiro:shiro-all:1.2.3",
-
-        //mybatis
-        "persistence"           : "javax.persistence:persistence-api:1.0",
-        "mybatis"               : "org.mybatis:mybatis:${versions.mybatis}",
-        "mybatis-spring"        : "org.mybatis:mybatis-spring:${versions.mybatisSpring}",
-        "tk-mybatis"		: "tk.mybatis:mapper:${versions.mybatisMapper}",
-        "mybatis-generator"     : "org.mybatis.generator:mybatis-generator-core:${versions.mybatisGenerator}",
-        "pagehelper"            : "com.github.pagehelper:pagehelper:4.1.3",
-                
         // spring
         "spring-core"           : "org.springframework:spring-core:${versions.spring}",
         "spring-beans"          : "org.springframework:spring-beans:${versions.spring}",
@@ -76,7 +62,36 @@ ext.libraries = [
         "spring-aspects"        : "org.springframework:spring-aspects:${versions.spring}",
         "spring-test"           : "org.springframework:spring-test:${versions.spring}",
         "spring-data-redis"     : "org.springframework.data:spring-data-redis:${versions.redisSpring}",
-        "spring-session-redis"	: "org.springframework.session:spring-session-data-redis:${versions.sessionSpring}",   
+        "spring-session-redis"	: "org.springframework.session:spring-session-data-redis:${versions.sessionSpring}",
+       
+  	//mysql
+        "mysql"                 : "mysql:mysql-connector-java:${versions.mysql}",
+        
+        //druid
+        "druid"                 : "com.alibaba:druid:${versions.druid}",
+
+        //mybatis
+        "persistence"           : "javax.persistence:persistence-api:1.0",
+        "mybatis"               : "org.mybatis:mybatis:${versions.mybatis}",
+        "mybatis-spring"        : "org.mybatis:mybatis-spring:${versions.mybatisSpring}",
+        "tk-mybatis"		    : "tk.mybatis:mapper:${versions.mapper}",
+        "mybatis-generator"     : "org.mybatis.generator:mybatis-generator-core:${versions.mybatisGenerator}",
+        "pagehelper"            : "com.github.pagehelper:pagehelper:${versions.pagehelper}",
+        
+        //beetl
+    	"beetl"                 : "com.ibeetl:beetl:${versions.beetl}",
+    	
+    	//shiro
+        "shiro"                 : "org.apache.shiro:shiro-all:${versions.shiro}",
+    	
+    	//quartz
+    	"quartz"                : "org.quartz-scheduler:quartz:${versions.quartz}",
+    
+    	//swagger2
+    	"swagger"               : "io.springfox:springfox-swagger2:${versions.swagger}",
+    	"swagger-ui"            : "io.springfox:springfox-swagger-ui:${versions.swagger}",
+                
+           
 
         // 忽略common log，使用slf4j代替
         "logback-classic"       : "ch.qos.logback:logback-classic:${versions.logback}",
@@ -91,11 +106,11 @@ ext.libraries = [
 
         //JSON
         "fastjson"              : "com.alibaba:fastjson:1.2.29",
-        "jackson-core-asl"      : "org.codehaus.jackson:jackson-core-asl:${versions.jackson}",
-        "jackson-mapper-asl"    : "org.codehaus.jackson:jackson-mapper-asl:${versions.jackson}",
-        "jackson-annotations"   : "com.fasterxml.jackson.core:jackson-annotations:${versions.jacksonVersion}",
-        "jackson-core"          : "com.fasterxml.jackson.core:jackson-core:${versions.jacksonVersion}",
-        "jackson-databind"      : "com.fasterxml.jackson.core:jackson-databind:${versions.jacksonVersion}",
+        "jackson-core-asl"      : "org.codehaus.jackson:jackson-core-asl:${versions.jackson-asl}",
+        "jackson-mapper-asl"    : "org.codehaus.jackson:jackson-mapper-asl:${versions.jackson-asl}",
+        "jackson-annotations"   : "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson}",
+        "jackson-core"          : "com.fasterxml.jackson.core:jackson-core:${versions.jackson}",
+        "jackson-databind"      : "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}",
        
         //google
         "gson"                  : "com.google.code.gson:gson:${versions.gson}",
@@ -120,9 +135,9 @@ ext.libraries = [
         "axis"                  : "org.apache.axis:axis:1.4",
         "commons-discovery"     : "commons-discovery:commons-discovery:0.5",
         "commons-collections4" 	: "org.apache.commons:commons-collections4:4.1",
-	"commons-httpclient"    : "commons-httpclient:commons-httpclient:3.1",
+		"commons-httpclient"    : "commons-httpclient:commons-httpclient:3.1",
 		
-	//http
+		//http
         "httpclient"            : "org.apache.httpcomponents:httpclient:${versions.httpclient}",
         "httpmime"              : "org.apache.httpcomponents:httpmime:${versions.httpclient}",
         
