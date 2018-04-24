@@ -1,6 +1,0 @@
-rootProject.name = 'myapplication'
-
-include 'mycommon'
-include 'mybusiness'
-include 'myadmin'
-include 'myweb'
