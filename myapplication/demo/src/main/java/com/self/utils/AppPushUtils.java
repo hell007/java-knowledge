@@ -224,7 +224,7 @@ public class AppPushUtils {
 	}
 
 	
-	
+	//使用
 	
 	// 对单个用户推送消息
 	/*
@@ -297,7 +297,35 @@ public class AppPushUtils {
 	
 	
 	
-	
+	@RequestMapping(value = "getui")
+	public String getui(Model model) {
+		String appId = "8xO68VhE097nrb7iLtOEL2";  
+        String appKey = "Enn8AUi93c75DHdOrJk1V4";  
+        String masterSecret = "LfvK0oXVbrA2h15UOumGb3";  
+          
+        Map<String,String> msg = new HashMap<String, String>();  
+        msg.put("title", "个推测试");  
+        msg.put("titleText", "个推中");  
+        //msg.put("transText", "{title:'通知标题',content:'通知内容',payload:'通知去干嘛这里可以自定义'}");  
+        msg.put("transText", "{payload:'通知去干嘛这里可以自定义'}"); 
+          //c23b79ca51cdd30b9383a5ba37f8894e "bbf41a62e592df0cc2b468338abc0018","b69ebb023fab52414b15bf9991814d92","a5e7a3e5c741d28a20b1aa08ac782b38"
+        String[] cids = {"590e8e1327276ce39f74e5fe898535b0"};  
+          
+        AppPushUtils pushUtils = new AppPushUtils(appId, appKey, masterSecret); 
+        
+        //sigle
+//        for(String cid : cids) {  
+//            System.out.println("正在发送消息...");  
+//            IPushResult ret =  pushUtils.pushMsgToSingle(cid, msg);  
+//            System.out.println(ret.getResponse().toString());  
+//        } 
+         
+        //list
+        @SuppressWarnings("unused")
+		IPushResult ret =  pushUtils.pushMsgToList(cids, msg);
+        
+        return "test/getui";
+	}
 
 	        
 	    
