@@ -16,17 +16,16 @@ import com.self.service.ScheduleJobService;
 @Component
 public class SchedulerListener {
 	
-	@Autowired  
+    @Autowired  
     public ScheduleJobService scheduleJobService;  
 	
     
     /** 
      *  启动的时候执行该方法，或者是使用ApplicationListener，在启动的时候执行该方法 
      *  具体使用见：http://blog.csdn.net/liuchuanhong1/article/details/77568187 
-     * @throws SchedulerException 
      */  
-    //此处暂且注释，后续有后台定时任务逻辑 开启
-    @Scheduled(fixedRate = 5000) // 每隔5s查库，并根据查询结果决定是否重新设置定时任务
+    // 每天的某个时间点，启动所有的定时任务，然后每个定时任务根据自己的cron="* * * * * *" 定时启动	
+    // 此处的配置与 applicationContext-quartz.xml  配置相同
     //@Scheduled(cron="0 08 18 ? * *")
     public void schedule() {   
     	scheduleJobService.scheduleJobs();  
