@@ -10,8 +10,8 @@ ext.isRemoteProfile = false
 
 // 一些会重复出现的jar包的版本号
 ext.versions = [
-		springBoot    : '1.5.9.RELEASE',
-		druid         : '1.0.25',
+	springBoot    : '1.5.9.RELEASE',
+	druid         : '1.0.25',
         mysql         : '5.1.39',
         mybatis       : '1.3.0',
         mapper        : '1.1.4',
