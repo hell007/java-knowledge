@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" 
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd   
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/mvc   
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd   
+        ">
+    
+    <!-- 配置使Spring采用CGLIB代理 -->  
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    
+	<mvc:annotation-driven />
+
+	<mvc:resources location="/static/" mapping="/static/**" />
+	<mvc:resources location="/web/" mapping="/web/**" />
+	<!-- swagger2静态资源 -->
+	<mvc:resources location="/apidoc/" mapping="/apidoc/**" />
+	
+	<!-- 使用Annotation自动注册Bean,SpringMVC中只扫描@Controller -->
+	<context:component-scan base-package="com.self"><!-- base-package 如果多个，用“,”分隔 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" /> 
+	</context:component-scan>
+	
+	<mvc:annotation-driven >
+        <mvc:message-converters>
+            <!-- StringHttpMessageConverter编码为UTF-8，防止乱码 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+                <property name="supportedMediaTypes">
+                    <list>
+                        <bean class="org.springframework.http.MediaType">
+                            <constructor-arg index="0" value="text"/>
+                            <constructor-arg index="1" value="plain"/>
+                            <constructor-arg index="2" value="UTF-8"/>
+                        </bean>
+                        <bean class="org.springframework.http.MediaType">
+                            <constructor-arg index="0" value="*"/>
+                            <constructor-arg index="1" value="*"/>
+                            <constructor-arg index="2" value="UTF-8"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    
+    <!-- 用于将对象转换为 JSON  -->  
+    <bean id="stringConverter"  
+        class="org.springframework.http.converter.StringHttpMessageConverter">  
+        <property name="supportedMediaTypes">  
+            <list>  
+                <value>text/plain;charset=UTF-8</value>  
+            </list>  
+        </property>  
+    </bean>  
+    
+    <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+    <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>text/json;charset=UTF-8</value>  
+                <value>application/json;charset=UTF-8</value>  
+			</list>
+		</property>
+     </bean>  
+     
+    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <ref bean="stringConverter" />  
+                <ref bean="jsonConverter" />  
+            </list>  
+        </property>  
+    </bean>  
+    
+    <!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	    <property name="mediaTypes" >
+	        <map> 
+                <entry key="xml" value="application/xml"/> 
+                <entry key="json" value="application/json"/> 
+            </map>
+	    </property>
+        <property name="ignoreAcceptHeader" value="true"/>
+        <property name="favorPathExtension" value="true"/>
+	</bean>
+	
+    <!-- 上传文件拦截，设置最大上传文件大小   10M=10*1024*1024(B)=10485760 bytes -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 上传文件大小限制为100M，100*1024*1024 注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和-->
+        <property name="maxUploadSize" value="104857600" />
+        <property name="maxInMemorySize" value="4096">
+        </property>
+    </bean>
+    
+   	<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
+	<mvc:default-servlet-handler/>
+
+    <!--统一异常处理-->
+    <!-- <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        定义默认的异常处理页面
+        <property name="defaultErrorView" value="errors/500"/>
+        <property name="statusCodes">
+            <props>
+                <prop key="errors/500">500</prop>
+                <prop key="errors/403">403</prop>
+                <prop key="errors/400">400</prop>
+            </props>
+        </property>
+        <property name="warnLogCategory" value="ERROR"/>
+    </bean> -->
+    
+    <!-- url拦截 -->
+	<!-- <mvc:interceptors> 
+		 <mvc:interceptor>  
+	        <mvc:mapping path="/**"/>  
+	        <mvc:exclude-mapping path="/swagger*/**"/> 
+			<mvc:exclude-mapping path="/v2/**"/> 
+			<mvc:exclude-mapping path="/webjars/**"/> 
+	        <bean class="com.self.interceptor.UrlRedirectInterceptor"/>  
+	    </mvc:interceptor>  
+     </mvc:interceptors> -->
+     
+	 
+	
+</beans>        
