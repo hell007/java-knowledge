@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	<bean id="jobFactory" class="com.self.schedule.JobFactory"></bean>   
+    
+	<!-- 总调度类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
+	<bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobFactory" ref="jobFactory"/>
+		<property name="triggers">
+			<list>
+				<!-- 触发器列表    -->
+				<ref bean="cronTrigger1" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- spring自动任务调度器配置 -->
+	<!-- 触发器1 -->
+	<bean id="cronTrigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" >
+			<ref bean="jobtask1" />
+		</property>
+		<property name="cronExpression">
+			 <value>0/6 * * * * ?</value>
+		</property>
+	</bean>
+	<bean id="jobtask1" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.self.task.ScheduleTask1" />
+	</bean>
+	
+</beans>
+	
+	
