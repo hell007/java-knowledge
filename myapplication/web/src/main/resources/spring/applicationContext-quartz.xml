@@ -14,22 +14,38 @@
 			<list>
 				<!-- 触发器列表    -->
 				<ref bean="cronTrigger1" />
+				<ref bean="cronTrigger2" />
 			</list>
 		</property>
 	</bean>
 	
 	<!-- spring自动任务调度器配置 -->
-	<!-- 触发器1 -->
+	<!-- 触发器、任务 1 -->
 	<bean id="cronTrigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" >
 			<ref bean="jobtask1" />
 		</property>
 		<property name="cronExpression">
-			 <value>0/6 * * * * ?</value>
+			 <!-- 每隔10秒执行一次 <value>0/10 * * * * ?</value> --> 
+			 <value>0/10 * * * * ?</value>
 		</property>
 	</bean>
 	<bean id="jobtask1" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="jobClass" value="com.self.task.ScheduleTask1" />
+	</bean>
+	
+	<!-- 触发器、任务 2 -->
+	<bean id="cronTrigger2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" >
+			<ref bean="jobtask2" />
+		</property>
+		<property name="cronExpression">
+			 <!-- 每天上午8点执行一次 <value>0 0 8 * * ?</value>-->
+			 <value>0 0 8 * * ?</value>
+		</property>
+	</bean>
+	<bean id="jobtask2" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.self.task.ScheduleTask2" />
 	</bean>
 	
 </beans>
