@@ -1150,7 +1150,9 @@ Cron表达式是一个字符串，是由空格隔开的6或7个域组成，每�
 
 1.[Spring boot 集成Quartz的使用（解决quartz的job无法注入spring对象的问题）](https://blog.csdn.net/mengruobaobao/article/details/79106343)
 
-2.[案列](https://github.com/hell007/java-knowledge/tree/master/springboot/src/main/java/com/self/schedule)
+2.[springboot整合Quartz实现动态配置定时任务](https://blog.csdn.net/yunhan0806/article/details/79814903)
+
+3.[案列](https://github.com/hell007/java-knowledge/tree/master/springboot/src/main/java/com/self/schedule)
 
 
 ##### 参考地址
