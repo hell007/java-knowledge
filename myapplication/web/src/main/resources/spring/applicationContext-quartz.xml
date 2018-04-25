@@ -5,6 +5,8 @@
 	http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 	
+	<!--  spring Quartz多个定时任务的配置  -->
+	
 	<bean id="jobFactory" class="com.self.schedule.JobFactory"></bean>   
     
 	<!-- 总调度类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
