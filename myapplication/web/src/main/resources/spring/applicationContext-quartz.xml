@@ -7,6 +7,10 @@
 	
 	<!--  spring Quartz多个定时任务的配置  -->
 	
+	<!-- 非xml配置方式 https://github.com/hell007/java-knowledge/blob/master/springboot/src/main/java/com/self/schedule/SchedulerListener.java -->	
+	
+	
+	
 	<bean id="jobFactory" class="com.self.schedule.JobFactory"></bean>   
     
 	<!-- 总调度类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
