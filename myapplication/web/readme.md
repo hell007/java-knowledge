@@ -36,3 +36,8 @@ public class SwaggerConfig {
 http://localhost:8080/web/v2/api-docs  //需要http://localhost:8080/web/这个，否则Failed to load API definition.
 
 ```
+
+5.访问  http://localhost:8080/web/apidoc/index.html
+
+
+
