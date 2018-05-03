@@ -1,0 +1,10 @@
+archivesBaseName = 'dubbo-api'
+
+dependencies {
+
+    compile (
+        //mybatis
+        libraries.'mybatis',
+        libraries.'mapper',
+    )
+}
