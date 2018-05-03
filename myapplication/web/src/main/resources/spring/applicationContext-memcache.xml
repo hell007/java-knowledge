@@ -14,10 +14,7 @@
              http://www.springframework.org/schema/context
              http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
-    <!-- 添加属性文件-->
-    <!-- <context:property-placeholder location="classpath*:memcache.properties"  file-encoding="UTF-8"/>-->
-    
-    <bean id="memcachedPool" class="com.danga.MemCached.SockIOPool" factory-method="getInstance"
+    <bean id="memcachedPool" class="com.self.SockIOPool" factory-method="getInstance"
           init-method="initialize"    destroy-method="shutDown">
         <property name="servers">
             <list>
@@ -50,6 +47,7 @@
             <value>${memcache.socketTO}</value>
         </property>
     </bean>
-    <bean id="memcachedClient" class="com.danga.MemCached.MemCachedClient">
-    </bean>
+       
+    <bean id="memcachedClient" class="com.self.MemCachedClient"></bean>
+       
 </beans>
