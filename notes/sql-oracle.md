@@ -29,7 +29,7 @@ system 登录
 解锁scott
 > alter user scott account unlock;
 > alter user scott identified by tigger;
-
+> conn scott/tigger
 
 
 ```
