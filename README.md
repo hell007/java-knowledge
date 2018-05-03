@@ -4,7 +4,7 @@
 
 [spring入门](https://segmentfault.com/a/1190000008396882)
 
-[gradle 多模块]（./myapplication）
+[gradle多模块](./myapplication)
 
 [springboot 热部署](./hotdeploy)
 
