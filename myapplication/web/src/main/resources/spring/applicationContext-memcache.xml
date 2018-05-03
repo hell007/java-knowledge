@@ -1,0 +1,55 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+             http://www.springframework.org/schema/aop
+             http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+             http://www.springframework.org/schema/tx
+             http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+             http://www.springframework.org/schema/context
+             http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <!-- 添加属性文件-->
+    <!-- <context:property-placeholder location="classpath*:memcache.properties"  file-encoding="UTF-8"/>-->
+    
+    <bean id="memcachedPool" class="com.danga.MemCached.SockIOPool" factory-method="getInstance"
+          init-method="initialize"    destroy-method="shutDown">
+        <property name="servers">
+            <list>
+                <value>${memcache.server1}</value>
+                <value>${memcache.server2}</value>
+            </list>
+        </property>
+        <property name="weights">
+            <list>
+                <value>${memcache.weights1}</value>
+                <value>${memcache.weights2}</value>
+            </list>
+        </property>
+        <property name="initConn">
+            <value>${memcache.initConn}</value>
+        </property>
+        <property name="minConn">
+            <value>${memcache.minConn}</value>
+        </property>
+        <property name="maxConn">
+            <value>${memcache.maxConn}</value>
+        </property>
+        <property name="maintSleep">
+            <value>${memcache.maintSleep}</value>
+        </property>
+        <property name="nagle">
+            <value>${memcache.nagle}</value>
+        </property>
+        <property name="socketTO">
+            <value>${memcache.socketTO}</value>
+        </property>
+    </bean>
+    <bean id="memcachedClient" class="com.danga.MemCached.MemCachedClient">
+    </bean>
+</beans>
