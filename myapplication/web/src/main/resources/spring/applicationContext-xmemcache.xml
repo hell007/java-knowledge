@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+             http://www.springframework.org/schema/aop
+             http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+             http://www.springframework.org/schema/tx
+             http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+             http://www.springframework.org/schema/context
+             http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <bean id="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder">  
+        <constructor-arg>  
+            <list>  
+                <bean class="java.net.InetSocketAddress">  
+                    <constructor-arg value="${xmemcache.ip}" />  
+                    <constructor-arg value="${xmemcache.port}" />  
+                </bean>  
+            </list>  
+        </constructor-arg>  
+        <property name="connectionPoolSize" value="${xmemcache.pool.size}" />  
+        <property name="commandFactory">  
+            <bean class="net.rubyeye.xmemcached.command.BinaryCommandFactory" />  
+        </property>  
+        <property name="transcoder">  
+            <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />  
+        </property>  
+    </bean>  
+  
+    <bean id="memcachedClient" factory-bean="memcachedClientBuilder" factory-method="build" destroy-method="shutdown" />  
+          
+    <bean id="cacheManager" class="com.iaccount.framework.cache.memcache.MemcachedCacheManager">  
+        <property name="memcachedClient" ref="memcachedClient" />  
+        <property name="configMap">  
+            <map>  
+                <!-- key：@Cacheable、@CachePut、@CacheEvict等的value属性。value：缓存过期时间(单位：秒)，默认值：0 -->  
+                <entry key="defaultCache" value="0" /><!-- 默认缓存区 不过期 -->  
+                <entry key="inTimeCache" value="7200" /><!-- 实时缓存区 一小时过期 -->  
+            </map>  
+        </property>  
+    </bean>  
+  
+    <cache:annotation-driven cache-manager="cacheManager" /> 
+       
+</beans>
