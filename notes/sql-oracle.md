@@ -31,6 +31,14 @@ system 登录
 > alter user scott identified by tigger;
 > conn scott/tigger
 
+创建用户
+> conn system/manager
+> create user test identified by t123;
+
+修改口令
+> password test
+> t1234
+> t1234
 
 ```
 
