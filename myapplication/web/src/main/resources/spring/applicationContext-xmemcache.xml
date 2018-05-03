@@ -14,14 +14,32 @@
              http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
     <bean id="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder">  
-        <constructor-arg>  
-            <list>  
-                <bean class="java.net.InetSocketAddress">  
+        <constructor-arg>   
+            <list>
+                <bean class="java.net.InetSocketAddress">
                     <constructor-arg value="${xmemcache.ip}" />  
-                    <constructor-arg value="${xmemcache.port}" />  
-                </bean>  
-            </list>  
+                    <constructor-arg value="${xmemcache.port}" />
+                </bean>
+                <!-- 
+                <bean class="java.net.InetSocketAddress">
+                    <constructor-arg>
+                        <value>localhost</value>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <value>12001</value>
+                    </constructor-arg>
+                </bean>
+                 -->
+            </list>
         </constructor-arg>  
+        <constructor-arg>
+            <list>                 
+                <value>1</value>
+                <!--
+                <value>2</value>
+                 -->
+            </list>
+        </constructor-arg>
         <property name="connectionPoolSize" value="${xmemcache.pool.size}" />  
         <property name="commandFactory">  
             <bean class="net.rubyeye.xmemcached.command.BinaryCommandFactory" />  
