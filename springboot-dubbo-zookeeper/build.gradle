@@ -1,0 +1,131 @@
+apply plugin: 'java'
+
+/**
+*引入jar包定义
+*这个文件中定义的jar包可以直接在子项目中使用，不需要再次使用 apply from 这个语句
+*/
+apply from: 'dependency.gradle'
+
+/**
+ * 获取属性，如果没有则采用默认值
+ */
+def defaultProperty(propertyName, defaultValue) {
+    return hasProperty(propertyName) ? project[propertyName] : defaultValue
+}
+
+// profile(或者env——为了向后兼容)参数默认为prod, 即生产环境. 可通过以下几种方式改变
+// 1. gradle.properties 放置于 <USER_HOME>/.gradle 或者 项目根目录
+// 2. gradle项目属性    -Pprofile=<dev|test|prod>
+// 3. java系统变量      –Dprofile=<dev|test|prod>
+// 4. 环境变量          ORG_GRADLE_PROJECT_profile=<dev|test|prod>
+ext {
+    profile = defaultProperty('profile', defaultProperty('env', 'dev'))
+    isDev = profile == 'dev'
+    isTest = profile == 'test'
+    isProd = profile == 'prod'
+}
+
+
+// 所有子项目的通用配置
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    
+    // 用于发布 jar 包到相应服务器
+    //apply plugin: 'maven'
+
+    // Jdk 版本号要求
+    sourceCompatibility = '1.7'
+
+    // java编译的时候缺省状态下会因为中文字符而失败
+    // 所以这儿需要改为utf8
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    repositories {
+        //maven { url "http://192.168.9.234:8081/nexus/content/groups/public" }
+        //阿里云镜像
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/"}
+        mavenCentral()
+    }
+
+    jar {
+        manifest {
+            attributes("Manifest-Version": "1.0")
+            attributes("Created-By": "jie")
+            attributes("Implementation-Title": "jie")
+            attributes("Implementation-Version": "1.0")
+        }
+    }
+
+    eclipse {
+        project {
+            name = "${archivesBaseName}"
+        }
+    }
+
+
+    dependencies {
+
+
+        ext.jarTree = fileTree(dir: 'lib', include: '**/*.jar')
+        ext.rootProjectLibs = new File(rootProject.rootDir, 'lib').getAbsolutePath()
+        ext.jarTree += fileTree(dir: rootProjectLibs, include: '**/*.jar')
+
+        compile jarTree
+
+        // 测试依赖
+        testCompile(
+                libraries.'junit',
+                libraries.'spring-boot-test',
+        )
+    }
+
+    // 显示当前项目下所有用于 compile 的 jar.
+    task listJars(description: 'Display all compile jars.') << {
+        configurations.compile.each { File file -> println file.name }
+    }
+}
+
+//压缩静态资源
+task zipStaticRes(description: 'Zip the static resource') << {
+    ant.zip(destfile: 'deploy/resources.zip') {
+        fileset(dir: 'deploy') {
+            exclude(name: '**.*')
+        }
+    }
+    delete "deploy/resources"
+}
+
+task debug << {
+    println "$env"
+    println "$isProd"
+    configurations.compile.each {println it}
+}
+
+// 打包web项目
+// 用法1: 打包所有web项目
+// gradle releaseWebApp
+// 用法2: 打包指定的web项目
+// gradle releaseWebApp -Pprjs=jie-admin,jie-web,groupapp
+task releaseWebApp
+
+if (rootProject.hasProperty('prjs')) {
+    def prjs = defaultProperty('prjs', "").split(',').toList()
+    gradle.afterProject { project, projectState ->
+        if (project.name in prjs && project.plugins.findPlugin("war")) {
+            println project.name
+            releaseWebApp.dependsOn(project.release)
+        }
+    }
+} else {
+    gradle.afterProject { project, projectState ->
+        if (project.plugins.findPlugin("war")) {
+            releaseWebApp.dependsOn(project.release)
+        }
+    }
+}
+
+
+
+
