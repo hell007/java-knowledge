@@ -1,0 +1,6 @@
+rootProject.name = 'dubbo-soa'
+
+
+include 'dubbo-api'
+include 'dubbo-provider'
+include 'dubbo-consumer'
