@@ -101,6 +101,10 @@ clientPort=2181
 
 
 
+## 收藏
+
+[dubbo学习过程、使用经验分享及实现原理简单介绍](https://blog.csdn.net/hzzhoushaoyu/article/details/43273099)
+
 
 
 
