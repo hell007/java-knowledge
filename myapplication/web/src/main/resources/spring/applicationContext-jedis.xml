@@ -31,6 +31,7 @@
 		<!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true -->
 		<property name="blockWhenExhausted" value="false" />
 	</bean>	
+	
 	<!-- jedis客户端单机版 -->
 	<bean class="redis.clients.jedis.JedisPool">
 		<constructor-arg name="host" value="127.0.0.1"></constructor-arg>
@@ -38,7 +39,7 @@
 		<!-- <constructor-arg name="pwd" value="123456"></constructor-arg> -->
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
 	</bean> 
-	<bean id="jedisClient" class="com.self.dao.impl.JedisClientSingle"></bean>
+	<bean id="jedisClient" class="com.self.service.impl.JedisClientSingle"></bean>
 	
 	<!-- jedis集群版配置 -->
 	<!-- <bean class="redis.clients.jedis.JedisCluster">
@@ -72,5 +73,5 @@
 		</constructor-arg>
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
 	</bean>
-	<bean id="jedisClient" class="com.self.dao.impl.JedisClientCluster"></bean> -->
+	<bean id="jedisClient" class="com.self.service.impl.JedisClientCluster"></bean> -->
 </beans>
