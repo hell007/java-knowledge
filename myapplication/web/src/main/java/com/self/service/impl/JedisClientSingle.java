@@ -1,4 +1,4 @@
-package com.self.dao.impl;
+package com.self.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
