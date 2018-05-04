@@ -72,6 +72,8 @@
 
 [redis单机版与集群版](./redis.md)
 
+[Memcached服务器安装、配置、使用详解](https://yq.aliyun.com/articles/27768#)
+
 [memcache 集群](http://www.open-open.com/lib/view/open1340337319596.html)
 
 [分布式缓存架构基础](https://blog.csdn.net/lz0426001/article/details/52634772)
