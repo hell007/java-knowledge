@@ -42,3 +42,47 @@ system 登录
 
 ```
 
+##### 3.建表语句
+
+```
+1、创建表
+
+create table t_user(  
+id number(4) not null primary key,                
+name varchar2(20) not null,
+sex char(2),
+age number(3),
+mobile char(11),
+job varchar2(20)
+); 
+
+
+2、创建自动增长序列
+
+ create Sequence user_add_auto_sequence 
+ Increment by 1     -- 每次加几个 
+ start with 1       -- 从1开始计数     
+ maxvalue 9999      -- 不设置最大值:nomaxvalue,设置最大值：maxvalue 9999  
+ nocycle            -- 一直累加，不循环    
+ cache 10;  
+
+3、创建触发器
+
+ create trigger user_add_auto_trigger before 
+ insert on t_user for each row /*对每一行都检测是否触发*/
+ begin
+ select user_add_auto_sequence.nextval into:New.id from dual;
+ end;      
+
+4、提交 
+
+commit;
+
+5、测试 
+
+insert into T_USER(NAME,SEX,AGE,MOBILE,JOB) values ('李红','女',34,'13677777777','开发');
+```
+
+
+
+
