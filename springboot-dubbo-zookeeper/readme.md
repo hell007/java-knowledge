@@ -105,6 +105,8 @@ clientPort=2181
 
 [dubbo学习过程、使用经验分享及实现原理简单介绍](https://blog.csdn.net/hzzhoushaoyu/article/details/43273099)
 
+[Dubbo后台管理和监控中心部署](https://blog.csdn.net/zx13525079024/article/details/52260141)
+
 
 
 
