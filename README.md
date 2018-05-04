@@ -6,7 +6,7 @@
 
 [gradle多模块](./myapplication)
 
-[springboot 热部署](./hotdeploy)
+[springboot+JPA+thymeleaf+热部署](./hotdeploy) 
 
 [RPC](./springboot-dubbo-zookeeper)
 
