@@ -47,7 +47,7 @@ public class UserController {
     	list2.add("rose");*/
     	
     	String key = "key02";
-    	xmemcachedClient.set(key, list);
+    	xmemcachedClient.set(key, JSON.toJSONString(list));
 		System.out.println("get(key)======"+xmemcachedClient.get(key));
 
 		GetsResponse<Object> val = xmemcachedClient.gets(key);
