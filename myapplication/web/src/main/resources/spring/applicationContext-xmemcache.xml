@@ -5,63 +5,64 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-             http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+             http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
              http://www.springframework.org/schema/aop
-             http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+             http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
              http://www.springframework.org/schema/tx
-             http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+             http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
              http://www.springframework.org/schema/context
-             http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+             http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <bean id="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder">  
+    <bean id="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder"> 
+    	<!-- 缓存服务器地址和端口. --> 
         <constructor-arg>   
             <list>
                 <bean class="java.net.InetSocketAddress">
-                    <constructor-arg value="${xmemcache.ip}" />  
-                    <constructor-arg value="${xmemcache.port}" />
+                    <constructor-arg value="127.0.0.1" />  
+                    <constructor-arg value="11211" />
                 </bean>
-                <!-- 
-                <bean class="java.net.InetSocketAddress">
-                    <constructor-arg>
-                        <value>localhost</value>
-                    </constructor-arg>
-                    <constructor-arg>
-                        <value>12001</value>
-                    </constructor-arg>
-                </bean>
-                 -->
+                <!-- <bean class="java.net.InetSocketAddress">
+                    <constructor-arg value="127.0.0.1" />  
+                    <constructor-arg value="12000" />
+                </bean> -->
             </list>
-        </constructor-arg>  
+        </constructor-arg> 
+        <!-- 对应的节点的权重 --> 
         <constructor-arg>
             <list>                 
                 <value>1</value>
-                <!--
-                <value>2</value>
-                 -->
+                <!-- <value>2</value> -->
             </list>
         </constructor-arg>
-        <property name="connectionPoolSize" value="${xmemcache.pool.size}" />  
+                
+        <!-- 授权验证信息 -->
+        <!-- 连接数 -->
+        <property name="connectionPoolSize" value="5" />  
+        
+        <!--  协议工厂，net.rubyeye.xmemcached.command.BinaryCommandFactory,TextCommandFactory(默认),KestrelCommandFactory -->
         <property name="commandFactory">  
             <bean class="net.rubyeye.xmemcached.command.BinaryCommandFactory" />  
-        </property>  
+        </property> 
+        
+        <!-- 序列化转换器，默认使用net.rubyeye.xmemcached.transcoders.SerializingTranscoder，更多选项参见javadoc --> 
         <property name="transcoder">  
             <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />  
         </property>  
+        
+        <!-- 分布策略，一致性哈希net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator或者ArraySessionLocator(默认) -->
+        <property name="sessionLocator">
+	        <bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"></bean>
+	    </property>
+    
+        <!-- IoBuffer分配器，默认为net.rubyeye.xmemcached.buffer.SimpleBufferAllocator，可选CachedBufferAllocator(不推荐) -->
+        <property name="bufferAllocator">
+                <bean class="net.rubyeye.xmemcached.buffer.SimpleBufferAllocator"></bean>
+        </property>
+        
+        <!-- 是否启用failure模式，true为启用，默认不启用 -->
+        <property name="failureMode" value="false"/>
     </bean>  
   
     <bean id="memcachedClient" factory-bean="memcachedClientBuilder" factory-method="build" destroy-method="shutdown" />  
-          
-    <bean id="cacheManager" class="com.iaccount.framework.cache.memcache.MemcachedCacheManager">  
-        <property name="memcachedClient" ref="memcachedClient" />  
-        <property name="configMap">  
-            <map>  
-                <!-- key：@Cacheable、@CachePut、@CacheEvict等的value属性。value：缓存过期时间(单位：秒)，默认值：0 -->  
-                <entry key="defaultCache" value="0" /><!-- 默认缓存区 不过期 -->  
-                <entry key="inTimeCache" value="7200" /><!-- 实时缓存区 一小时过期 -->  
-            </map>  
-        </property>  
-    </bean>  
-  
-    <cache:annotation-driven cache-manager="cacheManager" /> 
-       
+	<bean id="xmemcachedClient" class="com.self.service.impl.XmemcachedClientImpl"></bean>
 </beans>
