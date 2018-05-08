@@ -70,5 +70,52 @@ shrio 提供有jsp 标签，供在jsp 里使用，如果想在beetl中使用，�
 		2222
 	<%}%>
 
-#### 
+####  tk.mybatis.mapper.common.Mapper  多表联合查询
+
+1. 拓展mapper*.xml文件 参看userMapper.xml
+
+2. 拓展userMapper.java
+
+```
+public interface UserMapper {  
+    List<User> getUserAddress(String id);  
+}
+```
+
+3. dao接口扩展 
+
+```
+public interface UserDao extends UserMapper { }
+
+```
+4. 使用
+
+```
+public class UserServiceImpl implements UserService {  
+  
+    @Resource  
+    public UserDao userDao;  
+    
+    @Override  
+    public List<User> getUserAddress(String id) {  
+        return userDao.getUserAddress();  
+    }  
+  
+}
+```
+
+> 总结： 
+
+	1.多表查询就是使用比较老的xml映射查询
+	
+	2.使用jpa注解
+
+
+
+
+
+
+
+
+
 
