@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 
 	1.多表查询就是使用比较老的xml映射查询
 	
-	2.使用jpa注解
+	2.使用spring-data-jpa注解
 
 
 
