@@ -26,7 +26,7 @@
 	    <id column="id" property="id" jdbcType="VARCHAR"/>  
 	    <result column="name" property="name" jdbcType="VARCHAR"/>  
 	    <result column="passwd" property="passwd" jdbcType="VARCHAR"/>  
-	    <collection property="roles" javaType="java.util.List" ofType="com.self.model.UserAddress">  
+	    <collection property="UserAddress" javaType="java.util.List" ofType="com.self.model.UserAddress">  
 	        <id column="id" property="id" jdbcType="VARCHAR" />  
 	        <result column="addressname" property="adressname" jdbcType="VARCHAR" />   
 	    </collection>  
