@@ -1,11 +1,8 @@
 package com.self.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.rubyeye.xmemcached.GetsResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.self.model.User;
 import com.self.service.UserService;
-import com.self.service.XmemcachedClient;
 
 @Controller
 @RequestMapping("/user")
@@ -23,10 +19,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	private User user;
 	
-	@Autowired
-	private XmemcachedClient xmemcachedClient;
+	/*@Autowired
+	private XmemcachedClient xmemcachedClient;*/
 	
 	
 	@RequestMapping("/show")
@@ -35,16 +30,13 @@ public class UserController {
         return "hello world";
     }
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	
+	/*@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
     public Map<String,Object> list(){  
     	Map<String,Object> map = new HashMap<String,Object>();
     	List<User> list = userService.select(null); 
     	map.put("list",list);
-    	
-/*    	List<String> list2 = new ArrayList<String>();
-    	list2.add("jack");
-    	list2.add("rose");*/
     	
     	String key = "key02";
     	xmemcachedClient.set(key, JSON.toJSONString(list));
@@ -60,10 +52,9 @@ public class UserController {
 		System.out.println("get======"+xmemcachedClient.get(key));
 		
     	return map;   
-    }
-
-    //mybatis动态sql
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    }*/
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ResponseBody
     public Map<String,Object> test(){  
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -72,7 +63,15 @@ public class UserController {
 		return map;
 	}
 	
-	//mybatis动态sql
+	@RequestMapping(value = "/test1", method = RequestMethod.GET)
+	@ResponseBody
+    public Map<String,Object> test1(){  
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<User> list = userService.getAll();
+		map.put("list", list);
+		return map;
+	}
+	
 	@RequestMapping(value = "/test2", method = RequestMethod.GET)
 	@ResponseBody
     public Map<String,Object> test2(){  
@@ -84,5 +83,7 @@ public class UserController {
 		map.put("ok", true);
 		return map;
 	}
+	
+	
 	
 }
