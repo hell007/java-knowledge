@@ -61,5 +61,28 @@ public class UserController {
 		
     	return map;   
     }
+
+    //mybatis动态sql
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+	@ResponseBody
+    public Map<String,Object> test(){  
+		Map<String,Object> map = new HashMap<String,Object>();
+		User user = userService.getUser("admin", "123456");
+		map.put("user", user);
+		return map;
+	}
+	
+	//mybatis动态sql
+	@RequestMapping(value = "/test2", method = RequestMethod.GET)
+	@ResponseBody
+    public Map<String,Object> test2(){  
+		Map<String,Object> map = new HashMap<String,Object>();
+		User user = userService.selectByKey("1");
+		user.setGender("女");
+		user.setPhone("13777777777");
+		userService.updateUser(user);;
+		map.put("ok", true);
+		return map;
+	}
 	
 }
