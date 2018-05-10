@@ -69,56 +69,56 @@ List<User> queryUserAddress();
 
 但不写 <select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">语句，sqlprovider里写
 
+######
 
-```
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.self.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.self.model.User" >
-    <!--
-      WARNING - @mbggenerated
-    -->
-    <constructor >
-      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="name" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="passwd" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="gender" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="phone" jdbcType="CHAR" javaType="java.lang.String" />
-      <arg column="header" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="ip" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="status" jdbcType="BIT" javaType="java.lang.Boolean" />
-      <arg column="reason" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="salt" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="created" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="lastLogin" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-    </constructor>
-  </resultMap>
-  
-  
-  	<resultMap id="queryUserAddress" type="com.self.model.User">  
-	    <id column="id" property="id" jdbcType="VARCHAR"/>  
-	    <result column="name" property="name" jdbcType="VARCHAR"/>  
-	    <result column="passwd" property="passwd" jdbcType="VARCHAR"/>  
-	    <collection property="UserAddress" javaType="java.util.List" ofType="com.self.model.UserAddress">  
-	        <id column="id" property="id" jdbcType="VARCHAR" />  
-	        <result column="addressname" property="adressname" jdbcType="VARCHAR" />   
-	    </collection>  
- 	</resultMap>
-	
-	<select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">
-		select u.id,u.name,
-			a.id,a.addressname
-		form myse_user u
-		left join 
-		myself_user_address
-		on u.id = a.uid
-		where id = #{id, jdbcType=VARCHAR}
-	</select>
-	
-	
-</mapper>
+	<?xml version="1.0" encoding="UTF-8" ?>
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+	<mapper namespace="com.self.dao.UserMapper" >
+	  <resultMap id="BaseResultMap" type="com.self.model.User" >
+	    <!--
+	      WARNING - @mbggenerated
+	    -->
+	    <constructor >
+	      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+	      <arg column="name" jdbcType="CHAR" javaType="java.lang.String" />
+	      <arg column="passwd" jdbcType="CHAR" javaType="java.lang.String" />
+	      <arg column="gender" jdbcType="CHAR" javaType="java.lang.String" />
+	      <arg column="phone" jdbcType="CHAR" javaType="java.lang.String" />
+	      <arg column="header" jdbcType="VARCHAR" javaType="java.lang.String" />
+	      <arg column="ip" jdbcType="VARCHAR" javaType="java.lang.String" />
+	      <arg column="status" jdbcType="BIT" javaType="java.lang.Boolean" />
+	      <arg column="reason" jdbcType="VARCHAR" javaType="java.lang.String" />
+	      <arg column="salt" jdbcType="VARCHAR" javaType="java.lang.String" />
+	      <arg column="created" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+	      <arg column="lastLogin" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+	    </constructor>
+	  </resultMap>
 
-```
+
+		<resultMap id="queryUserAddress" type="com.self.model.User">  
+		    <id column="id" property="id" jdbcType="VARCHAR"/>  
+		    <result column="name" property="name" jdbcType="VARCHAR"/>  
+		    <result column="passwd" property="passwd" jdbcType="VARCHAR"/>  
+		    <collection property="UserAddress" javaType="java.util.List" ofType="com.self.model.UserAddress">  
+			<id column="id" property="id" jdbcType="VARCHAR" />  
+			<result column="addressname" property="adressname" jdbcType="VARCHAR" />   
+		    </collection>  
+		</resultMap>
+
+		<select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">
+			select u.id,u.name,
+				a.id,a.addressname
+			form myse_user u
+			left join 
+			myself_user_address
+			on u.id = a.uid
+			where id = #{id, jdbcType=VARCHAR}
+		</select>
+
+
+	</mapper>
+
+######
  
 ```
 @InsertProvider(type = UserSqlProvider.class, method = "insertUser") 
