@@ -37,7 +37,7 @@
 			a.id,a.addressname
 		form myse_user u
 		left join 
-		myself_user_address
+		myself_user_address 
 		on u.id = a.uid
 		where id = #{id, jdbcType=VARCHAR}
 	</select>
