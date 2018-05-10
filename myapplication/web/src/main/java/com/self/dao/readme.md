@@ -101,16 +101,61 @@ List<User> queryUserAddress();
 ````
 用法和含义@SelectProvider一样，只不过是用来删除数据而用的
 
+```
+<resultMap id="queryUserAddress" type="com.self.model.User">  
+    <id column="id" property="id" jdbcType="VARCHAR"/>  
+    <result column="name" property="name" jdbcType="VARCHAR"/>  
+    <result column="passwd" property="passwd" jdbcType="VARCHAR"/>  
+    <collection property="UserAddress" javaType="java.util.List" ofType="com.self.model.UserAddress">  
+        <id column="id" property="id" jdbcType="VARCHAR" />  
+        <result column="addressname" property="adressname" jdbcType="VARCHAR" />   
+    </collection>  
+</resultMap>
 
-如果你在userMapper中调用该方法的某个接口方法已经定义了参数@Param()，
+<select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">
+        select u.id,u.name,
+                a.id,a.addressname
+        form myse_user u
+        left join 
+        myself_user_address
+        on u.id = a.uid
+        where id = #{id, jdbcType=VARCHAR}
+</select>
+
+```      
+
+###### 注意
+
+1.如果你在userMapper中调用该方法的某个接口方法已经定义了参数
+
+```
+@Param()
+```
 
 那么该方法的参数Map<String, Object> parameters即组装了@Param()定义的参数，
 
-比如userMapper接口方法中定义参数为@Param("name"),@Param("passwd")，
+比如userMapper接口方法中定义参数为
 
-那么parameters的形态就是：[key="name",value=object1],[key="passwd",value=object2]，
+```
+@Param("name"),@Param("passwd")
+```
 
-如果接口方法没有定义@Param()，那么parameters的key就是参数的顺序小标：[key=0,value=object1],[key=1,value=object2]，
+那么parameters的形态就是：
+
+```
+[key="name",value=object1],[key="passwd",value=object2]
+```
+
+2.如果接口方法没有定义
+```
+@Param()
+```
+
+那么parameters的key就是参数的顺序小标：
+
+```
+[key=0,value=object1],[key=1,value=object2]，
+```
 
 SQL()将返回最终append结束的字符串，
 
