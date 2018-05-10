@@ -21,8 +21,24 @@ public class UserSqlProvider {
 	 * @return
 	 */
 	public String getAll() {  
-		SQL sql = new SQL().SELECT("id,name,phone").FROM("self_user");  
+		SQL sql = new SQL()
+					.SELECT("id,name,phone")
+					.FROM("self_user");  
         return sql.toString();  
+    }
+	
+	/**
+	 * 多表查询
+	 * @return
+	 */
+	public static String queryUserAddress(){
+        SQL sql = new SQL()
+        		.SELECT("u.id, u.name*")
+        		.SELECT("a.id, a.addressname")
+        		.FROM("self_user u")
+        		.LEFT_OUTER_JOIN("myself_user_address a on u.id = a.uid")
+        		.WHERE("id=#{id}");
+        return sql.toString();
     }
 	
     /**
@@ -33,7 +49,9 @@ public class UserSqlProvider {
     public String getUser(Map<String, String> params){
         String name = params.get("name");
         String password = params.get("password");
-        SQL sql = new SQL().SELECT("*").FROM("self_user");
+        SQL sql = new SQL()
+        			.SELECT("*")
+        			.FROM("self_user");
         if(!StringUtils.isEmpty(name)){
             sql.WHERE("name=#{name}");
         }
@@ -49,8 +67,10 @@ public class UserSqlProvider {
      * @return
      */
     public String updateUser(User user){
-        SQL sql = new SQL().UPDATE("self_user").SET("phone = #{phone}, gender = #{gender}")
-                .WHERE("id=#{id}");
+        SQL sql = new SQL()
+        			.UPDATE("self_user")
+        			.SET("phone = #{phone}, gender = #{gender}")
+        			.WHERE("id = #{id}");
         return sql.toString();
     }
     
@@ -59,9 +79,10 @@ public class UserSqlProvider {
      * @return
      */
     public String insertUser() {  
-    	SQL sql = new SQL().INSERT_INTO("self_user"). 
-        VALUES("id", "#{user.id,javaType=string,jdbcType=VARCHAR}"). 
-        VALUES("name", "#{user.userName,javaType=string,jdbcType=VARCHAR}");  
+    	SQL sql = new SQL()
+    				.INSERT_INTO("self_user")
+    				.VALUES("id", "#{user.id,javaType=string,jdbcType=VARCHAR}")
+    				.VALUES("name", "#{user.userName,javaType=string,jdbcType=VARCHAR}");  
         return sql.toString();  
     }
     
@@ -70,9 +91,16 @@ public class UserSqlProvider {
      * @return
      */
     public String deleteUser() {  
-    	SQL sql = new SQL().DELETE_FROM("self_user"). 
-        WHERE("id= #{id,javaType=string,jdbcType=VARCHAR}");  
+    	
+    	SQL sql = new SQL()
+    				.DELETE_FROM("self_user")
+    				.WHERE("id = #{id}");  
         return sql.toString();  
     }
+    
+    public static void main(String[] args) {
+		// 测试
+		System.out.println("======"+queryUserAddress());
+	}
     
 }
