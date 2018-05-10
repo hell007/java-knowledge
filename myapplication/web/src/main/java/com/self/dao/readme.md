@@ -101,8 +101,8 @@ List<User> queryUserAddress();
 ````
 用法和含义@SelectProvider一样，只不过是用来删除数据而用的
 
-```
-<resultMap id="queryUserAddress" type="com.self.model.User">  
+<pre>
+<resultMap id="queryUserAddress" type="com.self.model.User"> 
     <id column="id" property="id" jdbcType="VARCHAR"/>  
     <result column="name" property="name" jdbcType="VARCHAR"/>  
     <result column="passwd" property="passwd" jdbcType="VARCHAR"/>  
@@ -121,8 +121,7 @@ List<User> queryUserAddress();
         on u.id = a.uid
         where id = #{id, jdbcType=VARCHAR}
 </select>
-
-```      
+</pre>     
 
 ###### 注意
 
