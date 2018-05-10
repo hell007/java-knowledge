@@ -69,29 +69,28 @@ List<User> queryUserAddress();
 
 但不写 <select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">语句，sqlprovider里写
 
-```
-<resultMap id="queryUserAddress" type="com.self.model.User">  
-    <id column="id" property="id" jdbcType="VARCHAR"/>  
-    <result column="name" property="name" jdbcType="VARCHAR"/>  
-    <result column="passwd" property="passwd" jdbcType="VARCHAR"/>  
-    <collection property="UserAddress" javaType="java.util.List" ofType="com.self.model.UserAddress">  
-	<id column="id" property="id" jdbcType="VARCHAR" />  
-	<result column="addressname" property="adressname" jdbcType="VARCHAR" />   
-    </collection>  
-</resultMap>
-	
-<select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">
-	select u.id,u.name,
-		a.id,a.addressname
-	form myse_user u
-	left join 
-	myself_user_address
-	on u.id = a.uid
-	where id = #{id, jdbcType=VARCHAR}
-</select>
+######
 
- ```
- 
+	<resultMap id="queryUserAddress" type="com.self.model.User">  
+	    <id column="id" property="id" jdbcType="VARCHAR"/>  
+	    <result column="name" property="name" jdbcType="VARCHAR"/>  
+	    <result column="passwd" property="passwd" jdbcType="VARCHAR"/>  
+	    <collection property="UserAddress" javaType="java.util.List" ofType="com.self.model.UserAddress">  
+		<id column="id" property="id" jdbcType="VARCHAR" />  
+		<result column="addressname" property="adressname" jdbcType="VARCHAR" />   
+	    </collection>  
+	</resultMap>
+
+	<select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">
+		select u.id,u.name,
+			a.id,a.addressname
+		form myse_user u
+		left join 
+		myself_user_address
+		on u.id = a.uid
+		where id = #{id, jdbcType=VARCHAR}
+	</select>
+
  
 ```
 @InsertProvider(type = UserSqlProvider.class, method = "insertUser") 
