@@ -38,9 +38,16 @@ timeout = 10000表示查询结果缓存10000秒。
 @Results是以@Result为元素的数组，
 @Result表示单条属性-字段的映射关系，
 
+```
 如：@Result(id = true, property = "id", column = "id", javaType = String.class, jdbcType = JdbcType.VARCHAR)
+```
 
-可以简写为：@Result(id = true, property = "id", column = "id")，id = true表示这个id字段是个PK，
+可以简写为：
+
+```
+@Result(id = true, property = "id", column = "id")，id = true表示这个id字段是个PK，
+
+```
 
 查询时mybatis会给予必要的优化，应该说数组中所有的@Result组成了单个记录的映射关系，而@Results则单个记录的集合。
 
@@ -55,7 +62,9 @@ timeout = 10000表示查询结果缓存10000秒。
 ```
 @ResultMap(value = "queryUserAddress") 
 List<User> queryUserAddress();
+
 ```
+
 重要的注解，可以解决复杂的映射关系，包括resultMap嵌套，鉴别器discriminator等等。
 
 注意一旦你启用该注解，**你将不得不在你的映射文件中配置你的resultMap**，
@@ -67,7 +76,13 @@ List<User> queryUserAddress();
 
 注意：@ResultMap 映射文件中配置你的resultMap跟xml映射一样， 
 
-但不写 <select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">语句，sqlprovider里写
+但不写 
+
+```
+<select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">
+
+```
+语句，sqlprovider里写
 
 
 
@@ -102,6 +117,7 @@ List<User> queryUserAddress();
 用法和含义@SelectProvider一样，只不过是用来删除数据而用的
 
 <pre>
+<code>
 <resultMap id="queryUserAddress" type="com.self.model.User"> 
     <id column="id" property="id" jdbcType="VARCHAR"/>  
     <result column="name" property="name" jdbcType="VARCHAR"/>  
@@ -121,6 +137,7 @@ List<User> queryUserAddress();
         on u.id = a.uid
         where id = #{id, jdbcType=VARCHAR}
 </select>
+</code>
 </pre>     
 
 ###### 注意
