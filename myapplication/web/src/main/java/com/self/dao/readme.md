@@ -146,4 +146,21 @@ List<User> queryUserAddress();
 用法和含义@SelectProvider一样，只不过是用来删除数据而用的
 
 
+如果你在userMapper中调用该方法的某个接口方法已经定义了参数@Param()，
+
+那么该方法的参数Map<String, Object> parameters即组装了@Param()定义的参数，
+
+比如userMapper接口方法中定义参数为@Param("name"),@Param("passwd")，
+
+那么parameters的形态就是：[key="name",value=object1],[key="passwd",value=object2]，
+
+如果接口方法没有定义@Param()，那么parameters的key就是参数的顺序小标：[key=0,value=object1],[key=1,value=object2]，
+
+SQL()将返回最终append结束的字符串，
+
+sql语句中的形如 #{id,javaType=string,jdbcType=VARCHAR}完全可简写为#{id}，
+
+另外，对于复杂查询还有很多标签可用，比如：JOIN，INNER_JOIN，GROUP_BY，ORDER_BY等等
+
+
 
