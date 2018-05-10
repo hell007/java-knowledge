@@ -72,9 +72,7 @@ List<User> queryUserAddress();
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.self.dao.UserMapper" >
   <resultMap id="BaseResultMap" type="com.self.model.User" >
-    <!--
-      WARNING - @mbggenerated
-    -->
+  
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="name" jdbcType="CHAR" javaType="java.lang.String" />
@@ -91,7 +89,7 @@ List<User> queryUserAddress();
     </constructor>
   </resultMap>
   
-<resultMap id="queryUserAddress" type="com.self.model.User">  
+	<resultMap id="queryUserAddress" type="com.self.model.User">  
 	    <id column="id" property="id" jdbcType="VARCHAR"/>  
 	    <result column="name" property="name" jdbcType="VARCHAR"/>  
 	    <result column="passwd" property="passwd" jdbcType="VARCHAR"/>  
@@ -101,7 +99,7 @@ List<User> queryUserAddress();
 	    </collection>  
  	</resultMap>
 	
- //不要写，sqlprovider里写
+ 	//不要写，sqlprovider里写
 	<select id="getUserAddress" resultMap="queryUserAddress" parameterType="java.lang.String">
 		select u.id,u.name,
 			a.id,a.addressname
@@ -114,7 +112,7 @@ List<User> queryUserAddress();
   
 </mapper>
 
- ```
+```
  
 ```
 @InsertProvider(type = UserSqlProvider.class, method = "insertUser") 
