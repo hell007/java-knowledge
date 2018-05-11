@@ -8,7 +8,7 @@
 
 #### 实现功能
 
-1.支持简单的crud（tk.mybatis.mapper.common.Mapper）
+1.支持简单的crud（tk.mybatis.mapper.common.Mapper, mybatis的注解）
 
 2.支持动态配置定时任务
 
@@ -18,6 +18,7 @@
   
   安装好rabbitmq后访问http://localhost:15672 用默认的账户:guest和密码:guest即可以登录
 
+5. 缓存管理  redis/ Xmemcached
 
 #### 参考文档
 
