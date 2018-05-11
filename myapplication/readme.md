@@ -111,6 +111,8 @@ public class UserServiceImpl implements UserService {
 	2.使用spring-data-jpa注解
 	
 	3.mybatis 注解查询
+	
+	4.https://github.com/Leytton/ThinkJD  像thinkphp一样的写法，支持多表查询
 
 
 
