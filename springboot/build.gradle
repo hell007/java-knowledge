@@ -24,29 +24,32 @@ repositories {
 }
 
 dependencies {
-	//compile 'org.springframework.boot:spring-boot-starter-parent:1.5.9.RELEASE'
-	compile 'org.springframework.boot:spring-boot-starter'
-	compile 'org.springframework.boot:spring-boot-starter-web'
-	//compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0'
-	//compile 'org.springframework.boot:spring-boot-starter-redis:1.4.7.RELEASE'
-	compile 'org.springframework.boot:spring-boot-starter-amqp'
-	compile 'org.springframework.boot:spring-boot-devtools'
+    //compile 'org.springframework.boot:spring-boot-starter-parent:1.5.9.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    //compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0'
+    //compile 'org.springframework.boot:spring-boot-starter-redis:1.4.7.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-amqp'
+    compile 'org.springframework.boot:spring-boot-devtools'
 	
-	//mysql
-	compile 'mysql:mysql-connector-java'
+    //mysql
+    compile 'mysql:mysql-connector-java'
 	
-	//druid
-	compile 'com.alibaba:druid:1.0.25'
+    //druid
+    compile 'com.alibaba:druid:1.0.25'
 	
-	//mybatis
+    //mybatis
     compile 'tk.mybatis:mapper-spring-boot-starter:1.1.4'
     
     //pagehelper
     compile 'com.github.pagehelper:pagehelper-spring-boot-starter:1.2.1'
     
+    //shiro
+    compile 'org.apache.shiro:shiro-all:1.2.3'
+    
     //beetl
-    compile 'com.ibeetl:beetl:2.2.5'
+    compile 'com.ibeetl:beetl:2.2.8'
     
     //quartz
     compile 'org.quartz-scheduler:quartz:2.2.1'
@@ -57,6 +60,10 @@ dependencies {
     compile 'io.springfox:springfox-swagger2:2.8.0'
     compile 'io.springfox:springfox-swagger-ui:2.8.0'
     
+    //redis
+    compile 'redis.clients:jedis:2.7.3'
+    //xmemcached
+    compile 'com.googlecode.xmemcached:xmemcached:2.4.3'
     
     //json
     //compile 'com.alibaba:fastjson:1.2.29'
@@ -71,10 +78,10 @@ dependencies {
     //compile 'commons-beanutils:commons-beanutils:1.8.3'
     //compile 'commons-fileupload:commons-fileupload:1.3.1'
     //compile 'commons-collections:commons-collections:3.2'
-  	compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.apache.commons:commons-lang3:3.4'
 	
-	//maven仓库中心没有的jar，则放入lib目录下
+    //maven仓库中心没有的jar，则放入lib目录下
     //compile fileTree(dir: 'lib', include: ['*.jar'])
 	
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
