@@ -4,7 +4,7 @@
 
 #### 项目集成
 
-采用SpringBoot、MyBatis、Beetl、swagger、rabbitmq
+采用SpringBoot、MyBatis、Beetl、swagger、rabbitmq、cache
 
 #### 实现功能
 
@@ -18,7 +18,9 @@
   
 安装好rabbitmq后访问http://localhost:15672 用默认的账户:guest和密码:guest即可以登录
 
-5. 缓存管理  redis/ Xmemcached
+5. 缓存管理  
+
+redis/ Xmemcached
 
 #### 参考文档
 
