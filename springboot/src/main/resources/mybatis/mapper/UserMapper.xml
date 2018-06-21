@@ -6,10 +6,18 @@
       WARNING - @mbggenerated
     -->
     <constructor>
-      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="password" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="mobile" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="passwd" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="gender" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="phone" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="header" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ip" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="status" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="reason" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="salt" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="createdTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="lastLoginTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
 </mapper>
