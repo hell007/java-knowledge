@@ -38,7 +38,7 @@ public class ScheduleTask1 implements Job {
         logger.info("====（取消超时生成的订单）ScheduleTask1 ====> 开启!" + simpleDateFormat.format(calendar.getTime()));
         
         List<User> list = userService.select(null);
-		logger.info("已取消"+ list.get(0).getUsername()+"用户超时的订单");
+		logger.info("已取消"+ list.get(0).getName()+"用户超时的订单");
     }
 	
 }
