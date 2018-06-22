@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/" />
+<meta charset="UTF-8" />
+<title>用户--index</title>
+<link href="static/css/style.css" rel="stylesheet" />
+</head>
+<body>
+<table>
+	<tr>
+		<th>序号</th>
+		<th>姓名</th>	
+		<th>号码</th>
+	</tr>
+	<tr th:each="item : ${list}">
+		<td th:text="${item.id}"></td>
+		<td th:text="${item.name}"></td>
+		<td th:text="${item.phone}"></td>
+	</tr>
+</table>
+   
+<script src="static/js/jquery.min.js"></script>
+<script>
+$(function(){
+	$.get("test/list",function(data){
+		console.log(data);
+	},"json")
+})
+</script>
+</body>
+</html>
