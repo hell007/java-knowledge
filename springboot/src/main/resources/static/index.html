@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/">
+<meta charset="UTF-8" />
+<title>静态资源</title>
+<link href="static/css/style.css" rel="stylesheet" />
+</head>
+<body>
+<h2>静态资源 -> static</h2>
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/jquery.min.js"></script>
+<script>
+$(function(){
+	$.get("test/list",{},function(data){
+		alert(JSON.stringify(data));
+	},"json")
+})
+</script>
+</body>
+</html>
