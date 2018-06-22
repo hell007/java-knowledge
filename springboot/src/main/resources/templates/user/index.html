@@ -7,6 +7,9 @@
 <link href="static/css/style.css" rel="stylesheet" />
 </head>
 <body>
+
+<!-- 模板使用-> https://www.cnblogs.com/topwill/p/7434955.html -->
+      
 <table>
 	<tr>
 		<th>序号</th>
@@ -19,6 +22,20 @@
 		<td th:text="${item.phone}"></td>
 	</tr>
 </table>
+<hr/>
+
+ 返回名为x 的 request参数。（可能有多个值）
+<hr/>
+<p th:text="${param}"></p>
+
+返回名为x的Session参数
+<hr/>
+<p th:text="${session}"></p>
+
+ 返回名为 servlet context 的参数
+<hr/>
+<p th:text="${application.static}"></p>
+
    
 <script src="static/js/jquery.min.js"></script>
 <script>
