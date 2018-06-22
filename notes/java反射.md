@@ -38,8 +38,8 @@ Java中有关反射的类有以下这几个：
   
 #### 实例
 
-  package reflect;
-  public class ReflectClass {
+    package reflect;
+    public class ReflectClass {
 
     private String name;
 
