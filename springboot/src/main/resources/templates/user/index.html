@@ -4,9 +4,10 @@
 <base href="/" />
 <meta charset="UTF-8" />
 <title>用户--index</title>
-<link href="static/css/style.css" rel="stylesheet" />
+<link th:href="${application.webStaticUrl}+'/css/style.css?t='+${application.staticVersion}" rel="stylesheet" />
 </head>
 <body>
+
 
 <!-- 模板使用-> https://www.cnblogs.com/topwill/p/7434955.html -->
       
@@ -36,8 +37,12 @@
 <hr/>
 <p th:text="${application.static}"></p>
 
-   
-<script src="static/js/jquery.min.js"></script>
+<p th:text="${application.webStaticUrl}"></p>
+
+<p th:text="${application.staticVersion}"></p>
+
+
+<script th:src="${application.webStaticUrl}+'/js/jquery.min.js?t='+${application.staticVersion}"></script> 
 <script>
 $(function(){
 	$.get("test/list",function(data){
