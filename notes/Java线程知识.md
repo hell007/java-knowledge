@@ -30,12 +30,6 @@ ExampleThread t = new ExampleThread();
 t.start();
 
 ```
-
-**总结** 
-
-      继承Thread类，覆盖run()方法。
-
-      创建线程对象并用start()方法启动线程
     
 2. 另一种是编写一个类来实现Runnable接口，然后实现接口方法run，然后创造一个Thread对象，把实现了Runnable接口的类当做构造参数，
 传入Thread对象，最后该Thread对象调用start方法。 这里的start方法是一个有启动功能的方法，该方法内部回调run方法。
@@ -49,6 +43,21 @@ t.start();
   }
 
 ```
+
+#### 从线程中（Thread）可以得到的一些信息
+
+线程的名字 —— getName()
+
+线程的ID —— getId()
+
+线程是否存活 —— isAlive()
+
+
+
+
+
+
+
 
 
 
