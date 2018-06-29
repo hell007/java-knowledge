@@ -3,6 +3,8 @@
 
 ## JAVA笔记
 
+[java线程](./java-thread/readme.md)
+
 [java反射](./java反射.md)
 
 ##### 过滤器
