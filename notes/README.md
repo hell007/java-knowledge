@@ -3,7 +3,7 @@
 
 ## JAVA笔记
 
-[java线程](./java-thread/readme.md)
+[java线程](./java-thread/)
 
 [java反射](./java反射.md)
 
