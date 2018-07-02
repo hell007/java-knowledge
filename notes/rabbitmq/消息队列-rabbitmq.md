@@ -347,6 +347,8 @@ RabbitMQ使用ProtoBuf序列化消息,它可作为RabbitMQ的Message的数据格
 
 [消息队列之 RabbitMQ](https://www.jianshu.com/p/79ca08116d57)
 
+[案列](https://github.com/ityouknow/spring-boot-examples/tree/master/spring-boot-rabbitmq)
+
 
 
 
