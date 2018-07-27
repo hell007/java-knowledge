@@ -47,6 +47,8 @@
 
 [SpringBoot框架与短信解决方案](https://blog.csdn.net/qq_24708791/article/details/78521396)
 
+[关于Cookie安全性设置的那些事](https://blog.csdn.net/lijunlinlijunlin/article/details/45572709)
+
 ##### 部署
 
 [Spring Boot 项目怎么部署](http://blog.csdn.net/javahighness/article/details/52515226)
