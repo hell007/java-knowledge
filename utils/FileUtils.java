@@ -12,7 +12,9 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -21,15 +23,73 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.self.model.MyFile;
+
 /**
  * 文件操作工具类
- * 实现文件的创建、删除、复制、压缩、解压以及目录的创建、删除、复制、压缩解压等功能
+ * 实现文件的创建、删除、复制、压缩、解压以及目录的创建、删除、复制、压缩解压、获取文件夹名称集合 等功能
  * @author ThinkGem
  * @version 2013-06-21
  */
 public class FileUtils extends org.apache.commons.io.FileUtils{
 	
 	private static Logger log = LoggerFactory.getLogger(FileUtils.class);
+	
+	
+	/**
+	 * 获取路径下文件夹/以及子文件夹名称(如果子文件夹下有文件，则跳过)，并返回list<MyFile>
+	 * @param path
+	 * @return
+	 */
+	public static List<MyFile> getFileList(String path) {
+		List<MyFile> myFileList = new ArrayList<MyFile>();
+		ArrayList<String> fileList = new ArrayList<String>();
+		
+		File file = new File(path.replaceAll("/", "\\\\"));
+	    File[] tempList = file.listFiles();
+	     
+	    for(File temp : tempList) {
+	        if(temp.isDirectory()) {
+	        	//log.debug("文件夹： " + temp);	        	
+	        	fileList.add(temp.toString());	        
+	        }
+	    }
+	    
+	    if(fileList.size()>0) {
+	    	for(String name : fileList) {
+	    		//log.debug("name： " + name);
+	    		MyFile myFile = new MyFile();
+	    		myFile.setName(name.replace(path+"\\", ""));
+	    		myFile.setList(FileUtils.getFiles(name));
+	    		myFileList.add(myFile);
+	    	}
+	    }	    
+	    log.debug("list=="+myFileList);
+		return myFileList;
+	}
+	
+	/**
+	 * 根据路径 返回 [String]文件名
+	 * @param path
+	 * @return
+	 */
+	public static ArrayList<String> getFiles(String path) {
+		ArrayList<String> fileList = new ArrayList<String>();
+		
+		File file = new File(path);
+	    File[] tempList = file.listFiles();
+	    
+	    File preview = new File(path+"\\preview.jpg");
+	    if(tempList == null || preview.exists()) return fileList;
+	
+	    for(int i = 0; i < tempList.length; i++) {
+	    	if(tempList[i].isDirectory()) {
+	    		//log.debug("文件夹： " + tempList[i]);	
+        		fileList.add(tempList[i].toString().replace(path+"\\", ""));
+	    	}
+	    }
+		return fileList;
+	}
 
 	/**
 	 * 复制单个文件，如果目标文件存在，则不覆盖
@@ -764,6 +824,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils{
 	}
 	
 	
+
 	
 	/**
 	 * main
@@ -771,6 +832,9 @@ public class FileUtils extends org.apache.commons.io.FileUtils{
 	 * @throws ParseException
 	 */
 	public static void main(String[] args) throws ParseException {
+		//获取路径下文件夹/以及子文件夹名称(如果子文件夹下有文件，则跳过)，并返回
+		FileUtils.getFileList("D:\\Eclipse\\mine\\myself\\src\\main\\resources\\static\\krpano\\panos");
+
 		//复制文件
 		//FileUtils.copyFile("F:/file.txt", "F:/dist/file.txt");
 		
