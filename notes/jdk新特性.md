@@ -144,20 +144,121 @@ LocalDateTime类是LocalDate和LocalTime的结合体，可以通过of()方法直
 
 也可以调用LocalDate的atTime()方法或LocalTime的atDate()方法将LocalDate或LocalTime合并成一个LocalDateTime：
 
-    LocalDateTime ldt1 = LocalDateTime.of(2017, Month.JANUARY, 4, 17, 23, 52);
-		System.out.println("ldt1===="+ldt1);
-		
-		LocalDate localDate = LocalDate.of(2017, Month.JANUARY, 4);
-		LocalTime localTime = LocalTime.of(17, 23, 52);
-		LocalDateTime ldt2 = localDate.atTime(localTime);
-		System.out.println("ldt2===="+ldt2);
+	LocalDateTime ldt1 = LocalDateTime.of(2017, Month.JANUARY, 4, 17, 23, 52);
+	System.out.println("ldt1===="+ldt1);
 
-		LocalDate date = ldt1.toLocalDate();
-		LocalTime time = ldt1.toLocalTime();
-		
-		System.out.println("date===="+date);
-		System.out.println("time===="+time);
+	LocalDate localDate = LocalDate.of(2017, Month.JANUARY, 4);
+	LocalTime localTime = LocalTime.of(17, 23, 52);
+	LocalDateTime ldt2 = localDate.atTime(localTime);
+	System.out.println("ldt2===="+ldt2);
 
+	LocalDate date = ldt1.toLocalDate();
+	LocalTime time = ldt1.toLocalTime();
+
+	System.out.println("date===="+date);
+	System.out.println("time===="+time);
+
+
+2、Instant 
+
+Instant用于表示一个时间戳，它与我们常使用的System.currentTimeMillis()有些类似，不过Instant可以精确到纳秒（Nano-Second），System.currentTimeMillis()方法只精确到毫秒（Milli-Second）
+
+Instant除了使用now()方法创建外，还可以通过ofEpochSecond方法创建：
+  
+	Instant instant = Instant.ofEpochSecond(120, 100000);
+  
+ofEpochSecond()方法的第一个参数为秒，第二个参数为纳秒，上面的代码表示从1970-01-01 00:00:00开始后两分钟的10万纳秒的时刻，
+控制台上的输出为： 
+  
+  	instant====1970-01-01 T 00:02:00.000100Z
+  
+3、Duration
+ 
+Duration的内部实现与Instant类似，也是包含两部分：seconds表示秒，nanos表示纳秒。
+ 
+两者的区别是Instant用于表示一个时间戳（或者说是一个时间点），而Duration表示一个时间段，所以Duration类中不包含now()静态方法。
+可以通过Duration.between()方法创建Duration对象：
+
+	LocalDateTime from = LocalDateTime.of(2017, Month.JANUARY, 5, 10, 7, 0);    // 2017-01-05 10:07:00
+	LocalDateTime to = LocalDateTime.of(2017, Month.FEBRUARY, 5, 10, 7, 0);     // 2017-02-05 10:07:00
+	Duration duration = Duration.between(from, to);     // 表示从 2017-01-05 10:07:00 到 2017-02-05 10:07:00 这段时间
+	long days = duration.toDays();              // 这段时间的总天数
+	long hours = duration.toHours();            // 这段时间的小时数
+	long minutes = duration.toMinutes();        // 这段时间的分钟数
+	long seconds = duration.getSeconds();       // 这段时间的秒数
+	long milliSeconds = duration.toMillis();    // 这段时间的毫秒数
+	long nanoSeconds = duration.toNanos();      // 这段时间的纳秒数
+	Duration对象还可以通过of()方法创建，该方法接受一个时间段长度，和一个时间单位作为参数：
+	Duration duration1 = Duration.of(5, ChronoUnit.DAYS);       // 5天
+	Duration duration2 = Duration.of(1000, ChronoUnit.MILLIS);  // 1000毫秒
+
+
+4、Period
+
+Period在概念上和Duration类似，区别在于Period是以年月日来衡量一个时间段，比如2年3个月6天：
+  
+	Period period = Period.of(2, 3, 6);
+
+Period对象也可以通过between()方法创建，值得注意的是，由于Period是以年月日衡量时间段，
+所以between()方法只能接收LocalDate类型的参数： 
+  
+  
+5、日期的操作和格式化
+
+- 增加和减少日期：
+
+		LocalDate date = LocalDate.of(2017, 1, 5); // 2017-01-05
+		LocalDate date1 = date.withYear(2016); // 修改为 2016-01-05
+		LocalDate date2 = date.withMonth(2);// 修改为 2017-02-05
+		LocalDate date3 = date.withDayOfMonth(1); // 修改为 2017-01-01
+		LocalDate date4 = date.plusYears(1);// 增加一年 2018-01-05
+		LocalDate date5 = date.minusMonths(2);// 减少两个月 2016-11-05
+		LocalDate date6 = date.plus(5, ChronoUnit.DAYS);// 增加5天 2017-01-10
+  
+- 格式化日期：
+
+新的日期API中提供了一个DateTimeFormatter类用于处理日期格式化操作，它被包含在java.time.format包中，
+Java 8的日期类有一个format()方法用于将日期格式化为字符串，该方法接收一个DateTimeFormatter类型参数：
+
+	LocalDateTime dateTime = LocalDateTime.now();
+	String strDate1 = dateTime.format(DateTimeFormatter.BASIC_ISO_DATE);// 20170105
+	String strDate2 = dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE);// 2017-01-05
+	String strDate3 = dateTime.format(DateTimeFormatter.ISO_LOCAL_TIME);// 14:20:16.998
+	String strDate4 = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));// 2017-01-05 10:25:43
+
+		
+同样，日期类也支持将一个字符串解析成一个日期对象，例如：
+
+	String strDate6 = "2017-01-05";
+	String strDate7 = "2017-01-05 12:30:05";
+
+	LocalDate date = LocalDate.parse(strDate6, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	LocalDateTime dateTime1 = LocalDateTime.parse(strDate7, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+
+6、时区
+
+Java 8中的时区操作被很大程度上简化了，新的时区类java.time.ZoneId是原有的java.util.TimeZone类的替代品。
+ZoneId对象可以通过ZoneId.of()方法创建，也可以通过ZoneId.systemDefault()获取系统默认时区：
+	
+	ZoneId shanghaiZoneId = ZoneId.of("Asia/Shanghai");
+	ZoneId systemZoneId = ZoneId.systemDefault();
+
+of()方法接收一个“区域/城市”的字符串作为参数，你可以通过getAvailableZoneIds()方法获取所有合法的“区域/城市”字符串：
+  
+  	Set<String> zoneIds = ZoneId.getAvailableZoneIds();
+  
+对于老的时区类TimeZone，Java 8也提供了转化方法：
+
+	ZoneId oldToNewZoneId = TimeZone.getDefault().toZoneId();
+  
+  
+有了ZoneId，我们就可以将一个LocalDate、LocalTime或LocalDateTime对象转化为ZonedDateTime对象：
+  
+	ZoneId shanghaiZoneId = ZoneId.of("Asia/Shanghai");
+
+	LocalDateTime localDateTime = LocalDateTime.now();
+	ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, shanghaiZoneId);
   
   
   
@@ -169,41 +270,9 @@ LocalDateTime类是LocalDate和LocalTime的结合体，可以通过of()方法直
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+## 参考文档
+
+  [日期](https://blog.csdn.net/CrankZ/article/details/81222507)
 
 
 
