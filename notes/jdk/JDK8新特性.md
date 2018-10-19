@@ -1,7 +1,4 @@
 
-# jdk新特性
-
-
 ## JDK8新特性
 
   Lambda 表达式
@@ -261,11 +258,287 @@ of()方法接收一个“区域/城市”的字符串作为参数，你可以通
 	ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, shanghaiZoneId);
   
   
+### Optional
+
+Optional 类是一个可以为null的容器对象。如果值存在则isPresent()方法会返回true，调用get()方法会返回该对象
+
+Optional 类的引入很好的解决空指针异常。
+
+实例:
+
+	public static Integer sum(Optional<Integer>a, Optional<Integer>b) {
+	    // 判断值是否存在
+	    System.out.println("第一个参数值存在:" + a.isPresent());
+	    System.out.println("第二个参数值存在:" + b.isPresent());
+	    // 如果值存在，返回它，否则返回默认值
+	    Integer value1 = a.orElse(new Integer(0));
+	    // 获取值，值需要存在
+	    Integer value2 = b.get();
+	    
+	    System.out.println(value1+"===="+value2);
+	    return value1 + value2;
+	}
+
+
+	/**
+	 * main
+	 * @param args
+	 * @throws ParseException
+	 */
+	public static void main(String[] args) throws ParseException {
+		
+		Integer value1 = null;
+	    Integer value2 = new Integer(10);
+	    // 允许传递为null参数
+	    Optional<Integer> a = Optional.ofNullable(value1);
+	    // 如果传递的参数是null，抛出异常NullPointerException
+	    Optional<Integer> b = Optional.of(value2);
+	    System.out.println(sum(a, b));
+	
+	}
+  
+ 结果：
+ 
+	第一个参数值存在:false
+	第二个参数值存在:true
+	0====10
+	10
+  
+  
+### Base64
+
+在Java 8中，Base64编码已经成为Java类库的标准。
+
+Java 8 内置了 Base64 编码的编码器和解码器。
+
+Base64工具类提供了一套静态方法获取下面三种BASE64编解码器：
+
+- 基本：输出被映射到一组字符A-Za-z0-9+/，编码不添加任何行标，输出的解码仅支持A-Za-z0-9+/。
+
+- URL：输出映射到一组字符A-Za-z0-9+_，输出是URL和文件。
+
+- MIME：输出隐射到MIME友好格式。输出每行不超过76字符，并且使用'\r'并跟随'\n'作为分割。编码输出最后没有行分割。
+
+
+实例：
+
+	public static void base64Test() throws UnsupportedEncodingException {
+	    // 使用基本编码
+	    String base64encodedString = Base64.getEncoder().encodeToString("测试文字".getBytes("utf-8"));
+	    System.out.println("Base64 编码字符串 (基本) :" + base64encodedString);
+	    // 解码
+	    byte[] base64decodedBytes = Base64.getDecoder().decode(base64encodedString);
+	    System.out.println("原始字符串: " + new String(base64decodedBytes, "utf-8"));
+	}
+  
+  
+### HashMap的改进  
   
   
   
+### 接口的默认方法和静态方法  
+  
+Java 8 新增了接口的默认方法。
+
+简单说，默认方法就是接口可以有实现方法，而且不需要实现类去实现其方法。我们只需在方法名前面加个default关键字即可实现默认方法。
+
+
+1、为什么要有这个特性？
+
+以前当需要修改接口时候，需要修改全部实现该接口的类。所以引进的默认方法。他们的目的是为了解决接口的修改与现有的实现不兼容的问题。
+
+a.默认方法语法格式如下：
+
+	public interface Vehicle {
+	   default void print(){
+	      System.out.println("我是一辆车!");
+	   }
+	}
+
+b.多个默认方法
+
+一个接口有默认方法，考虑这样的情况，一个类实现了多个接口，且这些接口有相同的默认方法，以下实例说明了这种情况的解决方法
+
+	public interface Vehicle {
+	   default void print(){
+	      System.out.println("我是一辆车!");
+	   }
+	}
+	public interface FourWheeler {
+	   default void print(){
+	      System.out.println("我是一辆四轮车!");
+	   }
+	}
+
+第一个解决方案是创建自己的默认方法，来覆盖重写接口的默认方法：
+
+	public class Car implements Vehicle, FourWheeler {
+	   default void print(){
+	      System.out.println("我是一辆四轮汽车!");
+	   }
+	}
+
+第二种解决方案可以使用 super 来调用指定接口的默认方法：
+
+	public class Car implements Vehicle, FourWheeler {
+	   public void print(){
+	      Vehicle.super.print();
+	   }
+	}
+
+
+c.静态默认方法
+
+Java 8 的另一个特性是接口可以声明（并且可以提供实现）静态方法。例如
+
+	public interface Vehicle {
+	   default void print(){
+	      System.out.println("我是一辆车!");
+	   }
+	   // 静态方法
+	   static void blowHorn(){
+	      System.out.println("按喇叭!!!");
+	   }
+	}
+
+
+### Stream
+
+Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。
+
+Stream 使用一种类似用 SQL 语句从数据库查询数据的直观方式来提供一种对 Java 集合运算和表达的高阶抽象。
+
+这种风格将要处理的元素集合看作一种流， 流在管道中传输， 并且可以在管道的节点上进行处理， 比如筛选， 排序，聚合等。
+
+所以这边有两个概念
+
+- 流、管道
+
+Stream API可以提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。
+
+元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。
+
+这里有两个操作
+
+- 中间操作、最终操作
+
+
+1、在 Java 8 中, 集合接口有两个方法来生成流：
+
+- stream()：为集合创建串行流。
+
+- parallelStream()：为集合创建并行流
+
+
+2、forEach
+
+Stream 提供了新的方法 'forEach' 来迭代流中的每个数据。以下代码片段使用 forEach 输出了10个随机数：
+
+
+3.中间操作
+
+map（映射）: map 方法用于映射每个元素到对应的结果
+
+	List<Integer> numbers = Arrays.asList(3, 2, 7, 5);
+	
+	// 获取对应的平方数
+	List<Integer> squaresList = numbers.stream()
+	    .map(i -> i * i)
+	    .distinct()
+	    .collect(Collectors.toList());
+
+	squaresList.stream().forEach(System.out::println);
+
+
+Filter（过滤）: filter 方法用于通过设置的条件过滤出元素
+
+	List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+	// 获取空字符串的数量
+	long count = strings.stream().filter(str -> str.isEmpty()).count();
+	System.out.println(count);
+
+	//查找a打头的元素
+	strings.stream()
+	.filter(str -> str.contains("a"))
+	.forEach(System.out::println);
+
+
+Limit（限制）: limit 方法用于获取指定数量的流
+
+	List<Integer> numbers = Arrays.asList(3, 2, 7, 5, 4, 6, 9);
+	numbers.stream().limit(4).forEach(System.out::println);
+
+Sorted（排序）: sorted 方法用于对流进行排序
+
+	List<Integer> numbers = Arrays.asList(3, 2, 7, 5, 4, 6, 9);
+	numbers.stream().sorted().forEach(System.out::println);
+
+
+4、最终操作
+
+Match（匹配）: 用来判断某个predicate是否和流对象相匹配，最终返回Boolean类型结果
+
+	List<String> list = new ArrayList<String>();
+	list.add("a1");
+	list.add("b1");
+
+	// 流对象中只要有一个元素匹配就返回true
+	boolean anyStartWithA = list.stream().anyMatch((s -> s.startsWith("a")));
+	System.out.println(anyStartWithA);
+
+	// 流对象中每个元素都匹配,全都符合条件 就返回true
+	boolean allStartWithA = list.stream().allMatch((s -> s.startsWith("a")));
+	System.out.println(allStartWithA);
   
   
+  Collectors（收集）:  Collectors 类实现了很多归约操作，例如将流转换成集合和聚合元素
+  
+	List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+	List<String> filtered = strings.stream()
+		.filter(string -> !string.isEmpty())
+		.collect(Collectors.toList());
+	System.out.println("筛选列表: " + filtered);
+
+
+	String mergedString = strings.stream()
+		.filter(string -> !string.isEmpty())
+		.collect(Collectors.joining(", ")); 
+	System.out.println("合并字符串: " + mergedString);
+  
+  
+Count（计数）: 类似sql的count，用来统计流中元素的总数  
+  
+	List<String> strings = Arrays.asList("a", "b", "c");
+	long count = strings.stream().filter((s -> s.startsWith("a"))).count();
+	System.out.println(count);
+
+Reduce（规约）: reduce方法允许我们用自己的方式去计算元素或者将一个Stream中的元素以某种规律关联
+	
+	List<String> strings = Arrays.asList("a", "b", "c");
+	strings.stream().sorted().reduce((s1, s2) -> {
+		System.out.println(s1 + "|" + s2);
+		return s1 + "|" + s2;
+	});
+  
+parallel（并行）: parallelStream 是流并行处理程序的代替方法
+  
+	List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+	// 获取空字符串的数量
+	long count = strings.parallelStream().filter(string -> string.isEmpty()).count();
+	System.out.println(count);
+  
+
+### 并行Stream VS 串行Stream
+  
+并行Stream（parallel Stream）。并行Stream基于Fork-join并行分解框架实现，
+将大数据集合切分为多个小数据结合交给不同的线程去处理，这样在多核处理情况下，性能会得到很大的提高。
+这和MapReduce的设计理念一致：大任务化小，小任务再分配到不同的机器执行。只不过这里的小任务是交给不同的处理器。
+
+如果你现在还是单核处理器，而数据量又不算很大的情况下，串行流仍然是这种不错的选择
+
+  
+  
+ 
   
   
   
