@@ -104,11 +104,15 @@ job varchar2(20)
 
 3、创建触发器
 
- create trigger user_add_auto_trigger before 
- insert on t_user for each row /*对每一行都检测是否触发*/
- begin
- select user_add_auto_sequence.nextval into:New.id from dual;
- end;      
+create or replace trigger user_add_auto_trigger before 
+insert on t_user for each row /*对每一行都检测是否触发*/
+begin
+if :new.id is null or :new.id=0 then
+select user_add_auto_sequence.nextval into :new.id from sys.dual;
+end if;
+end;
+
+/    用 / 结束      
 
 4、提交 
 
