@@ -1,7 +1,7 @@
 
 ## oracle
 
-##### 1. oracle sys/system用户的默认密码
+##### oracle sys/system用户的默认密码
 
 system默认:manager
 
@@ -12,7 +12,7 @@ sys默认:change_on_install
 但如果是sys用户，密码必须加上as sysdba，即完整密码为：change_on_install as sysdba
 
 
-##### 2. 命令
+##### 登录命令
 
 sql plus
 
@@ -41,6 +41,40 @@ system 登录
 > t1234
 
 ```
+
+##### 2.创建数据库和用户
+
+- 3步:
+
+      创建两个数据库的文件
+      创建用户与上面创建的文件形成映射关系
+      给用户添加权限
+
+1.创建数据库的文件
+
+    CREATE TABLESPACE jie LOGGING DATAFILE 'D:\Dev\oracle11\oradata\jie\jie.dbf' SIZE 100M AUTOEXTEND ON NEXT 32M MAXSIZE 500M EXTENT MANAGEMENT LOCAL;
+    
+    create temporary tablespace jie_temp tempfile 'D:\Dev\oracle11\oradata\jie\jie_temp.dbf' size 100m autoextend on next 32m maxsize 500m extent management local
+
+2.创建用户与上面创建的文件形成映射关系（用户名为wzh,密码为w123）
+
+    CREATE USER wzh IDENTIFIED BY w123 DEFAULT TABLESPACE jie TEMPORARY TABLESPACE jie_temp;
+
+3.添加权限
+
+    grant connect,resource,dba to wzh;
+    grant create session to wzh;
+
+- 拓展：
+
+1.删除数据库
+
+    DROP TABLESPACE jie INCLUDING CONTENTS AND DATAFILES;
+     
+ 2.删除用户
+ 
+    drop user wzh cascade;
+
 
 ##### 3.建表语句
 
