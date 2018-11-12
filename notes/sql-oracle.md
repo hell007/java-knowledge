@@ -52,9 +52,11 @@ system 登录
 
 1.创建数据库的文件
 
-    CREATE TABLESPACE jie LOGGING DATAFILE 'D:\Dev\oracle11\oradata\jie\jie.dbf' SIZE 100M AUTOEXTEND ON NEXT 32M MAXSIZE 500M EXTENT MANAGEMENT LOCAL;
+    CREATE TABLESPACE jie LOGGING DATAFILE 'D:\Dev\oracle11\oradata\jie\jie.dbf' 
+    SIZE 100M AUTOEXTEND ON NEXT 32M MAXSIZE 500M EXTENT MANAGEMENT LOCAL;
     
-    create temporary tablespace jie_temp tempfile 'D:\Dev\oracle11\oradata\jie\jie_temp.dbf' size 100m autoextend on next 32m maxsize 500m extent management local
+    create temporary tablespace jie_temp tempfile 'D:\Dev\oracle11\oradata\jie\jie_temp.dbf' 
+    size 100m autoextend on next 32m maxsize 500m extent management local
 
 2.创建用户与上面创建的文件形成映射关系（用户名为wzh,密码为w123）
 
