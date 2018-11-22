@@ -8,7 +8,7 @@
 
 [springboot+JPA+thymeleaf+热部署](./hotdeploy) 
 
-[RPC](./springboot-dubbo-zookeeper)
+[RPC](./springboot-dubbo-zookeeper/RPC原理.md)
 
 ## nginx
 
