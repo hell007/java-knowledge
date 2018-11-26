@@ -15,9 +15,9 @@
 
 ##### 事物
 
-[Java事务](./Java事务的原理与应用.md)
+[Java事务](./java-transaction/Java事务的原理与应用.md)
 
-[springmvc事务](./springmvc事务管理详解.md)
+[springmvc事务](./java-transaction/springmvc事务管理详解.md)
 
 [springboot事物管理](https://www.jianshu.com/p/c4ac0ae291f9)
 
@@ -30,9 +30,9 @@
 
 ##### SpringMVC
 
-[SpringMVC工作原理](./SpringMVC工作原理.md)
+[SpringMVC工作原理](./springmvc/springmvc工作原理.md)
 
-[hibernate-validate](./springmvc中使用hibernate-validate.md)
+[hibernate-validate](./springmvc/springmvc中使用hibernate-validate.md)
 
 ##### sso
 
