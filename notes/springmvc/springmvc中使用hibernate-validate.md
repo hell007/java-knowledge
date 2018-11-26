@@ -126,47 +126,47 @@
 		this.age = age;
 	    }
 	}
-	```
 
-	4、controller使用
 
-	```
+4、controller使用
+
+
 	/**
-		 * 保存
-		 * @param model
-		 * @return
-		 */
-		@RequestMapping(value = "save",method = RequestMethod.POST)
-		public String save(Model mode, @Valid GoodsType goodsType, BindingResult result) {
-			if(result.hasErrors()){
-				this.getErrors(mode,result);
-			return "errors/field";
-			}
-			//添加
-			if(StringUtils.isIntegerBlank(goodsType.getTypeId())){
-				goodsTypeService.saveNotNull(goodsType);
-				logger.info("管理员添加了商品类型！");
-			}else{
-			//更新
-				goodsTypeService.updateNotNull(goodsType);
-				logger.info("管理员修改了商品类型！");
-			}
-			return "redirect:list";
+	 * 保存
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "save",method = RequestMethod.POST)
+	public String save(Model mode, @Valid GoodsType goodsType, BindingResult result) {
+		if(result.hasErrors()){
+			this.getErrors(mode,result);
+		return "errors/field";
 		}
+		//添加
+		if(StringUtils.isIntegerBlank(goodsType.getTypeId())){
+			goodsTypeService.saveNotNull(goodsType);
+			logger.info("管理员添加了商品类型！");
+		}else{
+		//更新
+			goodsTypeService.updateNotNull(goodsType);
+			logger.info("管理员修改了商品类型！");
+		}
+		return "redirect:list";
+	}
 
-	  /**
-		 * validation
-		 * @param model
-		 * @param result
-		 */
-		public void getErrors(Model model, BindingResult result) {   
-		List<FieldError> list = result.getFieldErrors();
-		for (FieldError error : list) {
-		    System.out.println("error.getField():" + error.getField());
-		    System.out.println("error.getDefaultMessage():" + error.getDefaultMessage());
-		}
-		model.addAttribute("field",list.get(0).getField());
-		model.addAttribute("message",list.get(0).getDefaultMessage());
-	    }
+  	/**
+	 * validation
+	 * @param model
+	 * @param result
+	 */
+	public void getErrors(Model model, BindingResult result) {   
+	List<FieldError> list = result.getFieldErrors();
+	for (FieldError error : list) {
+	    System.out.println("error.getField():" + error.getField());
+	    System.out.println("error.getDefaultMessage():" + error.getDefaultMessage());
+	}
+	model.addAttribute("field",list.get(0).getField());
+	model.addAttribute("message",list.get(0).getDefaultMessage());
+    }
 
 
