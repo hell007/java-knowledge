@@ -43,6 +43,11 @@
 [扣减库存实现](./扣减库存实现.md)
 
 
+##### 日志监控
+
+[ilebeat+logstash+influxdb+ Grafana打造网站日志监控系统](https://www.imooc.com/article/23145)
+
+
 ##### 其他
 
 [SpringBoot框架与短信解决方案](https://blog.csdn.net/qq_24708791/article/details/78521396)
