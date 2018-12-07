@@ -44,7 +44,9 @@ NONE：容器不负责主键的生成，由程序来完成。
 
 3. 接口 JpaRepository
 
-[Spring boot 中Spring data JPA的应用](https://www.cnblogs.com/Java-dzz/p/6337300.html)
+[Spring Data JPA的应用](https://www.cnblogs.com/Java-dzz/p/6337300.html)
+
+[Spring Data Jpa复杂查询](https://blog.csdn.net/qq_36144258/article/details/80298354)
 
 4.thymeleaf
 
