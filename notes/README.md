@@ -42,6 +42,9 @@
 
 [扣减库存实现](./扣减库存实现.md)
 
+##### FastDFS
+
+[FastDFS介绍和配置过程](https://blog.csdn.net/yzh_2017/article/details/53857870)
 
 ##### 日志监控
 
