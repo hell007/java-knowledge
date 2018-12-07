@@ -42,19 +42,19 @@
 
 3. 接口 JpaRepository
 
-[Spring Data JPA的应用](https://www.cnblogs.com/Java-dzz/p/6337300.html)
+    [Spring Data JPA的应用](https://www.cnblogs.com/Java-dzz/p/6337300.html)
 
-[Spring Data Jpa复杂查询](https://blog.csdn.net/qq_36144258/article/details/80298354)
+    [Spring Data Jpa复杂查询](https://blog.csdn.net/qq_36144258/article/details/80298354)
 
 4.thymeleaf
 
-[thymeleaf使用](http://blog.csdn.net/u012706811/article/details/52185345)
+    [thymeleaf使用](http://blog.csdn.net/u012706811/article/details/52185345)
 
 5.热部署 需要开启 protect > build auto...
 
 6.访问
 
-http://localhost:8080/emp/index
+    http://localhost:8080/emp/index
 
 
 
