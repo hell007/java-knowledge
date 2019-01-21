@@ -291,6 +291,15 @@ IdentityHashMap也允许使用null，但不保证键值对之间的顺序。
 依靠自然顺序的优先级队列还不允许插入不可比较的对象（这样做可能导致ClassCastException）。
 
 
+## 代码实例
+
+[Java LinkedList基本用法](https://blog.csdn.net/jdsjlzx/article/details/41654295)
+
+[Java Vector的使用和存取](https://blog.csdn.net/double_sweet1/article/details/79708830)
+
+[Java HashTable的使用和原理](https://blog.csdn.net/jinhuoxingkong/article/details/52022999)
+
+[Java TreeMap的使用](https://blog.csdn.net/u010675669/article/details/86503289)
 
 
 
