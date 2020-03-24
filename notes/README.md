@@ -71,6 +71,8 @@
 
 [服务化实战之 dubbo、dubbox、motan、thrift、grpc等RPC框架比较及选型](https://blog.csdn.net/liubenlong007/article/details/54692241)
 
+## 消息队列
+[消息队列使用的四种场景介绍](https://blog.csdn.net/cws1214/article/details/52922267)
 
 ## sql笔记
 
